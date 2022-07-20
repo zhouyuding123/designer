@@ -11,6 +11,9 @@
         {{item}}
       </div>
     </div>
+    <div v-if="selectedIndex == 1">
+      <brand-management />
+    </div>
     <div v-if="selectedIndex == 5">
       <wallet-management />
     </div>
@@ -19,8 +22,9 @@
 
 <script>
 import WalletManagement from "./optins/WalletManagement.vue"
+import BrandManagement from "./optins/BrandManagement.vue"
 export default {
-  components: { WalletManagement },
+  components: { WalletManagement,BrandManagement },
   data() {
     return {
       topicClass: [
@@ -31,7 +35,7 @@ export default {
         "帖子管理",
         "钱包管理",
       ],
-      selectedIndex: "5",
+      selectedIndex: "1",
     };
   },
   methods: {

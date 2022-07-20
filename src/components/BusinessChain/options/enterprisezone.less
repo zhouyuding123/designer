@@ -1,0 +1,68 @@
+.sadx {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.screen {
+    width: 1580px;
+    background: #FFFFFF;
+    display: flex;
+    justify-content: left;
+    padding: 5px 0px 25px 60px;
+    cursor: pointer;
+    flex-wrap: wrap;
+
+    .el-radio {
+        width: 10%;
+        background-color: #F5F5F5;
+        font-size: 14px;
+        font-weight: 400;
+        color: #666666;
+        margin-top: 20px;
+    }
+}
+
+/deep/.el-radio__input {
+    .el-radio__inner {
+        display: none;
+    }
+}
+
+/deep/.el-radio.is-bordered.is-checked {
+    background: linear-gradient(180deg, #0C032E 0%, #5C5673 100%);
+    border: none;
+}
+
+/deep/.el-radio__input.is-checked+.el-radio__label {
+    color: white;
+}
+
+.company {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    .companyback {
+        background-color: white;
+        .company_line {
+            width: 1580px;
+            background-color: white;
+            height: 260px;
+        }
+    
+        .brder_line {
+    
+            display: flex;
+            justify-content: center;
+    
+            .brder_line_line {
+                width: 1500px;
+                height: 0px;
+                opacity: 1;
+                border: 1px solid #DDDDDD;
+            }
+        }
+    }
+
+   
+}

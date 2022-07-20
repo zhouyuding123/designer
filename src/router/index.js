@@ -56,6 +56,11 @@ const routes = [
         path:"/UploadWorks",
         name:'UploadWorks',
         component:()=> import("../components/UploadWorks/UploadWorks.vue")
+      },
+      {
+        path:"/BusinessChain",
+        name:"BusinessChain",
+        component:()=> import("../components/BusinessChain/BusinessChain.vue")
       }
     ]
   },

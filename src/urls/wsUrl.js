@@ -61,6 +61,10 @@ export const getListWorksApi = () => {
 export const getListApi = () => {
     return "designer/product_type/getList"
 }
+// 获取企业列表
+export const companyGetListApi = () => {
+    return "designer/company/getList"
+}
 
 
 
