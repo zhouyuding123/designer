@@ -47,6 +47,16 @@ const routes = [
         name:"MyAdministration",
         component: ()=> import("../components/MyAdministration/MyAdministration.vue")
       },
+      {
+        path:"/SpecialArea",
+        name:'SpecialArea',
+        component:()=> import("../components/Designerzone/Designerzone.vue")
+      },
+      {
+        path:"/UploadWorks",
+        name:'UploadWorks',
+        component:()=> import("../components/UploadWorks/UploadWorks.vue")
+      }
     ]
   },
   {

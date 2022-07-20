@@ -227,7 +227,7 @@
             <el-form-item
               label="营业执照"
               prop="license"
-              v-if="valueData.style == 2"
+              v-if="authenticationruleForm.style == 2"
             >
               <el-upload
                 style="margin-left: 20px"

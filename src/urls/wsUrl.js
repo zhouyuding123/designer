@@ -53,8 +53,14 @@ export const delBankApi = () => {
 export const showBankApi = () => {
     return "user/users_bank/showBank"
 }
-
-
+// 设计师作品列表
+export const getListWorksApi = () => {
+    return "designer/users_designer_works/getListWorks"
+}
+// 类别列表
+export const getListApi = () => {
+    return "designer/product_type/getList"
+}
 
 
 

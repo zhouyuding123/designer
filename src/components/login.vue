@@ -122,30 +122,29 @@ export default {
     loginer() {
       this.$refs.loginRef.validate((valid) => {
         if (!valid) return;
-        this.$router.push("/home");
-        // postD(loginPWApi(), this.loginFrom)
-        //   .then((res) => {
-        //     if (res.code !== 200) return this.$message.error("登入失败");
-        //     this.$message.success("登入成功");
-        //     localStorage.setItem("token", res.token);
-        //     localStorage.setItem("use", res.data.username);
-        //     localStorage.setItem("work", this.loginFrom.password);
-        //     localStorage.setItem("data",JSON.stringify(res.data))
-        //     this.$router.push("/home");
-        //     if (this.checked == true) {
-        //       //存入cookie
-        //       this.setCookie(
-        //         this.loginFrom.username,
-        //         this.loginFrom.password,
-        //         7
-        //       ); //保存7天
-        //     } else {
-        //       this.clearCookie();
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //   });
+        postD(loginPWApi(), this.loginFrom)
+          .then((res) => {
+            if (res.code !== 200) return this.$message.error("登入失败");
+            this.$message.success("登入成功");
+            localStorage.setItem("token", res.token);
+            localStorage.setItem("use", res.data.username);
+            localStorage.setItem("work", this.loginFrom.password);
+            localStorage.setItem("data",JSON.stringify(res.data))
+            this.$router.push("/home");
+            if (this.checked == true) {
+              //存入cookie
+              this.setCookie(
+                this.loginFrom.username,
+                this.loginFrom.password,
+                7
+              ); //保存7天
+            } else {
+              this.clearCookie();
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       });
     },
   },

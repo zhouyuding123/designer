@@ -43,7 +43,7 @@
       </div>
       <div class="zjbd">
         <div class="zj_title">资金变动明细</div>
-        <div class="zj_more">
+        <div class="zj_more" @click="gomoneyMore">
           <div>更多</div>
           <img src="@/assets/imgers/more2.png" alt="" />
         </div>
@@ -80,6 +80,9 @@
           <go-addcord />
       </div>
     </div>
+    <div v-if="cordshow == 2">
+      <income />
+    </div>
   </div>
 </template>
 
@@ -87,8 +90,9 @@
 import { listBankApi } from "@/urls/wsUrl.js";
 import { postD } from "../../../api";
 import goAddcord from './goAddcord/goAddcord.vue';
+import income from './goAddcord/income.vue';
 export default {
-  components: { goAddcord },
+  components: { goAddcord,income },
   data() {
     return {
       cordshow: 0,
@@ -107,6 +111,10 @@ export default {
     goAddcord() {
       this.cordshow = 1;
     },
+    gomoneyMore() {
+      console.log(213);
+      this.cordshow =2;
+    }
   },
 };
 </script>
