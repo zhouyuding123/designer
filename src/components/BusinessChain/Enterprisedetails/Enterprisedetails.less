@@ -1,0 +1,266 @@
+.enttop {
+    width: 100%;
+    background: #FFFFFF;
+    display: flex;
+    padding: 40px 360px;
+
+    .enttop_left {
+        text-align: left;
+
+        .enttop_left_name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .enttop_left_line2 {
+            display: flex;
+            margin-top: 16px;
+
+            .pfs {
+                font-size: 14px;
+                font-weight: 400;
+                color: #EA9518;
+                margin-left: 10px;
+                margin-top: 3px;
+            }
+
+            .fss {
+                font-size: 14px;
+                font-weight: 400;
+                color: #333333;
+                margin-left: 10px;
+                margin-top: 3px;
+            }
+        }
+
+        .enttop_left_line3 {
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .enttop_left_line4 {
+            margin-top: 40px;
+            font-size: 14px;
+            font-weight: 400;
+            color: #333333;
+        }
+
+        .enttop_left_line5 {
+            margin-top: 10px;
+            font-size: 12px;
+            font-weight: 400;
+            color: #999999;
+        }
+    }
+
+    .enttop_right {
+        margin-left: auto;
+        position: relative;
+
+        .enttop_right_subscribe {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 30px;
+            background: linear-gradient(90deg, #FF8F0F 0%, #FEB32C 100%);
+            border-radius: 4px 4px 4px 4px;
+            cursor: pointer;
+
+            span {
+                font-size: 14px;
+                font-weight: 400;
+                color: #FFFFFF;
+                line-height: 30px;
+            }
+        }
+
+        .enttop_right_options {
+            margin-top: 100px;
+            display: flex;
+
+            .enttop_right_options1 {
+                margin-left: 40px;
+                cursor: pointer;
+
+                .enttop_right_options1_title {
+                    font-size: 14px;
+                    font-weight: 400;
+                    margin-top: 10px;
+                    color: #999999;
+                }
+            }
+
+        }
+    }
+}
+
+.entphoto {
+    padding: 20px 170px;
+
+    .entphoto_value {
+        width: 100%;
+        background: #FFFFFF;
+        padding: 40px 20px 20px 40px;
+
+        .entphoto_value_photo {
+            text-align: left;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .entphoto_value_img {
+            margin-top: 20px;
+            width: 280px;
+            height: 200px;
+
+            img {
+                width: 280px;
+                height: 200px;
+            }
+        }
+    }
+}
+
+.introduce {
+    padding: 20px 170px;
+
+    .introduce_value {
+        width: 100%;
+        background-color: white;
+        text-align: left;
+        padding: 40px 40px 0 40px;
+
+        .introduce_value_introduce {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .introduce_value_title {
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: 400;
+            color: #999999;
+            line-height: 30px;
+        }
+
+        .introduce_value_video {
+            margin-top: 80px;
+            padding-bottom: 40px;
+
+            video {
+                width: 100%;
+                height: 300px;
+            }
+        }
+    }
+}
+
+.entphotoimg {
+    display: flex;
+    position: relative;
+    padding-bottom: 50px;
+}
+
+.leftout {
+    width: 30px !important;
+    height: 100px;
+    background: #F5F5F5;
+    border-radius: 15px 0px 0px 15px;
+    margin-top: 40px;
+    cursor: pointer;
+    line-height: 110px;
+}
+
+.rightout {
+    width: 30px;
+    height: 100px;
+    background: #F5F5F5;
+    border-radius: 0px 15px 15px 0px;
+    margin-top: 40px;
+    margin-left: auto;
+    cursor: pointer;
+    line-height: 110px;
+}
+
+.allbox {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 150px;
+}
+
+.outbox {
+    position: relative;
+    height: 190px;
+    width: 1400px;
+    overflow: hidden; //使溢出div的图片隐藏
+}
+
+.innerbox {
+    position: absolute;
+    display: flex; //让图片横向排列
+}
+
+.titleband {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+}
+
+.paddingshop {
+    padding-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+
+    .shopimg {
+        width: 280px;
+        height: 440px;
+        background: #FFFFFF;
+        box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.1000);
+        border-radius: 6px 6px 6px 6px;
+        margin: 10px;
+
+        img {
+            width: 280px;
+            height: 350px;
+            background: #EEEEEE;
+            border-radius: 6px 6px 0px 0px;
+        }
+
+        .itemtitle {
+            margin-top: 7px;
+            width: 100%;
+            height: 15px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: left;
+            margin-left: 10px;
+        }
+
+        .item_jg {
+            display: flex;
+
+            .item_jg_pri {
+                font-size: 20px;
+                font-weight: bold;
+                color: #333333;
+                margin-left: 10px;
+                margin-top: 15px;
+            }
+
+            .item_count {
+                margin-left: auto;
+                padding: 17px 14px;
+                font-size: 14px;
+                font-weight: 400;
+                color: #999999;
+            }
+        }
+    }
+}

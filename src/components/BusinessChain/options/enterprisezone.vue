@@ -22,8 +22,8 @@
     </div>
     <div class="company">
       <div class="companyback">
-        <div v-for="(item,index) in valueListE" :key="index">
-        <div class="brder_line" v-if="index != 0">
+        <div v-for="(item, index) in valueListE" :key="index">
+          <div class="brder_line" v-if="index != 0">
             <div class="brder_line_line"></div>
           </div>
           <div class="company_line">
@@ -46,17 +46,29 @@
                   <img src="@/assets/imgers/认证.png" alt="" />
                 </div>
               </div>
-              <div v-if="item.province" class="dzhi">
+              <div class="dzhi">
                 {{ item.province }}{{ item.city }}{{ item.area
                 }}{{ item.detail }}
               </div>
-              <div v-else class="dzhi">外太空</div>
             </div>
-            <div></div>
+            <div class="morelist" @click="goentDetail(item.username)">
+              <img src="@/assets/imgers/more3.png" alt="" />
+            </div>
           </div>
-          
         </div>
       </div>
+    </div>
+    <div>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="Listvalue.offset"
+        :page-sizes="[10, 50, 100, 200]"
+        :page-size="Listvalue.limit"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -72,14 +84,17 @@ export default {
       imagesValue: "",
       getList: [],
       Listvalue: {
-        city: "",
         limit: 10,
         offset: 1,
-        area: "",
         company_main: "",
+      },
+      page1: {
+        limit: 10,
+        offset: 1,
       },
       valueListE: [],
       company_mainId: 0,
+      total: 0,
     };
   },
   created() {
@@ -93,16 +108,57 @@ export default {
       postD(getListApi()).then((res) => {
         this.getList = res.list;
       });
+      this.enterpriseList();
     },
     freelists(val) {
-      console.log(val);
       this.company_mainId = "";
+      this.Listvalue.company_main = val
+      postD(companyGetListApi(),this.Listvalue).then(res=> {
+        this.valueListE = res.list;
+        this.total = res.count;
+      })
     },
     enterpriseList() {
-      postD(companyGetListApi()).then((res) => {
-        console.log(res);
+      postD(companyGetListApi(),this.page1).then((res) => {
         this.valueListE = res.list;
+        this.total = res.count;
       });
+    },
+    goentDetail(val) {
+      this.$router.push("/entDetail" + val);
+    },
+    handleSizeChange(val) {
+      if (this.Listvalue.company_main == "") {
+        this.page1.limit = val;
+        postD(companyGetListApi(), this.page1).then((res) => {
+          this.valueListE = res.list;
+          this.total = res.count;
+        });
+      }
+      if (this.Listvalue.company_main) {
+          this.Listvalue.limit = val;
+          postD(companyGetListApi(), this.Listvalue).then((res) => {
+            this.valueListE = res.list;
+            this.total = res.count;
+          });
+        }
+    },
+    handleCurrentChange(val) {
+      if (this.Listvalue.company_main == "") {
+        this.page1.offset = val;
+        postD(companyGetListApi(), this.page1).then((res) => {
+          this.valueListE = res.list;
+          this.total = res.count;
+        });
+      }
+      if (this.Listvalue.company_main) {
+          console.log(this.Listvalue.company_main);
+          this.Listvalue.offset = val;
+          postD(companyGetListApi(), this.Listvalue).then((res) => {
+            this.valueListE = res.list;
+            this.total = res.count;
+          });
+        }
     },
   },
 };

@@ -61,6 +61,16 @@ const routes = [
         path:"/BusinessChain",
         name:"BusinessChain",
         component:()=> import("../components/BusinessChain/BusinessChain.vue")
+      },
+      {
+        path:"/entDetail:name",
+        name:"entDetail",
+        component:()=> import("../components/BusinessChain/Enterprisedetails/Enterprisedetails.vue")
+      },
+      {
+        path:"/address",
+        name:"address",
+        component:()=> import("../components/address/address.vue")
       }
     ]
   },
@@ -76,5 +86,11 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+// router.beforeEach((to, from, next) => {
+//   if (to.path === "/login") return next();
+//   const totoken = window.localStorage.getItem("token");
+//   if (!totoken) return next("/login");
+//   next();
+// });
 
 export default router;

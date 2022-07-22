@@ -65,6 +65,18 @@ export const getListApi = () => {
 export const companyGetListApi = () => {
     return "designer/company/getList"
 }
+// 获取企业详情
+export const showApi = () => {
+    return "designer/company/show"
+}
+// 企业的商品列表
+export const shopListApi = () => {
+    return "designer/company/shopList"
+}
+// 指定企业的品牌列表
+export const getBrandApi = () => {
+    return "company/brand/getBrand"
+}
 
 
 

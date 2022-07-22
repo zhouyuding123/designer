@@ -52,10 +52,12 @@ import {
     Timeline,
     TimelineItem,
     Rate,
-    cascader
+    cascader,
+    Autocomplete
 } from 'element-ui'
 export default {
     install(Vue) {
+        Vue.use(Autocomplete)
         Vue.use(cascader)
         Vue.use(Rate)
         Vue.use(Timeline)

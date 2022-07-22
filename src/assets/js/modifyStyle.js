@@ -50,4 +50,3 @@ export function matchType(name) {
     return result
   }
 }
-

@@ -4,7 +4,7 @@
       <div class="line1img">
         <img src="@/assets/imgers/地址.png" alt="" />
         <div class="line1imgtitle">宁波</div>
-        <div>
+        <div @click="address">
             [更换]
         </div>
       </div>
@@ -38,6 +38,9 @@ export default {
     getTopic(index, id) {
       this.selectedIndex = index;
     },
+    address() {
+      this.$router.push("/address")
+    }
   },
 };
 </script>
