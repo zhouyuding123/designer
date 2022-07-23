@@ -87,10 +87,12 @@ export default {
         limit: 10,
         offset: 1,
         company_main: "",
+        city: "",
       },
       page1: {
         limit: 10,
         offset: 1,
+        city: "",
       },
       valueListE: [],
       company_mainId: 0,
@@ -98,11 +100,25 @@ export default {
     };
   },
   created() {
+    this.account();
     this.getListApi();
     this.enterpriseList();
     this.imagesValue = imgUrl();
   },
   methods: {
+    account() {
+      this.Listvalue.city = this.getCookie("ress");
+      this.page1.city = this.getCookie("ress");
+    },
+    getCookie(name) {
+      var arr = document.cookie.split(";");
+      for (var i = 0; i < arr.length; i++) {
+        var arr2 = arr[i].split("=");
+        if (arr2[0].trim() == name) {
+          return arr2[1];
+        }
+      }
+    },
     getListApi() {
       this.Listvalue.company_main = "";
       postD(getListApi()).then((res) => {
@@ -112,14 +128,14 @@ export default {
     },
     freelists(val) {
       this.company_mainId = "";
-      this.Listvalue.company_main = val
-      postD(companyGetListApi(),this.Listvalue).then(res=> {
+      this.Listvalue.company_main = val;
+      postD(companyGetListApi(), this.Listvalue).then((res) => {
         this.valueListE = res.list;
         this.total = res.count;
-      })
+      });
     },
     enterpriseList() {
-      postD(companyGetListApi(),this.page1).then((res) => {
+      postD(companyGetListApi(), this.page1).then((res) => {
         this.valueListE = res.list;
         this.total = res.count;
       });
@@ -136,12 +152,12 @@ export default {
         });
       }
       if (this.Listvalue.company_main) {
-          this.Listvalue.limit = val;
-          postD(companyGetListApi(), this.Listvalue).then((res) => {
-            this.valueListE = res.list;
-            this.total = res.count;
-          });
-        }
+        this.Listvalue.limit = val;
+        postD(companyGetListApi(), this.Listvalue).then((res) => {
+          this.valueListE = res.list;
+          this.total = res.count;
+        });
+      }
     },
     handleCurrentChange(val) {
       if (this.Listvalue.company_main == "") {
@@ -152,13 +168,13 @@ export default {
         });
       }
       if (this.Listvalue.company_main) {
-          console.log(this.Listvalue.company_main);
-          this.Listvalue.offset = val;
-          postD(companyGetListApi(), this.Listvalue).then((res) => {
-            this.valueListE = res.list;
-            this.total = res.count;
-          });
-        }
+        console.log(this.Listvalue.company_main);
+        this.Listvalue.offset = val;
+        postD(companyGetListApi(), this.Listvalue).then((res) => {
+          this.valueListE = res.list;
+          this.total = res.count;
+        });
+      }
     },
   },
 };
