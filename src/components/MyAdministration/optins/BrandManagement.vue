@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import {designerGetBrandApi} from "@/urls/wsUrl.js"
+import { postD } from '@/api';
 export default {
   data() {
     return {
@@ -34,6 +36,16 @@ export default {
       tableData: [],
     };
   },
+  created() {
+    this.designerGetBrand()
+  },
+  methods: {
+designerGetBrand() {
+  postD(designerGetBrandApi()).then(res=> {
+    console.log(res);
+  })
+}
+  }
 };
 </script>
 

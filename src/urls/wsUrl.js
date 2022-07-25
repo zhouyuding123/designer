@@ -77,6 +77,15 @@ export const shopListApi = () => {
 export const getBrandApi = () => {
     return "company/brand/getBrand"
 }
+//设计师添加作品
+export const addWorksApi = () => {
+    return "designer/users_designer_works/release"
+}
+//指定设计师的品牌列表
+export const designerGetBrandApi = () => {
+    return "designer/brand/getBrand"
+}
+
 
 
 
