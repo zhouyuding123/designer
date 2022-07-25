@@ -24,7 +24,7 @@
             <el-submenu index="2">
               <template slot="title">赛事专区</template>
               <div class="syitem">
-                <el-menu-item index="2-1">赛事列表</el-menu-item>
+                <el-menu-item index="2-1" @click="goMatch()" >赛事列表</el-menu-item>
                 <el-menu-item index="2-2">我参与的赛事</el-menu-item>
               </div>
             </el-submenu>
@@ -35,21 +35,18 @@
                 <el-menu-item index="3-2">我参与的赛事</el-menu-item>
               </div>
             </el-submenu>
-            <el-submenu index="4">
-              <template slot="title">潮圈</template>
-              <div class="syitem">
-                <el-menu-item index="4-1">赛事列表</el-menu-item>
-                <el-menu-item index="4-2">我参与的赛事</el-menu-item>
-              </div>
-            </el-submenu>
+            <el-menu-item index="4" class="kzt" >
+              潮圈
+            </el-menu-item>
             <el-menu-item index="5" class="kzt" @click="goBusinessChain">
               商链
             </el-menu-item>
             <el-submenu index="6">
               <template slot="title">榜单</template>
               <div class="syitem">
-                <el-menu-item index="6-1">赛事列表</el-menu-item>
-                <el-menu-item index="6-2">我参与的赛事</el-menu-item>
+                <el-menu-item index="6-1">设计师榜</el-menu-item>
+                <el-menu-item index="6-2">作品榜</el-menu-item>
+                <el-menu-item index="6-3">团体榜</el-menu-item>
               </div>
             </el-submenu>
             <el-menu-item index="7" class="kzt" @click="goMyAdministration">
@@ -144,6 +141,9 @@ export default {
     },
     goBusinessChain() {
       this.$router.push("/BusinessChain")
+    },
+    goMatch() {
+      this.$router.push("/match")
     }
   },
 };

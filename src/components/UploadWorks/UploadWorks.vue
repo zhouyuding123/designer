@@ -1,67 +1,88 @@
 <template>
-    <div>
-        
-        <div class="">
-<el-form ref="form" :model="form" :rules="rules" label-width="100px">
-    <div class="wrap">
-  <el-form-item label="作品标题" prop="title">
-    <el-input v-model="form.title" ></el-input>
-  </el-form-item>
-    <el-form-item label="作品首页图" prop="thumb">
-                 <el-upload
-                  class="avatar-uploader"
-                action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
-                :show-file-list="false"
-                :data="{ fileType: this.fileType }"
-                :on-success="handleAvatarSuccesser"
-                :before-upload="beforeAvatarUpload"
-              >
-              
-              <img v-if="form.thumb" style="width:150px" :src="imagesValue + form.thumb" >
-
-            <i v-else class="el-icon-picture-outline avatar-uploader-icon" style="background-color:#f5f5f5"></i>
-              </el-upload>
-  </el-form-item>
-    <el-form-item label="风格标签" prop="label">
-    <el-input v-model="form.label" placeholder="请用逗号隔开"></el-input>
-  </el-form-item>
-    <el-form-item label="作品类别" prop="product_type_id">
-          <el-select v-model="form.product_type_id" placeholder="请选择">
-    <el-option
-      v-for="item in options"
-      :key="item.id"
-      :label="item.title"
-      :value="item.id">
-    </el-option>
-  </el-select>
-    
-
-  </el-form-item>
-    <el-form-item label="众筹版权费" prop="crowd_price">
-    <el-input type="number" v-model="form.crowd_price" style="width:200px;" ></el-input>
-      元
-  </el-form-item>
-     <el-form-item label="私人定制费" prop="personal_price">
-      <el-input  type="number" v-model="form.personal_price" style="width:200px;" ></el-input>
-        元
-  </el-form-item>
-     <el-form-item label="版权购买费" class="" prop="copyright_price">
-     <el-input type="number" v-model="form.copyright_price" style="width:200px;" ></el-input>
-     元
-  </el-form-item>
-</div>
-
-<div class="wrap">
-<div style="text-align:left" class="font20 fontw " >
-    图文介绍
-</div>
-     <el-form-item>
-     <el-input type="textarea" v-model="introduction" rows="10"></el-input>
-    
-  </el-form-item>
-    <el-form-item>
-        <div class="flex"> 
+  <div>
+    <div class="">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+        <div class="wrap">
+          <el-form-item label="作品标题" prop="title">
+            <el-input v-model="form.title"></el-input>
+          </el-form-item>
+          <el-form-item label="作品首页图" prop="thumb">
             <el-upload
+              class="avatar-uploader"
+              action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
+              :show-file-list="false"
+              :data="{ fileType: this.fileType }"
+              :on-success="handleAvatarSuccesser"
+              :before-upload="beforeAvatarUpload"
+            >
+              <img
+                v-if="form.thumb"
+                style="width: 150px"
+                :src="imagesValue + form.thumb"
+              />
+
+              <i
+                v-else
+                class="el-icon-picture-outline avatar-uploader-icon"
+                style="background-color: #f5f5f5"
+              ></i>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="风格标签" prop="label">
+            <el-input
+              v-model="form.label"
+              placeholder="请用逗号隔开"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="作品类别" prop="product_type_id">
+            <el-select v-model="form.product_type_id" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.id"
+                :label="item.title"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="众筹版权费" prop="crowd_price">
+            <el-input
+              type="number"
+              v-model="form.crowd_price"
+              style="width: 200px"
+            ></el-input>
+            元
+          </el-form-item>
+          <el-form-item label="私人定制费" prop="personal_price">
+            <el-input
+              type="number"
+              v-model="form.personal_price"
+              style="width: 200px"
+            ></el-input>
+            元
+          </el-form-item>
+          <el-form-item label="版权购买费" class="" prop="copyright_price">
+            <el-input
+              type="number"
+              v-model="form.copyright_price"
+              style="width: 200px"
+            ></el-input>
+            元
+          </el-form-item>
+        </div>
+
+        <div class="wrap">
+          <div style="text-align: left" class="font20 fontw">图文介绍</div>
+          <el-form-item>
+            <el-input
+              type="textarea"
+              v-model="introduction"
+              rows="10"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <div class="flex">
+              <el-upload
                 class="avatar-uploader"
                 action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
                 :data="{ fileType: this.fileType }"
@@ -74,68 +95,82 @@
                 :before-upload="beforeAvatarUpload1"
                 :on-remove="fileRemove"
               >
-            <i  class="el-icon-picture-outline " style="background-color:#f5f5f5"></i>
+                <i
+                  class="el-icon-picture-outline"
+                  style="background-color: #f5f5f5"
+                ></i>
               </el-upload>
               <div class="margin-right12"></div>
-          <ele-upload-video
-           :data="{ fileType: this.fileType1 }"
-            @error="handleUploadError"
-            :responseFn="handleResponse"
-            action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
-            v-model="videosrc"
-            @delete="delete1"
-            />
+              <ele-upload-video
+                :data="{ fileType: this.fileType1 }"
+                @error="handleUploadError"
+                :responseFn="handleResponse"
+                action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
+                v-model="videosrc"
+                @delete="delete1"
+              />
+            </div>
+          </el-form-item>
         </div>
-    
-  </el-form-item>
-</div>
 
-    <div class="wrap">
-        <el-form-item label="设计理念" class="" prop="description">
-        <el-input v-model="form.description" type="textarea" rows="4"></el-input>
-    </el-form-item>
+        <div class="wrap">
+          <el-form-item label="设计理念" class="" prop="description">
+            <el-input
+              v-model="form.description"
+              type="textarea"
+              rows="4"
+            ></el-input>
+          </el-form-item>
+        </div>
+
+        <div class="wrap">
+          <el-form-item label="权限设置" prop="category" class="">
+            <el-radio-group v-model="form.category">
+              <el-radio label="2">公开，所有人可见</el-radio>
+              <el-radio label="1">私密，仅自己可见</el-radio>
+              <el-radio label="3">收费，他人需付费可见</el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+          <el-form-item label="收费金额" class="">
+            <el-input
+              type="number"
+              v-model="form.money"
+              :disabled="form.category != 3"
+              style="width: 200px"
+            ></el-input>
+            元
+          </el-form-item>
+        </div>
+
+        <el-button
+          type="primary"
+          @click="submitForm('form')"
+          style="width: 200px"
+          >发布</el-button
+        >
+        <el-button style="width: 200px">取消</el-button>
+      </el-form>
     </div>
 
-    <div class="wrap">
-
-        <el-form-item label="权限设置" prop="category" class="">
-        <el-radio-group v-model="form.category" >
-      <el-radio label="2" >公开，所有人可见</el-radio>
-      <el-radio label="1">私密，仅自己可见</el-radio>
-      <el-radio label="3">收费，他人需付费可见</el-radio>
-    </el-radio-group>
-    </el-form-item>
-
-        <el-form-item label="收费金额" class="">
-        <el-input type="number" v-model="form.money" :disabled="form.category!=3" style="width:200px"></el-input>
-        元
-    </el-form-item>
-
-    </div>
-
-
-    <el-button type="primary" @click="submitForm('form')" style="width:200px">发布</el-button>
-    <el-button  style="width:200px">取消</el-button>
-
-</el-form>
-    </div>
-
-<el-dialog :visible.sync="dialogVisible">
-  <img width="100%" :src="dialogImageUrl" alt="">
-</el-dialog>
-<el-dialog
-  title="提示"
-  :visible.sync="centerDialogVisible"
-  width="30%"
-  center>
-  <span>需要注意的是内容是默认不居中的</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="centerDialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
-  </span>
-</el-dialog>
-
-    </div>
+    <el-dialog :visible.sync="dialogVisible">
+      <img width="100%" :src="dialogImageUrl" alt="" />
+    </el-dialog>
+    <el-dialog
+      title="提示"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      center
+    >
+      <span>需要注意的是内容是默认不居中的</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
+  </div>
 </template>
 
 <script>

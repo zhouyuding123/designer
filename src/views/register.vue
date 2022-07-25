@@ -108,29 +108,29 @@
           </div>
           <div class="qsasx">
             <el-form-item label="登入账号" prop="username">
-            <el-input v-model="usernames"></el-input>
-          </el-form-item>
-          <el-form-item label="登入密码" prop="password">
-            <el-input v-model="ruleForm.password"> </el-input>
-            <div class="intensity">
-              <span class="psdText">密码强度</span>
-              <span
-                class="line"
-                :class="[level.includes('low') ? 'low' : '']"
-              ></span>
-              <span
-                class="line"
-                :class="[level.includes('middle') ? 'middle' : '']"
-              ></span>
-              <span
-                class="line"
-                :class="[level.includes('high') ? 'high' : '']"
-              ></span>
-            </div>
-          </el-form-item>
-          <el-form-item label="再次确认密码" prop="passwords">
-            <el-input v-model="ruleForm.passwords"></el-input>
-          </el-form-item>
+              <el-input v-model="usernames"></el-input>
+            </el-form-item>
+            <el-form-item label="登入密码" prop="password">
+              <el-input v-model="ruleForm.password"> </el-input>
+              <div class="intensity">
+                <span class="psdText">密码强度</span>
+                <span
+                  class="line"
+                  :class="[level.includes('low') ? 'low' : '']"
+                ></span>
+                <span
+                  class="line"
+                  :class="[level.includes('middle') ? 'middle' : '']"
+                ></span>
+                <span
+                  class="line"
+                  :class="[level.includes('high') ? 'high' : '']"
+                ></span>
+              </div>
+            </el-form-item>
+            <el-form-item label="再次确认密码" prop="passwords">
+              <el-input v-model="ruleForm.passwords"></el-input>
+            </el-form-item>
           </div>
         </el-form>
         <div class="checkedStyle">
@@ -162,6 +162,9 @@ export default {
         callback(new Error("请输入账号"));
       } else if (this.rules == true) {
         callback(new Error("账号已存在"));
+      } else if (/[\u4E00-\u9FA5]/g.test(value)) {
+        callback(new Error("不能包含中文!"));
+        this.$message.error("不能包含中文");
       }
       callback();
     };
@@ -245,7 +248,7 @@ export default {
         tel: "",
         code: "",
         passwords: "",
-        style: "",
+        style: "1",
         enterprisename: "",
         enterprisetel: "",
         enterpriseperson: "",

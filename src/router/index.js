@@ -71,6 +71,16 @@ const routes = [
         path:"/address",
         name:"address",
         component:()=> import("../components/address/address.vue")
+      },
+      {
+        path:"/brandDetails:id",
+        name:"brandDetails",
+        component: ()=> import ("../components/MyAdministration/optins/goBand.vue")
+      },
+      {
+         path:"/match",
+         name:"match",
+         component:()=> import("../components/match/match.vue")
       }
     ]
   },

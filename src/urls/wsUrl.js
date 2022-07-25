@@ -81,10 +81,35 @@ export const getBrandApi = () => {
 export const addWorksApi = () => {
     return "designer/users_designer_works/release"
 }
-//指定设计师的品牌列表
-export const designerGetBrandApi = () => {
-    return "designer/brand/getBrand"
+//设计师的品牌列表
+export const brandGetListApi = () => {
+    return "designer/brand/getList"
 }
+//设计师的品牌列表
+export const addApi = () => {
+    return "designer/brand/add"
+}
+//删除品牌列表
+export const delApi = () => {
+    return "designer/brand/del"
+}
+//删除品牌列表
+export const showbrandApi = () => {
+    return "designer/brand/show"
+}
+//赛事列表
+export const MatchGetListApi = () => {
+    return "designer/Match/getList"
+}
+
+
+
+
+
+
+
+
+
 
 
 
