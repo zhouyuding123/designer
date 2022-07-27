@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-    <div class="myworks">
+    <div class="myworks" v-if="token">
       <div class="myworksbody">
         <div v-for="(item, index) in myworks" :key="index">
           <div class="workid">
@@ -51,7 +51,7 @@
                 @click="goWorkShow(item)"
               />
             </div>
-            <div class="dis" style="position: relative;">
+            <div class="dis" style="position: relative">
               <div>
                 <div class="myworktitle">
                   {{ item.title }}
@@ -65,14 +65,54 @@
               </div>
               <div class="invitation" @click="fs">邀人助力</div>
               <div v-if="vsh == true" class="share_post">
-                  <img src="" alt="">
-                  <!-- <vshare :vshareConfig="vshareConfig"> </vshare> -->
-                  <div class="social-share"></div>
+                <div class="disp">
+                  <div
+                    @click="shareToQQ()"
+                    class="cur"
+                    style="margin-right: 30px; margin-left: 30px"
+                  >
+                    <div><img src="@/assets/imgers/分享微信.png" alt="" /></div>
+                    <div style="margin-top: 10px">微信</div>
+                  </div>
+                  <div
+                    @click="shareToQQ()"
+                    class="cur"
+                    style="margin-right: 30px"
+                  >
+                    <div><img src="@/assets/imgers/分享qq.png" alt="" /></div>
+                    <div class="fxtitle" style="margin-top: 10px">QQ</div>
+                  </div>
+                  <div
+                    @click="shareToRoom()"
+                    class="cur"
+                    style="margin-right: 30px"
+                  >
+                    <div><img src="@/assets/imgers/分享空间.png" alt="" /></div>
+                    <div class="fxtitle" style="margin-top: 10px">QQ空间</div>
+                  </div>
+                  <div
+                    @click="shareToMicroblog()"
+                    class="cur"
+                    style="margin-right: 30px"
+                  >
+                    <div><img src="@/assets/imgers/分享微博.png" alt="" /></div>
+                    <div class="fxtitle" style="margin-top: 10px">微博</div>
+                  </div>
+                </div>
+                <div class="dis input__inner">
+                  <div>
+                    <el-input
+                      v-model="input"
+                      placeholder="请输入内容"
+                    ></el-input>
+                  </div>
+                  <div class="fzlj cur" @click="shareToQQ">复制链接</div>
+                </div>
               </div>
             </div>
             <div class="disp">
               <div class="bodywith">
-                <div class="voto_num">100</div>
+                <div class="voto_num">{{ item.ranking }}</div>
                 <div class="bodywithbon">当前排名</div>
               </div>
               <div class="bodywith">
@@ -80,7 +120,7 @@
                 <div class="bodywithbon">当前票数</div>
               </div>
               <div class="bodywith">
-                <div class="voto_num">100</div>
+                <div class="voto_num">{{ item.ranking_remark }}</div>
                 <div class="bodywithbon">距前一名</div>
               </div>
             </div>
@@ -144,11 +184,36 @@
         @page-change="handlePageChangeActivity"
       ></vxe-pager>
     </div>
+    <el-dialog title="提示" :visible.sync="votoShow" width="30%">
+      <div class="votoOK">
+        <div><img src="@/assets/imgers/投票.png" alt="" /></div>
+        <div class="okvoto">
+          <span
+            >当前赛事可投票{{ votocountvalue }}次，且每个作品只可投票一次</span
+          >
+        </div>
+        <div style="padding-top: 20px">
+          <span>您确定要对该作品进行投票吗？</span>
+        </div>
+        <div style="padding-top: 48px">
+          <el-button type="primary" @click="vote">确 定</el-button>
+        </div>
+        <div class="jxyl" @click="votoShow = false">
+          <span>继续浏览</span>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { votoWorksApi, myWorksApi } from "@/urls/wsUrl.js";
+import {
+  votoWorksApi,
+  myWorksApi,
+  verVotoApi,
+  votoCountApi,
+  setVotoApi,
+} from "@/urls/wsUrl.js";
 import { postD } from "@/api";
 import { imgUrl } from "@/assets/js/modifyStyle";
 export default {
@@ -168,37 +233,21 @@ export default {
       workvalues: [],
       workvalue: [],
       myworks: [],
-      vsh:false,
-      vshareConfig: {
-        shareList: [
-          // 此处放分享列表（ID）
-          "mshare",
-          "qzone",
-          "tsina",
-          "sqq"
-        ],
-        common: {
-          //此处放置通用设置
-        },
-        share: [
-          {
-            //此处放置分享按钮设置
-          },
-        ],
-        slide: [
-          //此处放置浮窗分享设置
-        ],
-        image: [
-          //此处放置图片分享设置
-          
-        ],
-        selectShare: [
-          //此处放置划词分享设置
-        ],
+      vsh: false,
+      input: "http://192.168.0.114:8091/#/pages/index/gamedetail/gamedetail",
+      token: "",
+      votoid: {
+        accept_id: "",
       },
+      votocount: {
+        match_id: "",
+      },
+      votocountvalue: "",
+      votoShow: false,
     };
   },
   created() {
+    this.token = localStorage.getItem("token");
     this.detialId.id = this.$route.params.id;
     this.seatcher.id = this.$route.params.id;
     this.imagesValue = imgUrl();
@@ -211,7 +260,6 @@ export default {
         id: this.$route.params.id,
       };
       postD(myWorksApi(), works).then((res) => {
-        console.log(res);
         this.myworks = res.list;
       });
     },
@@ -228,14 +276,110 @@ export default {
         this.detialId.totalResult = res.accept_count;
       });
     },
-    handlePageChangeActivity() {},
+    handlePageChangeActivity({ currentPage, pageSize }) {
+      this.detialId.offset = currentPage;
+      this.detialId.limit = pageSize;
+      postD(votoWorksApi(), this.detialId).then((res) => {
+        this.workvalues = res;
+        this.workvalue = res.list.reverse();
+        this.detialId.totalResult = res.accept_count;
+      });
+    },
     fs() {
-        if(this.vsh == false){
-            this.vsh = true
-        }else {
-            this.vsh = false
+      if (this.vsh == false) {
+        this.vsh = true;
+      } else {
+        this.vsh = false;
+      }
+    },
+    shareToQQ() {
+      let share_url =
+        "http://192.168.0.114:8091/#/pages/index/gamedetail/gamedetail";
+      const url = share_url;
+      let oInput = document.createElement("input");
+      oInput.value = url;
+      document.body.appendChild(oInput);
+      oInput.select(); // 选择对象;
+      document.execCommand("Copy"); // 执行浏览器复制命令
+      this.$message({
+        message: "复制成功",
+        type: "success",
+      });
+      oInput.remove();
+    },
+    shareToRoom() {
+      //自定义内容
+      const share = {
+        title: this.myworks[0].title,
+        desc: this.myworks[0].description,
+        image_url: this.imagesValue + this.myworks[0].thumb,
+        share_url:
+          "http://192.168.0.114:8091/#/pages/index/gamedetail/gamedetail",
+      };
+      //  跳转地址
+      location.replace(
+        "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=" +
+          encodeURIComponent(share.share_url) +
+          "&title=" +
+          share.title +
+          "&pics=" +
+          share.image_url +
+          "&summary=" +
+          share.desc
+      );
+    },
+    shareToMicroblog() {
+      //自定义内容
+      const share = {
+        title: this.myworks[0].title,
+        desc: this.myworks[0].description,
+        image_url: this.imagesValue + this.myworks[0].thumb,
+        share_url:
+          "http://192.168.0.114:8091/#/pages/index/gamedetail/gamedetail",
+      };
+      //跳转地址
+      location.replace(
+        "https://service.weibo.com/share/share.php?url=" +
+          encodeURIComponent(share.share_url) +
+          "&title=" +
+          share.title +
+          "&pic=" +
+          share.image_url +
+          "&searchPic=true"
+      );
+    },
+    votonums(val) {
+      this.votoid.accept_id = val.accept_id;
+      this.votocount.match_id = val.match_id;
+      postD(verVotoApi(), this.votoid).then((res) => {
+        if (res.code == 200) {
+          this.votoShow = true;
+          postD(votoCountApi(), this.votocount).then((res) => {
+            console.log(res);
+            this.votocountvalue = res.count;
+          });
+        } else {
+          this.$message.error("您已投票或投票失败");
         }
-    }
+      });
+    },
+    vote() {
+      postD(setVotoApi(), this.votoid).then((res) => {
+        if (res.code == "200") {
+          this.$message.success("投票成功");
+          this.worksValue();
+          this.votoShow = false;
+        } else if (res.code == "-200") {
+          this.$message.error("投票失败或无次数");
+        } else if (res.code == "-201") {
+          this.$message.error("未登陆");
+        } else if (res.code == "-203") {
+          this.$message.error("对不起，你没有此操作权限");
+        } else {
+          this.$message.error("操作失败");
+        }
+      });
+    },
   },
 };
 </script>

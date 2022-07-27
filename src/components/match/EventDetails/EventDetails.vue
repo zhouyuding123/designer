@@ -200,6 +200,14 @@
     >
       <exh />
     </div>
+    <div
+      v-if="
+        Nowtimes > Date.parse(detialValueList.exh_start_time) &&
+        Nowtimes < Date.parse(detialValueList.exh_end_time)
+      "
+    >
+      <publicity />
+    </div>
   </div>
 </template>
 
@@ -208,8 +216,9 @@ import { MatchShowApi, verJoinApi } from "@/urls/wsUrl.js";
 import { postD } from "@/api";
 import { imgUrl } from "@/assets/js/modifyStyle";
 import exh from "./exh/exh.vue";
+import publicity from "./publicity/publicity.vue"
 export default {
-  components: { exh },
+  components: { exh ,publicity },
   data() {
     return {
       imagesValue: "",

@@ -133,6 +133,24 @@ export const votoWorksApi = () => {
 export const myWorksApi = () => {
     return "designer/Match/myWorks"
 }
+// 验证可否投票
+export const verVotoApi = () => {
+    return "designer/Match/verVoto"
+}
+// 投票次数
+export const votoCountApi = () => {
+    return "designer/Match/votoCount"
+}
+// 投票
+export const setVotoApi = () => {
+    return "designer/Match/setVoto"
+}
+// 参赛作品列表（公示期都可查看（可查看投票情况和名次）,非公示期此接口无数据）
+export const worksListApi = () => {
+    return "designer/Match/worksList"
+}
+
+
 
 
 
