@@ -81,6 +81,26 @@ const routes = [
          path:"/match",
          name:"match",
          component:()=> import("../components/match/match.vue")
+      },
+      {
+        path:"/ptmatch",
+        name:"ptmatch",
+        component: ()=> import("../components/match/ptmatch/ptmatch.vue")
+      },
+      {
+        path:"/entmatch",
+        name:"entmatch",
+        component: ()=> import("../components/match/entmatch/entmatch.vue")
+      },
+      {
+        path:"/EventDetails:id",
+        name:"EventDetails",
+        component: ()=> import("../components/match/EventDetails/EventDetails.vue")
+      },
+      {
+        path:"/compete:id",
+        name:"compete",
+        component:()=> import("../components/match/EventDetails/compete/compete.vue")
       }
     ]
   },

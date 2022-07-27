@@ -101,6 +101,42 @@ export const showbrandApi = () => {
 export const MatchGetListApi = () => {
     return "designer/Match/getList"
 }
+//赛事详情
+export const MatchShowApi = () => {
+    return "designer/Match/show"
+}
+//我的作品列表
+export const designerWorksApi = () => {
+    return "designer/users_designer_works/getList"
+}
+//设计师基本信息
+export const myCenterApi = () => {
+    return "designer/users_designer/myCenter"
+}
+// 验证可否投稿赛事
+export const verJoinApi = () => {
+    return "designer/Match/verJoin"
+}
+// 投稿
+export const JoinApi = () => {
+    return "designer/Match/join"
+}
+// 作品详情
+export const workShowApi = () => {
+    return "designer/users_designer_works/show"
+}
+// 参赛作品列表（随机排序,投票）
+export const votoWorksApi = () => {
+    return "designer/Match/works"
+}
+// 赛事中我参与的作品
+export const myWorksApi = () => {
+    return "designer/Match/myWorks"
+}
+
+
+
+
 
 
 

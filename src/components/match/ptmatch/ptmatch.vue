@@ -3,17 +3,19 @@
     <div class="paddingmatch">
       <div class="matchtitle">
         <div class="matchtitle_left">官方赛事</div>
-        <div class="matchtitle_right" @click="gogfevent">
-          更多<img src="@/assets/imgers/matchmore.png" alt="" />
+        <div class="matchtitle_right" @click="returnone">
+          <div>
+            <img
+              src="@/assets/imgers/返回.png"
+              alt=""
+              style="width: 16px; height: 16px"
+            />
+          </div>
+          <div>返回</div>
         </div>
       </div>
       <div class="paddingmatch2">
-        <div
-          class="matchlist"
-          v-for="item in matchptlist"
-          :key="item.id"
-          @click="Eventdetails(item.id)"
-        >
+        <div class="matchlist" v-for="item in matchptlist" :key="item.id">
           <img :src="imagevalue + item.thumb" alt="" />
           <div class="match_title">
             {{ item.title }}
@@ -22,7 +24,7 @@
             <div class="end_time">
               投稿截止至{{ fulltime(item.sign_end_time) }}
             </div>
-            <div class="end_time2">{{ item.voto_count }}人已投票</div>
+            <div class="end_time2">{{ item.part_num }}人已投票</div>
           </div>
           <div class="borderstyle">
             <div></div>
@@ -91,68 +93,21 @@
           </div>
         </div>
       </div>
-      <div class="matchtitle" style="padding-top: 20px">
-        <div class="matchtitle_left">企业赛事</div>
-        <div class="matchtitle_right" @click="goentevent">
-          更多<img src="@/assets/imgers/matchmore.png" alt="" />
-        </div>
-      </div>
-      <div class="paddingmatch2">
-        <div class="entmatch" v-for="item in entmatchptlist" :key="item.id">
-          <img :src="imagevalue + item.thumb" alt="" />
-          <div class="match_title">
-            <div>{{ item.title }}</div>
-            <div
-              style="
-                font-size: 14px;
-                font-weight: 400;
-                color: #999999;
-                margin-top: 50px;
-              "
-            >
-              投稿截止至{{ fulltime(item.sign_end_time) }}
-            </div>
-          </div>
-          <div class="notice" v-if="Nowtimes < Date.parse(item.sign_end_time)">
-            <img
-              src="@/assets/imgers/企业征稿.png"
-              alt=""
-              style="width: 180px; height: 40px; background-color: white"
-            />
-            <div class="matchoverztime">
-              征稿倒计时{{ fullendtime(item.sign_end_time) }}
-            </div>
-          </div>
-          <div
-            class="notice"
-            v-if="
-              Date.parse(item.voto_end_time) > Nowtimes &&
-              Nowtimes > Date.parse(item.sign_end_time)
-            "
-          >
-            <img
-              src="@/assets/imgers/企业评审.png"
-              alt=""
-              style="width: 180px; height: 40px; background-color: white"
-            />
-            <div class="matchoverztime">
-              评审倒计时{{ fullendtime(item.voto_end_time) }}
-            </div>
-          </div>
-          <div
-            class="notice"
-            v-if="
-              Date.parse(item.exh_end_time) > Nowtimes &&
-              Nowtimes > Date.parse(item.exh_start_time)
-            "
-          >
-            <img
-              src="@/assets/imgers/企业公示.png"
-              alt=""
-              style="width: 180px; height: 40px; background-color: white"
-            />
-          </div>
-        </div>
+      <div>
+        <vxe-pager
+          :current-page="match.offset"
+          :page-size="match.limit"
+          :total="match.totalResult"
+          :layouts="[
+            'PrevPage',
+            'JumpNumber',
+            'NextPage',
+            'FullJump',
+            'Sizes',
+            'Total',
+          ]"
+          @page-change="handlePageChange"
+        ></vxe-pager>
       </div>
     </div>
   </div>
@@ -161,37 +116,35 @@
 <script>
 import { MatchGetListApi } from "@/urls/wsUrl.js";
 import { postD } from "@/api";
-import { imgUrl } from "@/assets/js/modifyStyle";
+import { imgUrl } from "@/assets/js/modifyStyle.js";
 export default {
   data() {
     return {
       imagevalue: "",
-      matchValue: {
+      match: {
         is_platform: "1",
+        limit: 10,
+        offset: 1,
+        totalResult: 0,
       },
       matchptlist: [],
       Nowtimes: "",
-      entmatchptlist: [],
     };
   },
   created() {
-    this.matchlist();
-    this.entmatchlist();
     this.imagevalue = imgUrl();
     this.Nowtimes = new Date().valueOf();
+    this.gfmatchList();
   },
   methods: {
-    matchlist() {
-      postD(MatchGetListApi(), this.matchValue).then((res) => {
-        this.matchptlist = res.list.slice(0, 2);
+    gfmatchList() {
+      postD(MatchGetListApi(), this.match).then((res) => {
+        this.matchptlist = res.list;
+        this.match.totalResult = res.count
       });
     },
-    entmatchlist() {
-      this.matchValue.is_platform = 2;
-      postD(MatchGetListApi(), this.matchValue).then((res) => {
-        this.entmatchptlist = res.list.slice(0, 4);
-        console.log(this.entmatchptlist);
-      });
+    returnone() {
+      this.$router.push("/match");
     },
     fulltime(val) {
       return val.substring(0, 10);
@@ -204,20 +157,18 @@ export default {
       var str = hour + "小时";
       return str;
     },
-    gogfevent() {
-      this.$router.push("/ptmatch");
-    },
-    goentevent() {
-      this.$router.push("/entmatch");
-    },
-    Eventdetails(val) {
-      this.$router.push("/EventDetails" + val);
+    handlePageChange({ currentPage, pageSize }) {
+      this.match.offset = currentPage;
+      this.match.limit = pageSize;
+      postD(MatchGetListApi(), this.match).then((res) => {
+        this.matchptlist = res.list;
+        this.match.totalResult = res.count
+      });
     },
   },
 };
 </script>
 
-
 <style lang="less" scoped>
-@import url("./match.less");
+@import url("./ptmatch.less");
 </style>

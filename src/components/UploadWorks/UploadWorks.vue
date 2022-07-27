@@ -222,7 +222,7 @@ export default {
           { required: true, message: "请选择权限", trigger: "change" },
         ],
       },
-      fileType: "image",
+      fileType: "images",
       fileType1: "moves",
       introduction: "", //图文介绍标题
       options: [],

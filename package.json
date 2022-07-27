@@ -17,7 +17,9 @@
     "vue": "^2.6.14",
     "vue-hover-mask": "^1.0.0",
     "vue-router": "^3.5.1",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "vxe-table": "^3.5.9",
+    "xe-utils": "^3.5.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

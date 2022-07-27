@@ -12,10 +12,20 @@
 
         .matchtitle_right {
             margin-left: auto;
-            font-size: 14px;
-            font-weight: 400;
-            color: #999999;
+            width: 120px;
+            height: 40px;
+            border-radius: 20px 20px 20px 20px;
+            border: 1px solid #0E023D;
+            text-align: center;
+            display: flex;
+            padding-left: 30px;
+            padding-top: 9px;
+            line-height: 20px;
             cursor: pointer;
+
+            div {
+                margin-right: 10px;
+            }
         }
     }
 }
@@ -24,11 +34,12 @@
     padding-top: 25px;
     display: flex;
     flex-wrap: wrap;
-
     .matchlist {
         width: 770px;
         height: 490px;
+        margin-right: 40px;
         background: #FFFFFF;
+        margin-bottom: 40px;
 
         img {
             width: 770px;
@@ -37,11 +48,10 @@
         }
     }
 
-    .matchlist:nth-child(1) {
-        margin-right: 40px;
+    .matchlist:nth-child(2n) {
+        margin-right: 0px;
     }
 }
-
 .match_title {
     width: 340px;
     height: 28px;
@@ -71,7 +81,6 @@
         color: #999999;
     }
 }
-
 .borderstyle {
     display: flex;
     justify-content: center;
@@ -102,7 +111,6 @@
     }
 
 }
-
 .matchover {
     display: flex;
     margin-right: 20px;
@@ -120,47 +128,10 @@
             color: #BBBBBB;
             margin-right: 20px;
             display: flex;
+            img {
+                margin-right: 10px;
+            }
 
         }
-    }
-}
-
-.entmatch {
-    width: 100%;
-    background-color: white;
-    height: 160px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    display: flex;
-
-    img {
-        width: 220px;
-        height: 160px;
-        background: #DFDFDF;
-    }
-
-    .match_title {
-        width: 1000px;
-        height: 100%;
-        font-size: 20px;
-        color: #333333;
-        text-align: left;
-        margin: 10px 0 0 20px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .notice {
-        margin-left: auto;
-        padding-top: 30px;
-        position: relative;
-        .matchoverztime {
-            position: absolute;
-            top: 42px;
-            left: 35px;
-            font-size: 14px;
-            font-weight: 400;
-            color: white;
-        }
-
     }
 }

@@ -5,6 +5,10 @@ import store from "./store";
 import elementui from './elementui'
 import "@/assets/font_nslx23r4lvg/iconfont.css"
 import "@/assets/css/reset.less"
+import 'xe-utils'
+import VXETable from 'vxe-table'
+import 'vxe-table/lib/style.css'
+Vue.use(VXETable)
 
 Vue.use(elementui)
 Vue.config.productionTip = false;

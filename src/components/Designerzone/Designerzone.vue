@@ -184,8 +184,6 @@ export default {
         this.Works.offset++;
         this.Listshow();
       }
-      // this.Works.offset=2
-      // this.Listshow()
     },
     scroll() {},
   },
