@@ -99,7 +99,7 @@
               <span>{{ previewValueList.title }}</span>
             </div>
             <div class="line1treen">
-              <div><img src="@/assets/myimger/拇指.png" alt=""></div>
+              <!-- <div><img src="@/assets/myimger/拇指.png" alt=""></div> -->
               <div><span>最近有39人收藏过此服务</span></div>
               <div><span>1547条评论 ></span></div>
             </div>
