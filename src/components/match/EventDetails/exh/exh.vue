@@ -116,7 +116,7 @@
                 <div class="bodywithbon">当前排名</div>
               </div>
               <div class="bodywith">
-                <div class="voto_num">100</div>
+                <div class="voto_num">{{item.voto_count}}</div>
                 <div class="bodywithbon">当前票数</div>
               </div>
               <div class="bodywith">
@@ -368,6 +368,7 @@ export default {
         if (res.code == "200") {
           this.$message.success("投票成功");
           this.worksValue();
+          this.mywork();
           this.votoShow = false;
         } else if (res.code == "-200") {
           this.$message.error("投票失败或无次数");
@@ -380,6 +381,17 @@ export default {
         }
       });
     },
+    goWorkShow(val) {
+      var works_id = val.works_id
+      var match_id = val.match_id
+       this.$router.push({
+        name: "matchworksShow",
+        params: {
+          works_id: works_id,
+          id: match_id,
+        },
+      });
+    }
   },
 };
 </script>

@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="paddingmatch2">
-        <div class="matchlist" v-for="item in matchptlist" :key="item.id">
+        <div class="matchlist" v-for="item in matchptlist" :key="item.id"  @click="Eventdetails(item.id)">
           <img :src="imagevalue + item.thumb" alt="" />
           <div class="match_title">
             {{ item.title }}
@@ -164,6 +164,9 @@ export default {
         this.matchptlist = res.list;
         this.match.totalResult = res.count
       });
+    },
+    Eventdetails(val) {
+      this.$router.push("/EventDetails" + val);
     },
   },
 };

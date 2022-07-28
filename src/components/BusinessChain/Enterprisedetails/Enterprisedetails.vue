@@ -98,7 +98,7 @@
           </div>
         </div>
         <div class="paddingshop">
-          <div v-for="item in shopValue" :key="item.id" class="shopimg">
+          <div v-for="item in shopValue" :key="item.id" class="shopimg" @click="showwork(item)">
             <img :src="imageValue + fullthumb(item.thumb)" alt="" />
             <div class="itemtitle">
               {{ item.title }}
@@ -113,12 +113,12 @@
         </div>
       </div>
     </div>
-    <div>
+    <div style="margin-button:20px">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="seatchname.offset"
-        :page-sizes="[1, 50, 100, 200]"
+        :page-sizes="[10, 50, 100, 200]"
         :page-size="seatchname.limit"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
@@ -149,7 +149,7 @@ export default {
         username: "",
         type: "",
         limit: 1,
-        offset: 1,
+        offset: 10,
       },
       page1: {
         username: "",
@@ -250,6 +250,9 @@ export default {
         });
       }
     },
+    showwork(val) {
+      console.log(val);
+    }
   },
 };
 </script>

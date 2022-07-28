@@ -101,6 +101,42 @@ const routes = [
         path:"/compete:id",
         name:"compete",
         component:()=> import("../components/match/EventDetails/compete/compete.vue")
+      },
+      {
+        path:"/matchworksShow/:works_id:id",
+        name:"matchworksShow",
+        component: ()=> import ("../components/match/EventDetails/screeningDetial/screeningDetial.vue")
+      },
+      {
+        path:"/matchattended",
+        name:"matchattended",
+        component:()=>import("../components/matchAttended/matchAttended.vue")
+      },
+      {
+        path:"/OpenMember",
+        name:'OpenMember',
+        component:()=> import("../components/OpenMember/OpenMember.vue"),
+        meta: { keepAlive: true }
+      },
+      //作品详情
+      {
+        path:"/workDetails:id",
+        name:'workDetails',
+        component:()=> import("../components/workDetails/workDetails.vue"),
+        meta: { keepAlive: true }
+      },
+      {
+        path:"/Mywork",
+        name:'Mywork',
+        component:()=> import("../components/Mywork/Mywork.vue"),
+        meta: { keepAlive: true }
+      },
+      //设计师主页
+      {
+        path:"/DesignerHomepage",
+        name:'DesignerHomepage',
+        component:()=> import("../components/DesignerHomepage/DesignerHomepage.vue"),
+        meta: { keepAlive: true }
       }
     ]
   },

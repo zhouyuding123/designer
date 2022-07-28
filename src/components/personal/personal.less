@@ -1,13 +1,12 @@
-.line1 {
-    width: 100%;
-    background-color: white;
+.midbox{
+    width: 1580px;
     height: 80px;
-    text-align: left;
-    padding: 15px 0 15px 40px;
+    margin: 20px auto;
+    padding-left: 30px;
+    padding-top: 20px;
+    background-color: #fff;
 
-}
-
-/deep/.el-tabs__nav-wrap::after {
+    /deep/.el-tabs__nav-wrap::after {
     content: "";
     position: absolute;
     left: 0;
@@ -15,13 +14,14 @@
     width: 100%;
     height: 2px;
     z-index: 1;
-    background-color: white;
+    background-color: white
 }
 
 /deep/.el-tabs__active-bar {
     position: absolute;
     bottom: 0;
-    left: 0;
+    left: 15px;
+    width: 29px !important;
     height: 2px;
     background-color: #FFDC00;
     z-index: 1;
@@ -29,7 +29,6 @@
     list-style: none;
     width: 6px;
     height: 4px;
-    background: #FFDC00;
     border-radius: 2px 2px 2px 2px;
 }
 
@@ -47,6 +46,11 @@
     font-size: 14px;
     font-weight: 400;
     color: #999999;
+}
+/deep/.is-active{
+    color: #0C032E;
+    font-weight: bold;
+}
 }
 
 .line2 {

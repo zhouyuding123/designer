@@ -149,9 +149,30 @@ export const setVotoApi = () => {
 export const worksListApi = () => {
     return "designer/Match/worksList"
 }
-
-
-
+// 参赛作品列表（公示期都可查看（可查看投票情况和名次）,非公示期此接口无数据）
+export const MatchworkShowApi = () => {
+    return "designer/Match/workShow"
+}
+//我的作品
+export const getMyWorksApi = () => {
+    return "designer/users_designer_works/getList"
+}
+//删除作品
+export const delMyWorksApi = () => {
+    return "designer/users_designer_works/del"
+}
+//作品详细信息
+export const getMyWorksshowApi = () => {
+    return "designer/users_designer_works/show"
+}
+//评论作品
+export const designerWorkscomment = () => {
+    return "designer/users_designer_works/comment"
+}
+//查看企业商品详情
+export const showProductApi = () => {
+    return "designer/company/showProduct"
+}
 
 
 

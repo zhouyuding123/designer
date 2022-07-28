@@ -39,39 +39,39 @@
         </div>
       </div>
     </div>
-    <div class="disc" style="width:100%">
-        <div class="ext">
-      <div class="extList" v-for="item in pricelist" :key="item.works_id">
-        <div class="RankStyle">第一名</div>
-        <div class="pubimg">
-          <img :src="imagesValue + item.thumb" alt="" />
-        </div>
-        <div class="pubtitle">
-          <div class="pubtitle1">
-            <div>{{ item.title }}</div>
-            <div class="pubtitle1line1">
-              <div class="pubtitle1line1img">
-                <img :src="imagesValue + item.headimage" alt="" />
-              </div>
-              <div class="pubtitle1line1name">
-                <span>{{ item.nickname }}</span>
+    <div class="disc" style="width: 100%">
+      <div class="ext">
+        <div class="extList" v-for="item in publicityValueList" :key="item.works_id">
+          <div class="RankStyle">第一名</div>
+          <div class="pubimg" @click="goWorkShow(item)">
+            <img :src="imagesValue + item.thumb" alt="" />
+          </div>
+          <div class="pubtitle">
+            <div class="pubtitle1">
+              <div>{{ item.title }}</div>
+              <div class="pubtitle1line1">
+                <div class="pubtitle1line1img">
+                  <img :src="imagesValue + item.headimage" alt="" />
+                </div>
+                <div class="pubtitle1line1name">
+                  <span>{{ item.nickname }}</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="pubtitle2">
-            <div>
-              <span>{{ item.voto_count }}票</span>
+            <div class="pubtitle2">
+              <div>
+                <span>{{ item.voto_count }}票</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    </div>
   </div>
 </template>
 
 <script>
-import { worksListApi,MatchShowApi } from "@/urls/wsUrl.js";
+import { worksListApi, MatchShowApi } from "@/urls/wsUrl.js";
 import { postD } from "@/api";
 import { imgUrl } from "@/assets/js/modifyStyle";
 export default {
@@ -95,23 +95,13 @@ export default {
       pricelist: [],
     };
   },
-  watch: {
-    prices(newval) {
-        console.log(newval);
-      var mapva = [];
-      newval.forEach((item, i) => {
-        mapva.push(...this.publicityValueList.splice(0, item.amount));
-      });
-      this.pricelist = mapva;
-      console.log(this.pricelist);
-    },
-  },
+
   created() {
     this.detialId.id = this.$route.params.id;
     this.seatcher.id = this.$route.params.id;
     this.imagesValue = imgUrl();
     this.worksValue();
-    this.detialValue()
+    this.detialValue();
   },
   methods: {
     worksValue() {
@@ -130,10 +120,52 @@ export default {
     detialValue() {
       this.detialId.id = this.$route.params.id;
       postD(MatchShowApi(), this.detialId).then((res) => {
-          console.log(res);
+        console.log(res);
         this.prices = res.data.prize;
       });
     },
+    goWorkShow(val) {
+      var works_id = val.works_id;
+      var match_id = val.match_id;
+      this.$router.push({
+        name: "matchworksShow",
+        params: {
+          works_id: works_id,
+          id: match_id,
+        },
+      });
+    },
+    delayer(action, delay = 600) {
+      let timer = -1;
+      return (nv) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          action(nv);
+        }, delay);
+      };
+    },
+  },
+  watch: {
+    // prices(newval) {
+    //   var mapva = [];
+    //   newval.forEach((item, i) => {
+    //     mapva.push(...this.publicityValueList.splice(0, item.amount));
+    //   });
+    //   this.pricelist = mapva;
+    //   console.log(this.pricelist);
+    // },
+//     prices(newval) {
+//       if(this.time == 1){
+//           setInterval(() => {
+//         var mapva = [];
+//         this.time = 0;
+//         newval.forEach((item, i) => {
+//           mapva.push(...this.publicityValueList.splice(0, item.amount));
+//         });
+//         return (this.pricelist = mapva), console.log(mapva),console.log(this.time);;
+//       }, 3000);
+//       }
+//     },
   },
 };
 </script>

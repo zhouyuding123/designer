@@ -15,7 +15,12 @@
         </div>
       </div>
       <div class="paddingmatch2">
-        <div class="entmatch" v-for="item in entmatchptlist" :key="item.id">
+        <div
+          class="entmatch"
+          v-for="item in entmatchptlist"
+          :key="item.id"
+          @click="Eventdetails(item.id)"
+        >
           <img :src="imagevalue + item.thumb" alt="" />
           <div class="match_title">
             <div>{{ item.title }}</div>
@@ -121,7 +126,7 @@ export default {
     entmatchlist() {
       postD(MatchGetListApi(), this.match).then((res) => {
         this.entmatchptlist = res.list;
-        this.match.totalResult = res.count
+        this.match.totalResult = res.count;
       });
     },
     fulltime(val) {
@@ -135,13 +140,16 @@ export default {
       var str = hour + "小时";
       return str;
     },
-     handlePageChange({ currentPage, pageSize }) {
+    handlePageChange({ currentPage, pageSize }) {
       this.match.offset = currentPage;
       this.match.limit = pageSize;
       postD(MatchGetListApi(), this.match).then((res) => {
         this.matchptlist = res.list;
-        this.match.totalResult = res.count
+        this.match.totalResult = res.count;
       });
+    },
+    Eventdetails(val) {
+      this.$router.push("/EventDetails" + val);
     },
   },
 };

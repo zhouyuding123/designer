@@ -17,15 +17,23 @@
             <el-submenu index="1">
               <template slot="title">首页</template>
               <div class="syitem">
-                <el-menu-item index="1-1" @click="goDesignerZone">设计师专区</el-menu-item>
-                <el-menu-item index="1-2">我的首页</el-menu-item>
+                <el-menu-item index="1-1" @click="goDesignerZone"
+                  >设计师专区</el-menu-item
+                >
+                <el-menu-item index="1-2" @click="goMywork"
+                  >我的作品</el-menu-item
+                >
               </div>
             </el-submenu>
             <el-submenu index="2">
               <template slot="title">赛事专区</template>
               <div class="syitem">
-                <el-menu-item index="2-1" @click="goMatch()" >赛事列表</el-menu-item>
-                <el-menu-item index="2-2">我参与的赛事</el-menu-item>
+                <el-menu-item index="2-1" @click="goMatch()"
+                  >赛事列表</el-menu-item
+                >
+                <el-menu-item index="2-2" @click="gomyMatch()"
+                  >我参与的赛事</el-menu-item
+                >
               </div>
             </el-submenu>
             <el-submenu index="3">
@@ -35,9 +43,7 @@
                 <el-menu-item index="3-2">我参与的赛事</el-menu-item>
               </div>
             </el-submenu>
-            <el-menu-item index="4" class="kzt" >
-              潮圈
-            </el-menu-item>
+            <el-menu-item index="4" class="kzt"> 潮圈 </el-menu-item>
             <el-menu-item index="5" class="kzt" @click="goBusinessChain">
               商链
             </el-menu-item>
@@ -91,6 +97,18 @@
       </el-header>
       <el-main><router-view to="'/'+value.name" /></el-main>
     </el-container>
+    <div class="seatchers" v-show="seatchShow">
+      <div class="seatch_list">
+        <i
+          class="el-icon-search"
+          style="position: absolute; margin: 18px 0 0 20px; color: #dddddd"
+        ></i>
+        <el-input placeholder="请输入内容"></el-input>
+        <div class="buttom_seatch">
+          <span> 搜索 </span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -102,6 +120,7 @@ export default {
       activeIndex: "1",
       imagesValue: "",
       imagescxk: "",
+      seatchShow:false
     };
   },
   created() {
@@ -131,20 +150,31 @@ export default {
       this.$router.push("/MyAdministration");
     },
     goDesignerZone() {
-      this.$router.push("/SpecialArea")
+      this.$router.push("/SpecialArea");
     },
     seatcher() {
+      if(this.seatchShow == true){
+        this.seatchShow = false
+      }else {
+        this.seatchShow = true
+      }
       console.log(123);
     },
     uploadWork() {
-      this.$router.push("/UploadWorks")
+      this.$router.push("/UploadWorks");
     },
     goBusinessChain() {
-      this.$router.push("/BusinessChain")
+      this.$router.push("/BusinessChain");
     },
     goMatch() {
-      this.$router.push("/match")
-    }
+      this.$router.push("/match");
+    },
+    gomyMatch() {
+      this.$router.push("/matchattended");
+    },
+    goMywork() {
+      this.$router.push("/Mywork");
+    },
   },
 };
 </script>

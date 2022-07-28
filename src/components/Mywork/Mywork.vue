@@ -1,0 +1,237 @@
+<template>
+  <div>
+    <div class="wrap">
+      <div class="insidewrap">
+        <div class="flex al-c">
+          <div class="flex">
+            <div class="avator">
+              <img src="@/assets/imgers/头像.png" alt="" />
+            </div>
+            <div class="personbox">
+              <div class="name flex al-c">
+                <div>设计师昵称</div>
+                <div class="font12 margin-left20">一星设计师</div>
+              </div>
+              <div class="idnumber">22222</div>
+              <div class="collect">
+                <span>
+                  <span class="num">720</span>
+                  <span class="word">收藏</span>
+                </span>
+                <span>
+                  <span class="num">720</span>
+                  <span class="word">关注</span>
+                </span>
+                <span>
+                  <span class="num">720</span>
+                  <span class="word">粉丝</span>
+                </span>
+                <span>
+                  <span class="num">720</span>
+                  <span class="word">帖子</span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="PublishWorks" @click="toUploadWorks">发布作品</div>
+        </div>
+        <div class="Psignature">
+          个性签名：三栋第0价位0if好成绩9i去武汉房产9哦钱还我9if好
+        </div>
+      </div>
+    </div>
+    <div class="midbox">
+      <el-tabs v-model="Works.category" @tab-click="handleClick">
+        <el-tab-pane label="公开作品" name="2"></el-tab-pane>
+        <el-tab-pane label="付费作品" name="3"></el-tab-pane>
+        <el-tab-pane label="私密作品" name="1"></el-tab-pane>
+      </el-tabs>
+    </div>
+    <div class="list_free">
+      <div class="list_free_list">
+        <waterfall
+          :cols="
+            Math.floor(windowWidth / 300) >= 5
+              ? 5
+              : Math.floor(windowWidth / 300)
+          "
+          :dataList="myworkList"
+          @loadmore="loadmore"
+          @scroll="scroll"
+        >
+          <div class="masonry" v-for="(item, index) in myworkList" :key="index">
+            <div class="coverimg">
+              <img :src="imagesValue + item.thumb" alt="" />
+              <!-- <div></div> -->
+              <div class="drop">
+                <el-dropdown @command="handleCommand">
+                  <span class="el-dropdown-link">
+                    <div class="icon"></div>
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item :command="{ id: item.id, title: 'edit' }"
+                      >编辑</el-dropdown-item
+                    >
+                    <el-dropdown-item :command="{ id: item.id, title: 'share' }"
+                      >分享</el-dropdown-item
+                    >
+                    <el-dropdown-item :command="{ id: item.id, title: 'del' }"
+                      >删除</el-dropdown-item
+                    >
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </div>
+            </div>
+            <div class="list_title">
+              <div class="list_title_title">
+                <div class="list_title_title_title">{{ item.title }}</div>
+                <div class="list_title_title_title_tag flex">
+                  <div
+                    v-for="(tag, i) in item.label.split(',') ||
+                    item.label.split('，')"
+                    :key="i"
+                  >
+                    #{{ tag }}
+                  </div>
+                  <!-- <div>礼服</div> -->
+                </div>
+                <div class="flex icon al-c">
+                  <div class="flex al-c coloccc font12 margin-right8">
+                    <img
+                      src="@/assets/imgers/icon/15228@2x.png"
+                      class="margin-right4"
+                      alt=""
+                    />
+                    999
+                  </div>
+                  <div class="flex al-c coloccc font12 margin-right8">
+                    <img
+                      src="@/assets/imgers/icon/15225@2x.png"
+                      class="margin-right4"
+                      alt=""
+                    />
+                    999
+                  </div>
+                  <div class="flex al-c coloccc font12 margin-right8">
+                    <img
+                      src="@/assets/imgers/icon/15229@2x.png"
+                      class="margin-right4"
+                      alt=""
+                    />
+                    999
+                  </div>
+                  <div class="flex al-c coloccc font12 margin-right8">
+                    <img
+                      src="@/assets/imgers/icon/15227@2x.png"
+                      class="margin-right4"
+                      alt=""
+                    />
+                    999
+                  </div>
+                </div>
+              </div>
+              <div class="list_title_img">
+                <img :src="imagesValue + item.headimage" alt="" />
+              </div>
+            </div>
+          </div>
+        </waterfall>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { getMyWorksApi, delMyWorksApi } from "@/urls/wsUrl.js";
+import { postD } from "@/api";
+import { imgUrl } from "@/assets/js/modifyStyle";
+import waterfall from "../Designerzone/pul.vue";
+export default {
+  data() {
+    return {
+      activeName: "1",
+      Works: {
+        category: "2",
+        status: 1,
+        limit: "10",
+        offset: "1",
+      },
+      myworkList: [],
+      windowWidth: document.documentElement.clientWidth,
+      count: null,
+      imagesValue: "",
+    };
+  },
+  created() {
+    this.getmyworkList();
+    this.imagesValue = imgUrl();
+  },
+  components: {
+    waterfall,
+  },
+  watch: {
+    windowWidth(val) {
+      let that = this;
+      console.log("实时屏幕宽度：", val, that.windowHeight);
+    },
+  },
+  mounted() {
+    window.onresize = () => {
+      return (() => {
+        window.fullHeight = document.documentElement.clientHeight;
+        window.fullWidth = document.documentElement.clientWidth;
+        // this.windowHeight = window.fullHeight;  // 高
+        this.windowWidth = window.fullWidth; // 宽
+      })();
+    };
+  },
+  methods: {
+    handleClick(tab, event) {
+      console.log(tab, event);
+      console.log(this.Works.category);
+      this.Works.offset = 1;
+      this.myworkList = [];
+      this.getmyworkList();
+    },
+    getmyworkList() {
+      postD(getMyWorksApi(), this.Works).then((res) => {
+        // console.log(res.list)
+        this.count = res.count;
+        this.myworkList = [...this.myworkList, ...res.list];
+      });
+    },
+    loadmore() {
+      if (this.count != this.myworkList.length) {
+        this.Works.offset++;
+        this.getmyworkList();
+      }
+      // this.Works.offset=2
+      // this.Listshow()
+    },
+    scroll() {},
+    //跳转到发布作品
+    toUploadWorks() {
+      this.$router.push("/UploadWorks");
+    },
+    handleCommand(command) {
+      // console.log(command)
+      // console.log(id)
+      if (command.title == "edit") {
+        this.$router.push({ path: "/UploadWorks", query: { id: command.id } });
+      }
+      if (command.title == "share") {
+        console.log(2);
+      }
+      if (command.title == "del") {
+        postD(delMyWorksApi(), { id: command.id }).then((res) => {
+          console.log(res);
+        });
+      }
+    },
+  },
+};
+</script>
+
+<style lang="less" scoped>
+@import url("./Mywork.less");
+</style>

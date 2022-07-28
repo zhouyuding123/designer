@@ -98,7 +98,7 @@
         </div>
       </div>
       <div class="paddingmatch2">
-        <div class="entmatch" v-for="item in entmatchptlist" :key="item.id">
+        <div class="entmatch" v-for="item in entmatchptlist" :key="item.id" @click="Eventdetails(item.id)">
           <img :src="imagevalue + item.thumb" alt="" />
           <div class="match_title">
             <div>{{ item.title }}</div>

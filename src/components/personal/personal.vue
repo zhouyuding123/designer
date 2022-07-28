@@ -1,9 +1,9 @@
 <template>
   <div style="padding: 20px 320px">
-    <div class="line1">
+    <div class="midbox">
       <el-tabs v-model="activeName">
         <el-tab-pane label="用户管理" name="1"></el-tab-pane>
-        <el-tab-pane label="账号与安全" name="2"></el-tab-pane>
+        <el-tab-pane label="账号安全" name="2"></el-tab-pane>
         <el-tab-pane label="收货地址" name="3"></el-tab-pane>
       </el-tabs>
     </div>

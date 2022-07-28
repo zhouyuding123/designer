@@ -1,6 +1,6 @@
 <template>
     <div class="line">
-        <div class="line2">
+        <div class="midbox">
         <el-tabs v-model="activeName">
           <el-tab-pane label="全部" name="1"></el-tab-pane>
           <el-tab-pane label="收入" name="2"></el-tab-pane>
