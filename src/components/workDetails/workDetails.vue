@@ -12,7 +12,7 @@
         <div class="nicknameValue">
           <div class="name_nickname" @click="goMyDetil(WorksShowData.username)">
             <div class="nickname_span">
-              <span >{{ WorksShowData.nickname }}</span>
+              <span>{{ WorksShowData.nickname }}</span>
             </div>
             <div class="top">
               <span>一级设计师</span>
@@ -27,7 +27,7 @@
         </div>
       </div>
       <!-- <div class="shaped" style="height:20px"></div> -->
-      <div class="worksDiv2" style="margin-top:20px">
+      <div class="worksDiv2" style="margin-top: 20px">
         <div class="worksDiv2line1">
           <div class="line1_value">
             <p>{{ WorksShowData.title }}</p>
@@ -35,33 +35,52 @@
           </div>
           <div class="line1_Collection">
             <div>
-              <img src="@/assets/imgers/icon/ic_favorite_border_48px@2x.png" style="width:32px;height:32px"  alt="" />
-              <p>123</p>
-            </div>
-            <div>
               <img
-                src="@/assets/imgers/icon/ic_chat_bubble_outline_48px@2x.png"
-                style="width:32px;height:32px" 
+                src="@/assets/imgers/icon/ic_favorite_border_48px@2x.png"
+                style="width: 32px; height: 32px"
                 alt=""
               />
               <p>123</p>
             </div>
             <div>
-              <img src="@/assets/imgers/icon/ic_star_border_24px@2x.png" style="width:32px;height:32px"  alt="" />
+              <img
+                src="@/assets/imgers/icon/ic_chat_bubble_outline_48px@2x.png"
+                style="width: 32px; height: 32px"
+                alt=""
+              />
+              <p>123</p>
+            </div>
+            <div>
+              <img
+                src="@/assets/imgers/icon/ic_star_border_24px@2x.png"
+                style="width: 32px; height: 32px"
+                alt=""
+              />
               <p>123</p>
             </div>
           </div>
+        </div>
+        <div>
+          <el-carousel height="150px">
+            <el-carousel-item v-for="(item, index) in imagesthb" :key="index">
+              <img :src="imagesValue + item" alt="" style="height: 100%" />
+            </el-carousel-item>
+          </el-carousel>
         </div>
         <div class="worksDiv2line2">
           <span>{{ WorksShowDataContent.text }}</span>
         </div>
         <div v-for="item in imgs" :key="item.item" class="imgs">
-           <img
+          <img
             :src="imagesValue + item"
             alt=""
             v-if="item.split('/')[0] == 'images'"
           />
-          <video v-if="item.split('/')[0] == 'moves'" controls style="width:100%">
+          <video
+            v-if="item.split('/')[0] == 'moves'"
+            controls
+            style="width: 100%"
+          >
             <source :src="imagesValue + item" type="video/mp4" />
             <source :src="imagesValue + item" type="video/ogg" />
           </video>
@@ -78,9 +97,7 @@
           </div>
           <div>
             <span class="worksline1">上传时间</span>
-            <span class="worksline1Value">{{
-              WorksShowData.create_time
-            }}</span>
+            <span class="worksline1Value">{{ WorksShowData.create_time }}</span>
           </div>
           <div>
             <span class="worksline1">作品版权</span
@@ -102,17 +119,36 @@
           </div>
           <div class="operation">
             <div class="complaint">
-              <img src="@/assets/imgers/icon/12819@2x.png" style="width:20px;height:20px" alt="" />
+              <img
+                src="@/assets/imgers/icon/12819@2x.png"
+                style="width: 20px; height: 20px"
+                alt=""
+              />
             </div>
             <span>举报</span>
             <div class="fgx"></div>
             <div class="forward">
-              <img src="@/assets/imgers/icon/14388@2x.png" style="width:20px;height:20px"  alt="" />
+              <img
+                src="@/assets/imgers/icon/14388@2x.png"
+                style="width: 20px; height: 20px"
+                alt=""
+              />
             </div>
             <span>转发</span>
           </div>
         </div>
         <div class="shaped"></div>
+        <div class="worksDiv3">
+          <div class="worksDiv3line1">
+            <span>相关作品</span>
+          </div>
+          <div class="myWorkWidth">
+            <div v-for="item in relevantList" :key="item.id" class="myWorkBody" @click="relevant(item.id)">
+              <img :src="imagesValue+item.thumb" alt="">
+              <div>{{item.title}}</div>
+            </div>
+          </div>
+        </div>
         <div class="comment">
           <el-input
             type="textarea"
@@ -165,12 +201,18 @@
                   v-model="commentValueser.content"
                   :placeholder="'回复@' + items.nickname + ':'"
                 ></el-input>
-                <div style="width:100%"><div @click="zxc" class="commentStyle"><span>发布</span></div></div>
+                <div style="width: 100%">
+                  <div @click="zxc" class="commentStyle"><span>发布</span></div>
+                </div>
               </div>
               <div class="CommentListTitleComment" v-if="items.chridren === ''">
                 <div v-for="(item, index) in items.chridren" :key="index">
                   <div>{{ item.nickname }}:{{ item.content }}</div>
-                  <div @click="comment(item)" style="text-align: right;" class="reply">
+                  <div
+                    @click="comment(item)"
+                    style="text-align: right"
+                    class="reply"
+                  >
                     <span>回复</span>
                   </div>
                 </div>
@@ -186,7 +228,11 @@
                       item.content
                     }}
                   </div>
-                  <div @click="comment(item)" style="text-align: right" class="reply">
+                  <div
+                    @click="comment(item)"
+                    style="text-align: right"
+                    class="reply"
+                  >
                     <span>回复</span>
                   </div>
                   <div v-if="showInput == item.id">
@@ -195,7 +241,9 @@
                       :placeholder="'回复@' + item.nickname + ':'"
                     ></el-input>
                     <div>
-                      <div @click="zxc" class="commentStyle"><span>发布</span></div>
+                      <div @click="zxc" class="commentStyle">
+                        <span>发布</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -212,6 +260,7 @@
 import {
   getMyWorksshowApi,
   designerWorkscomment,
+  designerWorksApi,
 } from "@/urls/wsUrl.js";
 import { postD } from "@/api";
 import { imgUrl } from "@/assets/js/modifyStyle.js";
@@ -239,23 +288,36 @@ export default {
         placehoder: "评论",
       },
       showInput: 0,
-      WorksShowDataContent:""
+      WorksShowDataContent: "",
+      imagesthb: [],
+      myworkListId: {
+        status: 1,
+        category: 2,
+      },
+      relevantList:[]
     };
   },
   created() {
     this.WorkDetailsList();
+    this.mywokList();
   },
   methods: {
+    mywokList() {
+      postD(designerWorksApi(), this.myworkListId).then((res) => {
+        this.relevantList=res.list.slice(0,5)
+      });
+    },
     WorkDetailsList() {
       postD(getMyWorksshowApi(), this.$route.params).then((res) => {
         this.WorksShowData = res.data;
         this.imagesValue = imgUrl();
-        var ss = JSON.parse(res.data.content)
+        this.imagesthb = [res.data.thumb];
+        var ss = JSON.parse(res.data.content);
         var arr = ss.images.split(",");
         var arrs = this.WorksShowData.label.split(",");
         this.imgs = arr;
         this.labels = arrs;
-        this.WorksShowDataContent = ss
+        this.WorksShowDataContent = ss;
         var tmp = [];
         res.data.comment_list.forEach((item, i) => {
           if (item.fid == 0) {
@@ -296,8 +358,8 @@ export default {
       });
     },
     fullTime(val) {
-      let newDate = /\d{4}-\d{1,2}-\d{1,2}/g.exec( timestampToTime(val) )
-      return newDate[0]
+      let newDate = /\d{4}-\d{1,2}-\d{1,2}/g.exec(timestampToTime(val));
+      return newDate[0];
     },
     CommentValues() {
       this.commentValue.works_id = this.$route.params.id;
@@ -348,10 +410,14 @@ export default {
       });
     },
     goMyDetil(val) {
-      this.$router.push("/designer/myCenter/"+val)
+      this.$router.push("/designer/myCenter/" + val);
     },
     gofreelist() {
-      this.$router.push("/designer_works/getListMF")
+      this.$router.push("/designer_works/getListMF");
+    },
+    relevant(val) {
+         this.$router.replace("/workDetails" +val);
+         this.WorkDetailsList();
     }
   },
 };

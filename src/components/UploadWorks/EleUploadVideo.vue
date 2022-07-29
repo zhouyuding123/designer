@@ -21,22 +21,24 @@
       <!-- 上传进度 -->
       <el-progress
         :percentage="videoUploadPercent"
-        style="margin-top: 20px"
+        style="margin-top: 20px;"
         type="circle"
         v-if="videoUploadPercent > 0"
       />
 
       <!-- 上传提示 -->
       <template v-else>
-        <i
-          class="el-icon-video-camera"
-          style="font-size: 30px; line-height: 146px; color: #acb2b7"
-        ></i>
-
+        <i class="el-icon-video-camera" style="font-size:30px;line-height:146px;color:#ACB2B7"></i>
+     
         <div class="el-upload__tip" slot="tip" v-if="showTip">
-          <span style="color: #f56c6c"> 上传视频</span>
+        
+          <span style="color: #f56c6c;"
+            >  上传视频</span
+          >
           <template v-if="fileSize">
-            <span style="color: #f56c6c"></span>
+            
+            <span style="color: #f56c6c;"></span
+            >
           </template>
         </div>
       </template>
@@ -70,7 +72,7 @@
         :autoplay="true"
         :src="value"
         controls="controls"
-        style="width: 100%"
+        style="width: 100%;"
         v-if="isShowVideo"
       >
         您的浏览器不支持视频播放
@@ -217,7 +219,7 @@ export default {
 
     // 删除视频
     doRemove() {
-      this.$emit("delete");
+      this.$emit("delete",);
       this.$emit("input", null);
     },
 

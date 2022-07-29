@@ -137,6 +137,11 @@ const routes = [
         name:'DesignerHomepage',
         component:()=> import("../components/DesignerHomepage/DesignerHomepage.vue"),
         meta: { keepAlive: true }
+      },
+      {
+        path:"/openVip",
+        name:"openVip",
+        component:()=> import ("../components/openVip/openVip.vue")
       }
     ]
   },

@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-    <div class="myworks" v-if="token">
+    <div class="myworks" v-if="token && myworks != ''">
       <div class="myworksbody">
         <div v-for="(item, index) in myworks" :key="index">
           <div class="workid">
@@ -261,6 +261,7 @@ export default {
       };
       postD(myWorksApi(), works).then((res) => {
         this.myworks = res.list;
+        console.log(this.myworks);
       });
     },
     worksValue() {

@@ -36,7 +36,7 @@
 
 <script>
 import {getAuthApi} from "@/urls/wsUrl.js"
-import { postD } from '../../../api';
+import { postD } from '@/api';
 import {imgUrl} from "@/assets/js/modifyStyle.js"
 export default {
     data() {
@@ -52,7 +52,6 @@ export default {
     methods: {
         information() {
             postD(getAuthApi()).then(res=> {
-                console.log(res);
                 this.informationValue= res.data
             })
         }

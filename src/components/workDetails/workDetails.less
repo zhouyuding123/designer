@@ -43,6 +43,7 @@
             width: 130px;
             height: 35px;
             margin-top: -10px;
+
             span {
                 font-size: 8px;
                 font-family: PingFang SC-Regular, PingFang SC;
@@ -191,8 +192,8 @@
         padding: 0px 40px 72px 40px;
 
         img {
-            width: 1150px;
-            height: 812px;
+            max-width: 1150px;
+            max-height: 812px;
         }
     }
 }
@@ -460,6 +461,7 @@
         color: #0177D5;
     }
 }
+
 .golist {
     position: absolute;
     width: 100px;
@@ -467,4 +469,38 @@
     cursor: pointer;
     background: yellow;
     line-height: 50px;
+}
+
+.myWorkWidth {
+    margin: 20px 40px;
+    display: flex;
+
+    .myWorkBody {
+        width: 280px;
+        height: 240px;
+        margin-right: 20px;
+        cursor: pointer;
+
+        img {
+            width: 280px;
+            height: 200px;
+            background: #E8E8E8;
+            border-radius: 6px 6px 6px 6px;
+        }
+
+        div {
+            width: 240px;
+            text-align: left;
+            margin-top: 10px;
+            margin-left: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #06121E;
+            overflow: hidden;
+            text-overflow: ellipsis; white-space: nowrap;
+        }
+    }
+}
+/deep/.el-input__inner {
+    border: 1px #F5F5F5 solid;
 }

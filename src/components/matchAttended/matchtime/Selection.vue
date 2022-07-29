@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bodylist" v-for="item in matchLists" :key="item.id">
+    <div class="bodylist" v-for="item in matchLists" :key="item.id" @click="gomatch(item.id)">
       <div class="bodylistone">
         <img :src="imagesValue + item.thumb" alt="" />
       </div>
@@ -85,6 +85,9 @@ export default {
         this.matchptlist = res.list;
         this.match.totalResult = res.count;
       });
+    },
+    gomatch(val) {
+      this.$router.push("/EventDetails"+val)
     },
   },
 };

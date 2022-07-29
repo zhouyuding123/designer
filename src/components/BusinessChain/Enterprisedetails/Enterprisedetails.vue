@@ -99,7 +99,7 @@
         </div>
         <div class="paddingshop">
           <div v-for="item in shopValue" :key="item.id" class="shopimg" @click="showwork(item)">
-            <img :src="imageValue + fullthumb(item.thumb)" alt="" />
+            <img :src="imageValue + fullthumb(item.thumb)" alt=""/>
             <div class="itemtitle">
               {{ item.title }}
             </div>
@@ -125,11 +125,24 @@
       >
       </el-pagination>
     </div>
+<el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%"
+    >
+      <span>这是一段信息</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { showApi, shopListApi, getBrandApi } from "@/urls/wsUrl.js";
+import { showApi, shopListApi, getBrandApi,showProductApi } from "@/urls/wsUrl.js";
 import { postD } from "@/api";
 import { imgUrl } from "@/assets/js/modifyStyle";
 export default {
@@ -157,6 +170,7 @@ export default {
         offset: 1,
       },
       total: 0,
+      dialogVisible:false,
     };
   },
   created() {
@@ -251,7 +265,14 @@ export default {
       }
     },
     showwork(val) {
-      console.log(val);
+      var ids ={
+        id:val.id
+      }
+      
+      postD(showProductApi(),ids).then(res=> {
+        console.log(res);
+        this.dialogVisible = true
+      })
     }
   },
 };

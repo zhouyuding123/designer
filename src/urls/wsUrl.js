@@ -173,6 +173,21 @@ export const designerWorkscomment = () => {
 export const showProductApi = () => {
     return "designer/company/showProduct"
 }
+//查看企业商品详情
+export const AdApi = () => {
+    return "company/Ad/getList"
+}
+//读取设计师基本信息
+export const designerMyCenterApi = () => {
+    return "designer/users_designer/myCenter"
+}
+//读取设计师基本信息
+export const shopShowApi = () => {
+    return "designer/business/shopShow"
+}
+
+
+
 
 
 

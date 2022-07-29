@@ -55,12 +55,12 @@
                   color: #0177d5;
                   cursor: pointer;
                 "
-                v-if="valueData.auth == 0"
+                v-if="myDenper.auth == 0"
                 @click="authentication"
               >
                 立即认证
               </div>
-              <div v-if="valueData.auth == 2" style="display: flex">
+              <div v-if="myDenper.auth == 2" style="display: flex">
                 <div
                   style="
                     margin-left: 20px;
@@ -76,7 +76,7 @@
                   <span>查看认证信息</span>
                 </div>
               </div>
-              <div v-if="valueData.auth == 2"></div>
+              <div v-if="myDenper.auth == 2"></div>
               <div
                 style="
                   margin-left: 20px;
@@ -85,7 +85,7 @@
                   color: #0177d5;
                   cursor: pointer;
                 "
-                v-if="valueData.auth == 3"
+                v-if="myDenper.auth == 3"
                 @click="authentication"
               >
                 认证失败
@@ -98,7 +98,7 @@
                   color: #0177d5;
                   cursor: pointer;
                 "
-                v-if="valueData.auth == 1"
+                v-if="myDenper.auth == 1"
                 @click="authentication"
               >
                 审核中
@@ -305,10 +305,15 @@
 import { timestampToTime } from "@/assets/js/time.js";
 import { imgUrl } from "@/assets/js/modifyStyle";
 import { postD } from "../../api";
-import { editInfoApi, setAuthApi } from "@/urls/wsUrl.js";
+import { editInfoApi, setAuthApi, designerMyCenterApi } from "@/urls/wsUrl.js";
 import Addresslist from "./address/addresslist.vue";
 import authentication from "./address/authentication.vue";
 export default {
+  provide() {
+    return {
+      mypersonal: this.mypersonal,
+    };
+  },
   components: { Addresslist, authentication },
   data() {
     return {
@@ -389,25 +394,35 @@ export default {
           },
         ],
       },
+      myDenper: [],
     };
   },
   created() {
     this.imagesValue = imgUrl();
-    var valueser = localStorage.data;
-    var valser = JSON.parse(valueser);
-    this.valueData.headimage = valser.headimage;
-    this.valueData.nickname = valser.nickname;
-    this.valueData.description = valser.description;
-    this.valueData.auth = valser.auth;
-    this.valueData.is_cust = valser.is_cust;
-    this.valueData.label = valser.label;
-    this.valueData.is_receive = valser.is_receive;
-    this.authenticationruleForm.tel = valser.tel;
-    this.authenticationruleForm.style = valser.style;
-    this.authenticationruleForm.license = valser.license;
-    console.log(valser);
+    this.mypersonal();
+    // var valueser = localStorage.data;
+    // var valser = JSON.parse(valueser);
   },
   methods: {
+    mypersonal() {
+      var myname = {
+        username: localStorage.use,
+      };
+      postD(designerMyCenterApi(), myname).then((res) => {
+        console.log(res);
+        this.myDenper = res.data;
+        this.valueData.headimage = this.myDenper.headimage;
+        this.valueData.nickname = this.myDenper.nickname;
+        this.valueData.description = this.myDenper.description;
+        this.valueData.auth = this.myDenper.auth;
+        this.valueData.is_cust = this.myDenper.is_cust;
+        this.valueData.label = this.myDenper.label;
+        this.valueData.is_receive = this.myDenper.is_receive;
+        this.authenticationruleForm.tel = this.myDenper.tel;
+        this.authenticationruleForm.style = this.myDenper.style;
+        this.authenticationruleForm.license = this.myDenper.license;
+      });
+    },
     handleAvatarSuccesser(res, file) {
       this.valueData.headimage = res.url;
     },
@@ -447,7 +462,9 @@ export default {
         postD(editInfoApi(), this.personalruleForm).then((res) => {
           if (res.code == "200") {
             this.$message.success("保存成功");
+            this.mypersonal();
             this.authenticationshow = 1;
+            
           } else {
             this.$message.error("保存时出现问题");
           }
@@ -475,6 +492,7 @@ export default {
         postD(setAuthApi(), this.authenticationruleForm).then((res) => {
           if (res.code == "200") {
             this.$message.success("上传认证成功请耐心等待审核");
+            this.mypersonal();
             this.authenticationshow = 1;
           } else {
             this.$message.error("上传时出现错误");

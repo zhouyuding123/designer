@@ -78,7 +78,7 @@
                   /></template>
                   <div class="syitem">
                     <el-menu-item index="8-1" @click="goAccountSettings"
-                      >我的首页</el-menu-item
+                      >我的作品</el-menu-item
                     >
                     <el-menu-item index="8-2" @click="gopersonal"
                       >账号设置</el-menu-item
@@ -89,7 +89,7 @@
                   </div>
                 </el-submenu>
               </div>
-              <div class="hy"><span>开通会员</span></div>
+              <div class="hy" @click="startUpVip"><span>开通会员</span></div>
             </div>
           </el-menu>
         </div>
@@ -138,7 +138,7 @@ export default {
       this.$router.push("/login");
     },
     goAccountSettings() {
-      this.$router.push("/home");
+      this.$router.push("/Mywork");
     },
     goConsole() {
       this.$router.push("/pageHome");
@@ -175,6 +175,9 @@ export default {
     goMywork() {
       this.$router.push("/Mywork");
     },
+    startUpVip() {
+      this.$router.push("/openVip")
+    }
   },
 };
 </script>
