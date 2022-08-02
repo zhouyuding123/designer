@@ -43,7 +43,7 @@
                 <el-menu-item index="3-2">我参与的赛事</el-menu-item>
               </div>
             </el-submenu>
-            <el-menu-item index="4" class="kzt"> 潮圈 </el-menu-item>
+            <el-menu-item index="4" class="kzt" @click="goCircle"> 潮圈 </el-menu-item>
             <el-menu-item index="5" class="kzt" @click="goBusinessChain">
               商链
             </el-menu-item>
@@ -249,6 +249,9 @@ export default {
     addGoauth() {
       this.$router.push("/users_designer/editInfo")
       this.dialogVisible = false;
+    },
+    goCircle() {
+      this.$router.push("/Circle")
     },
   },
 };

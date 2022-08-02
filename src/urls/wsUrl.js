@@ -197,7 +197,10 @@ export const getOrderStatApi = () => {
 export const payApi = () => {
     return "pay/Wxpay/pay"
 }
-
+//修改作品
+export const editMyWorksApi = () => {
+    return "designer/users_designer_works/edit"
+}
 
 
 

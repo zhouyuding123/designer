@@ -153,6 +153,11 @@ const routes = [
         path:"/vipMember",
         name:'vipMember',
         component:()=> import("../components/openVip/vipMember/vipMember.vue")
+      },
+      {
+        path:"/Circle",
+        name:"Circle",
+        component:()=> import("../components/Circle/Circle.vue")
       }
     ]
   },
