@@ -98,8 +98,13 @@
           </div>
         </div>
         <div class="paddingshop">
-          <div v-for="item in shopValue" :key="item.id" class="shopimg" @click="showwork(item)">
-            <img :src="imageValue + fullthumb(item.thumb)" alt=""/>
+          <div
+            v-for="item in shopValue"
+            :key="item.id"
+            class="shopimg"
+            @click="showwork(item)"
+          >
+            <img :src="imageValue + fullthumb(item.thumb)" alt="" />
             <div class="itemtitle">
               {{ item.title }}
             </div>
@@ -113,7 +118,7 @@
         </div>
       </div>
     </div>
-    <div style="margin-button:20px">
+    <div style="margin-button: 20px">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -125,24 +130,124 @@
       >
       </el-pagination>
     </div>
-<el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="30%"
-    >
-      <span>这是一段信息</span>
-      <span slot="footer" class="dialog-footer">
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="750px">
+      <div class="PreviewBody">
+        <el-carousel indicator-position="outside">
+          <el-carousel-item v-for="item in thumbs" :key="item">
+            <div v-if="item.split('/')[0] == 'moves'">
+              <video style="width: 750px; height: 300px" controls>
+                <source :src="imagesValue + item" type="video/mp4" />
+                <source :src="imagesValue + item" type="video/ogg" />
+              </video>
+            </div>
+            <div v-if="item.split('/')[0] == 'images'">
+              <el-image
+                :src="imagesValue + item"
+                alt=""
+                :preview-src-list="[imagesValue + item]"
+                style="width: 750px; height: 300px"
+              />
+            </div>
+          </el-carousel-item>
+        </el-carousel>
+        <div class="line1">
+          <div class="line1Value">
+            <div class="line1one">
+              <div class="priceValue">¥{{ this.previewspec.price }}</div>
+              <div class="Sold">已售123</div>
+            </div>
+            <div class="line1two">
+              <span>{{ previewValueList.title }}</span>
+            </div>
+            <div class="line1treen">
+              <div><span>满400减50</span></div>
+              <div><span>满200减20</span></div>
+            </div>
+            <div class="line1four">
+              <div class="line1fourValue">
+                <div>
+                  <img src="@/assets/imgers/正品.png" alt="" /><span>
+                    100%正品
+                  </span>
+                </div>
+                <div>
+                  <img src="@/assets/imgers/七天.png" alt="" /><span
+                    >7天无理由退换</span
+                  >
+                </div>
+                <div>
+                  <img src="@/assets/imgers/包邮.png" alt="" /><span>包邮</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="libn">
+          <div class="linbn1">
+            <div class="linbn1_xz">选择</div>
+            <div class="linbn1_x2">请选择型号</div>
+          </div>
+          <div class="linbn1">
+            <div class="linbn1_xz">配送</div>
+            <div class="linbn1_x2">鄞州区奥克斯大厦</div>
+          </div>
+          <div class="linbn1">
+            <div class="linbn1_xz">定位</div>
+            <div class="linbn1_x2">中国浙江省宁波市鄞州区南部商务区...</div>
+          </div>
+          <div class="linbn2">
+            <div class="linbn1_xz">商家服务</div>
+            <div class="serveday">七天无理由</div>
+            <div class="serveday">免配送</div>
+          </div>
+        </div>
+        <div class="borders"></div>
+        <div class="line2">
+          <div class="details"><span>商品详情</span></div>
+          <div class="htmlValue">
+            <div>{{ contentsText }}</div>
+          </div>
+          <div v-for="(item, index) in contentsImg" :key="index">
+            <img
+              :src="imageValue + item"
+              alt=""
+              style="width: 100%; margin-top: 30px"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="bottoms dis">
+        <!-- <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false"
           >确 定</el-button
         >
-      </span>
+      </span> -->
+        <div class="disleft">
+          <div class="disleftimg">
+            <img src="@/assets/imgers/购物车.png" alt="" />
+          </div>
+          <div class="disleftgwc">购物车</div>
+        </div>
+        <div class="dis discon">
+          <div class="disrmb">￥</div>
+          <div class="disrmb_num">49.99</div>
+        </div>
+        <div class="fq">
+          <div @click="goapp">立即结算</div>
+        </div>
+      </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { showApi, shopListApi, getBrandApi,showProductApi } from "@/urls/wsUrl.js";
+import {
+  showApi,
+  shopListApi,
+  getBrandApi,
+  showProductApi,
+} from "@/urls/wsUrl.js";
 import { postD } from "@/api";
 import { imgUrl } from "@/assets/js/modifyStyle";
 export default {
@@ -170,7 +275,13 @@ export default {
         offset: 1,
       },
       total: 0,
-      dialogVisible:false,
+      dialogVisible: false,
+      previewspec: [],
+      thumbs: [],
+      previewValueList: [],
+      contentsText: "",
+      imagesValue: "",
+      contentsImg: [],
     };
   },
   created() {
@@ -178,6 +289,7 @@ export default {
     this.seatchname.username = this.$route.params.name;
     this.page1.username = this.$route.params.name;
     this.imageValue = imgUrl();
+    this.imagesValue = imgUrl();
     this.getList();
     this.shopList();
     this.getBrand();
@@ -254,26 +366,34 @@ export default {
         this.seatchname.offset = val;
         postD(shopListApi(), this.seatchname).then((res) => {
           this.shopValue = res.list;
-         this.total = res.count;
+          this.total = res.count;
         });
       } else {
         this.page1.offset = val;
         postD(shopListApi(), this.page1).then((res) => {
           this.shopValue = res.list;
-         this.total = res.count;
+          this.total = res.count;
         });
       }
     },
     showwork(val) {
-      var ids ={
-        id:val.id
-      }
-      
-      postD(showProductApi(),ids).then(res=> {
-        console.log(res);
-        this.dialogVisible = true
-      })
-    }
+      var ids = {
+        id: val.id,
+      };
+      postD(showProductApi(), ids).then((res) => {
+        this.dialogVisible = true;
+        this.previewValueList = res.data;
+        this.thumbs = JSON.parse(res.data.thumb).thumbList.split(",");
+        this.previewspec = res.data.spec[0];
+        var textimg = JSON.parse(res.data.content);
+        this.contentsText = textimg.text;
+        this.contentsImg = textimg.images.split(",").slice(1);
+        console.log(this.contentsImg);
+      });
+    },
+    goapp() {
+      this.$router.push("/download")
+    },
   },
 };
 </script>

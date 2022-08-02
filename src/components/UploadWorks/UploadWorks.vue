@@ -1,67 +1,108 @@
 <template>
-    <div>
-      <div>
-        
-        <div class="">
-<el-form ref="form" :model="form" :rules="rules" label-width="100px">
-    <div class="wrap">
-  <el-form-item label="作品标题" prop="title">
-    <el-input v-model="form.title" ></el-input>
-  </el-form-item>
-    <el-form-item label="作品首页图" prop="thumb">
-                 <el-upload
-                  class="avatar-uploader"
-                action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
-                :show-file-list="false"
-                :data="{ fileType: this.fileType }"
-                
-                :on-success="handleAvatarSuccesser"
-                :before-upload="beforeAvatarUpload"
-              >
-              
-              <img v-if="form.thumb" style="width:150px;height:150px" :src="imagesValue + form.thumb" >
-
-            <i v-else class="el-icon-picture-outline avatar-uploader-icon" style="background-color:#f5f5f5"></i>
-              </el-upload>
-  </el-form-item>
-    <el-form-item label="风格标签" prop="label">
-    <el-input v-model="form.label" placeholder="请用逗号隔开"></el-input>
-  </el-form-item>
-    <el-form-item label="作品类别" prop="product_type_id">
-          <el-select v-model="form.product_type_id" placeholder="请选择">
-    <el-option
-      v-for="item in options"
-      :key="item.id"
-      :label="item.title"
-      :value="item.id">
-    </el-option>
-  </el-select>
-  </el-form-item>
-    <el-form-item label="众筹版权费" prop="crowd_price">
-    <el-input type="number" v-model="form.crowd_price" style="width:200px;" ></el-input>
-      元
-  </el-form-item>
-     <el-form-item label="私人定制费" prop="personal_price">
-      <el-input  type="number" v-model="form.personal_price" style="width:200px;" ></el-input>
-        元
-  </el-form-item>
-     <el-form-item label="版权购买费" class="" prop="copyright_price">
-     <el-input type="number" v-model="form.copyright_price" style="width:200px;" ></el-input>
-     元
-  </el-form-item>
-</div>
-
-<div class="wrap">
-<div style="text-align:left" class="font20 fontw " >
-    图文介绍
-</div>
-     <el-form-item>
-     <el-input type="textarea" v-model="introduction" rows="10"></el-input>
-    
-  </el-form-item>
-    <el-form-item>
-        <div class="flex"> 
+  <div>
+    <div class="">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+        <div class="wrap" style="height: 750px">
+          <el-form-item label="作品标题" prop="title">
+            <el-input v-model="form.title"></el-input>
+          </el-form-item>
+          <!--  -->
+          <el-form-item label="添加封面" prop="imgs">
             <el-upload
+              class="avatar-uploader"
+              action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
+              :data="{ fileType: this.fileType }"
+              multiple
+              list-type="picture-card"
+              :limit="9"
+              :on-success="handleAvatarSuccesser2"
+              :file-list="imageList2"
+              :on-preview="handlePictureCardPreview"
+              :before-upload="beforeAvatarUpload1"
+              :on-remove="fileRemove2"
+            >
+              <i
+                class="el-icon-picture-outline"
+                style="background-color: #f5f5f5"
+              ></i>
+            </el-upload>
+          </el-form-item>
+          <!--  -->
+
+          <el-form-item label="作品首页图" prop="thumb">
+            <el-upload
+              class="avatar-uploader"
+              action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
+              list-type="picture-card"
+              :limit="1"
+              :file-list="imageList1"
+              :on-preview="handlePictureCardPreview"
+              :data="{ fileType: this.fileType }"
+              :on-success="handleAvatarSuccesser"
+              :before-upload="beforeAvatarUpload"
+              :on-remove="fileRemove1"
+            >
+              <!-- <img v-if="form.thumb" style="width:150px;height:150px" :src="imagesValue + form.thumb" > -->
+
+              <i
+                class="el-icon-picture-outline"
+                style="background-color: #f5f5f5"
+              ></i>
+            </el-upload>
+          </el-form-item>
+
+          <el-form-item label="风格标签" prop="label">
+            <el-input
+              v-model="form.label"
+              placeholder="请用逗号隔开"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="作品类别" prop="product_type_id">
+            <el-select v-model="form.product_type_id" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.id"
+                :label="item.title"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="众筹版权费" prop="crowd_price">
+            <el-input
+              v-model="form.crowd_price"
+              style="width: 200px"
+            ></el-input>
+            元
+          </el-form-item>
+          <el-form-item label="私人定制费" prop="personal_price">
+            <el-input
+              v-model="form.personal_price"
+              style="width: 200px"
+            ></el-input>
+            元
+          </el-form-item>
+          <el-form-item label="版权购买费" class="" prop="copyright_price">
+            <el-input
+              v-model="form.copyright_price"
+              style="width: 200px"
+            ></el-input>
+            元
+          </el-form-item>
+        </div>
+
+        <div class="wrap">
+          <div style="text-align: left" class="font20 fontw">图文介绍</div>
+          <el-form-item>
+            <el-input
+              type="textarea"
+              v-model="introduction"
+              rows="10"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <div class="flex">
+              <el-upload
                 class="avatar-uploader"
                 action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
                 :data="{ fileType: this.fileType }"
@@ -74,66 +115,85 @@
                 :before-upload="beforeAvatarUpload1"
                 :on-remove="fileRemove"
               >
-            <i  class="el-icon-picture-outline " style="background-color:#f5f5f5"></i>
+                <i
+                  class="el-icon-picture-outline"
+                  style="background-color: #f5f5f5"
+                ></i>
               </el-upload>
               <div class="margin-right12"></div>
-          <ele-upload-video
-           :data="{ fileType: this.fileType1 }"
-            @error="handleUploadError"
-            :responseFn="handleResponse"
-            action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
-            v-model="videosrc"
-            @delete="delete1"
-            />
+              <ele-upload-video
+                :data="{ fileType: this.fileType1 }"
+                @error="handleUploadError"
+                :responseFn="handleResponse"
+                action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
+                v-model="videosrc"
+                @delete="delete1"
+              />
+            </div>
+          </el-form-item>
         </div>
-    
-  </el-form-item>
-</div>
-    <div class="wrap">
-        <el-form-item label="设计理念" class="" prop="description">
-        <el-input v-model="form.description" type="textarea" rows="4"></el-input>
-    </el-form-item>
-    </div>
-    <div class="wrap">
 
-        <el-form-item label="权限设置" prop="category" class="">
-        <el-radio-group v-model="form.category" >
-      <el-radio label="2" >公开，所有人可见</el-radio>
-      <el-radio label="1">私密，仅自己可见</el-radio>
-      <el-radio label="3">收费，他人需付费可见</el-radio>
-    </el-radio-group>
-    </el-form-item>
-        <el-form-item label="收费金额" class="">
-        <el-input type="number" v-model="form.money" :disabled="form.category!=3" style="width:200px"></el-input>
-        元
-    </el-form-item>
+        <div class="wrap">
+          <el-form-item label="设计理念" class="" prop="description">
+            <el-input
+              v-model="form.description"
+              type="textarea"
+              rows="4"
+            ></el-input>
+          </el-form-item>
+        </div>
 
-    </div>
-    <el-button type="primary" @click="submitForm('form')" style="width:200px" v-if="!id">发布</el-button>
-      <el-button type="primary" @click="submitForm('form')" style="width:200px" v-else>修改</el-button>
-    <el-button  style="width:200px">取消</el-button>
-</el-form>
+        <div class="wrap">
+          <el-form-item label="权限设置" prop="category" class="">
+            <el-radio-group v-model="form.category">
+              <el-radio label="2">公开，所有人可见</el-radio>
+              <el-radio label="1">私密，仅自己可见</el-radio>
+              <el-radio label="3">收费，他人需付费可见</el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+          <el-form-item label="收费金额" class="">
+            <el-input
+              type="number"
+              v-model="form.money"
+              :disabled="form.category != 3"
+              style="width: 200px"
+            ></el-input>
+            元
+          </el-form-item>
+        </div>
+
+        <el-button
+          type="primary"
+          @click="submitForm('form')"
+          style="width: 200px"
+          v-if="!id"
+          >发布</el-button
+        >
+        <el-button
+          type="primary"
+          @click="submitForm('form')"
+          style="width: 200px"
+          v-else
+          >修改</el-button
+        >
+        <el-button style="width: 200px" @click="quxiao">取消</el-button>
+      </el-form>
     </div>
 
-<el-dialog :visible.sync="dialogVisible">
-  <img width="100%" :src="dialogImageUrl" alt="">
-</el-dialog>
-<el-dialog
-  :visible.sync="centerDialogVisible"
-  width="30%"
-  center>
-  <div class="bgpic">
-    <img src="@/assets/imgers/15805@2x.png" class="opennumber" alt="">
-    <div class="text" @click="gomember">立即开通</div>
-    <div class="cel" @click="centerDialogVisible=false">
-      <img src="@/assets/imgers/icon/12191@2x.png" alt="">
-    </div>
+    <el-dialog :visible.sync="dialogVisible">
+      <img width="100%" :src="dialogImageUrl" alt="" />
+    </el-dialog>
+    <el-dialog :visible.sync="centerDialogVisible" width="30%" center>
+      <div class="bgpic">
+        <img src="@/assets/imgers/15805@2x.png" class="opennumber" alt="" />
+        <div class="text cur" @click="gomember">立即开通</div>
+        <div class="cel" @click="centerDialogVisible = false">
+          <img src="@/assets/imgers/icon/12191@2x.png" alt="" />
+        </div>
+      </div>
+    </el-dialog>
   </div>
-
-</el-dialog>
-
-    </div>
-    </div>
 </template>
 
 <script>
@@ -172,7 +232,7 @@ export default {
           { min: 4, message: "长度在4个字符以上", trigger: "blur" },
         ],
         label: [{ required: true, message: "请输入风格标签", trigger: "blur" }],
-        thumb: [{ required: true, message: "请添加封面图", trigger: "blur" }],
+        // thumb: [{ required: true, message: "请添加封面图", trigger: "blur" }],
         description: [
           { required: true, message: "请输入设计理念", trigger: "blur" },
         ],
@@ -204,6 +264,8 @@ export default {
       videosrc: "",
       videosrc1: "",
       is_vip: undefined,
+      imageList1: [],
+      imageList2: [],
     };
   },
   components: {
@@ -214,7 +276,6 @@ export default {
     this.getListApibox();
     let is_vip = JSON.parse(localStorage.getItem("data")).is_vip;
     this.is_vip = is_vip;
-    // console.log(this.$route.query.id)
     if (this.$route.query.id) {
       this.id = this.$route.query.id;
       this.getmyinfo();
@@ -224,6 +285,9 @@ export default {
     console.log(this.videosrc);
   },
   methods: {
+    quxiao() {
+      this.$router.go("-1");
+    },
     //根据id获取作品信息
     getmyinfo() {
       postD(getMyWorksshowApi(), { id: this.$route.query.id }).then((res) => {
@@ -233,8 +297,17 @@ export default {
           (this.form.description = info.description || ""),
           (this.form.label = info.label || ""),
           (this.form.product_type_id = info.product_type_id || ""),
-          (this.form.thumb = info.thumb || "");
-        (this.form.crowd_price = info.crowd_price || ""),
+          // this.form.thumb=info.thumb||''
+          (this.imageList1 =
+            [
+              {
+                response: {
+                  url: info.thumb,
+                },
+                url: this.imagesValue + info.thumb,
+              },
+            ] || ""),
+          (this.form.crowd_price = info.crowd_price || ""),
           (this.form.personal_price = info.personal_price || ""),
           (this.form.copyright_price = info.copyright_price || ""),
           (this.form.money = info.money || ""),
@@ -242,12 +315,33 @@ export default {
         let cc = JSON.parse(info.content);
         console.log(cc);
         this.introduction = cc.text;
+
+        if (info.imgs != "" && info.imgs != null) {
+          info.imgs.split(",").forEach((item, i) => {
+            if (info.imgs.split(",").indexOf(",") > -1) {
+              this.imageList2.push({
+                response: {
+                  url: item,
+                },
+                url: this.imagesValue + item,
+              });
+            } else {
+              this.imageList2.push({
+                response: {
+                  url: item,
+                },
+                url: this.imagesValue + item,
+              });
+            }
+          });
+        }
+
         let image = cc.images;
         console.log(image);
         if (image != "") {
           if (image.indexOf(",") > -1) {
             image.split(",").forEach((item, i) => {
-              if (item.indexOf("image") > -1) {
+              if (item.indexOf("images") > -1) {
                 this.imageList.push({
                   response: {
                     url: item,
@@ -262,11 +356,13 @@ export default {
               }
             });
           } else {
-            if (image.indexOf("image") > -1) {
+            if (image.indexOf("images") > -1) {
+              console.log(image);
               this.imageList.push({
                 response: {
-                  url: item,
+                  url: image,
                 },
+                url: this.imagesValue + image,
               });
             } else {
               this.videosrc = this.imagesValue + item;
@@ -294,17 +390,24 @@ export default {
         };
 
         this.form.content = JSON.stringify(content);
+
+        var imgslist = [];
+        this.imageList2.forEach((item, i) => {
+          imgslist.push(item.response.url);
+        });
+        console.log();
         if (valid) {
           if (form.category == 3) {
             var params = {
               id: this.id || "",
               title: this.form.title,
-              thumb: this.form.thumb,
+              thumb: this.imageList1[0].response.url,
               description: this.form.description,
               label: this.form.label,
               product_type_id: this.form.product_type_id,
               content: this.form.content,
               category: 3,
+              imgs: imgslist.join(","),
               crowd_price: this.form.crowd_price,
               personal_price: this.form.personal_price,
               copyright_price: this.form.copyright_price,
@@ -314,7 +417,8 @@ export default {
             var params = {
               id: this.id || "",
               title: this.form.title,
-              thumb: this.form.thumb,
+              imgs: imgslist.join(","),
+              thumb: this.imageList1[0].response.url,
               description: this.form.description,
               label: this.form.label,
               product_type_id: this.form.product_type_id,
@@ -371,7 +475,15 @@ export default {
     },
     handleAvatarSuccesser(res, file) {
       console.log(res);
-      this.form.thumb = res.url;
+      this.imageList1 = [];
+      this.imageList1 = [
+        {
+          response: {
+            url: res.url,
+          },
+          url: this.imagesValue + res.url,
+        },
+      ];
     },
     //图片上传前
     beforeAvatarUpload(file) {
@@ -395,9 +507,37 @@ export default {
       console.log(fileList);
       this.imageList = fileList;
     },
+    handleAvatarSuccesser2(res, file, fileList) {
+      console.log(fileList);
+      this.imageList2 = fileList;
+    },
     fileRemove(file, fileList) {
       this.imageList = fileList;
       console.log(this.imageList);
+      // const list = []
+      // this.imageList.forEach(item => {
+      //       list.push({
+      //         id:item.id,
+      //         imageType:0
+      //       })
+      //   })
+      //   this.form.listUploadId = list
+    },
+    fileRemove1(file, fileList) {
+      this.imageList1 = fileList;
+      console.log(this.imageList1);
+      // const list = []
+      // this.imageList.forEach(item => {
+      //       list.push({
+      //         id:item.id,
+      //         imageType:0
+      //       })
+      //   })
+      //   this.form.listUploadId = list
+    },
+    fileRemove2(file, fileList) {
+      this.imageList2 = fileList;
+      console.log(this.imageList1);
       // const list = []
       // this.imageList.forEach(item => {
       //       list.push({

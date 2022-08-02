@@ -55,7 +55,8 @@ const routes = [
       {
         path:"/UploadWorks",
         name:'UploadWorks',
-        component:()=> import("../components/UploadWorks/UploadWorks.vue")
+        component:()=> import("../components/UploadWorks/UploadWorks.vue"),
+        meta:{keepAlive:true}
       },
       {
         path:"/BusinessChain",
@@ -142,6 +143,16 @@ const routes = [
         path:"/openVip",
         name:"openVip",
         component:()=> import ("../components/openVip/openVip.vue")
+      },
+      {
+        path:"/download",
+        name:"download",
+        component:()=>import("../components/BusinessChain/Enterprisedetails/downloadapp.vue")
+      },
+      {
+        path:"/vipMember",
+        name:'vipMember',
+        component:()=> import("../components/openVip/vipMember/vipMember.vue")
       }
     ]
   },

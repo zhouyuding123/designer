@@ -181,10 +181,26 @@ export const AdApi = () => {
 export const designerMyCenterApi = () => {
     return "designer/users_designer/myCenter"
 }
-//读取设计师基本信息
-export const shopShowApi = () => {
-    return "designer/business/shopShow"
+//读取平台系统配置
+export const getConfigDataApi = () => {
+    return "admin/test/getConfigData"
 }
+//创建开通vip订单
+export const addVipApi = () => {
+    return "company/orders/addVip"
+}
+// 读取订单明细
+export const getOrderStatApi = () => {
+    return "company/orders/getOrderStat"
+}
+// pc-微信支付
+export const payApi = () => {
+    return "pay/Wxpay/pay"
+}
+
+
+
+
 
 
 

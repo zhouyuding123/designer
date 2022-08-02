@@ -243,6 +243,7 @@ export default {
     },
     Listshow() {
       postD(getListWorksApi(), this.Works).then((res) => {
+        console.log(res);
         this.workList = [...this.workList, ...res.list];
         // console.log(this.workList[9].label.split(','))
         this.count = res.count;

@@ -95,7 +95,18 @@
         </div>
         <div></div>
       </el-header>
-      <el-main><router-view to="'/'+value.name" /></el-main>
+      <el-main style="padding-top:60px">
+        <keep-alive>
+          <router-view
+            v-if="$route.meta.keepAlive"
+            :key="$route.fullPath"
+          ></router-view>
+        </keep-alive>
+        <router-view
+          v-if="!$route.meta.keepAlive"
+          :key="$route.fullPath"
+        ></router-view>
+      </el-main>
     </el-container>
     <div class="seatchers" v-show="seatchShow">
       <div class="seatch_list">
@@ -109,18 +120,38 @@
         </div>
       </div>
     </div>
+    <el-dialog :visible.sync="dialogVisible" width="30%">
+      <div class="goauth">
+        需要认证
+      </div>
+      <div style="padding-top:80px">
+        <span>
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="addGoauth"
+            >确 定</el-button
+          >
+        </span>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { designerMyCenterApi } from "@/urls/wsUrl.js";
 import { imgUrl } from "@/assets/js/modifyStyle";
+import { postD } from "@/api";
 export default {
   data() {
     return {
       activeIndex: "1",
       imagesValue: "",
       imagescxk: "",
-      seatchShow:false
+      seatchShow: false,
+      name: {
+        username: "",
+      },
+      authentication: "",
+      dialogVisible: false,
     };
   },
   created() {
@@ -128,6 +159,7 @@ export default {
     var valueser = localStorage.data;
     var valser = JSON.parse(valueser);
     this.imagescxk = valser.headimage;
+    this.name.username = localStorage.getItem("use");
   },
   methods: {
     handleSelect(key, keyPath) {
@@ -153,31 +185,71 @@ export default {
       this.$router.push("/SpecialArea");
     },
     seatcher() {
-      if(this.seatchShow == true){
-        this.seatchShow = false
-      }else {
-        this.seatchShow = true
+      if (this.seatchShow == true) {
+        this.seatchShow = false;
+      } else {
+        this.seatchShow = true;
       }
       console.log(123);
     },
     uploadWork() {
-      this.$router.push("/UploadWorks");
+      postD(designerMyCenterApi(), this.name).then((res) => {
+        if (res.data.auth === 2) {
+          this.$router.push("/UploadWorks");
+        } else {
+          this.dialogVisible = true;
+        }
+      })
     },
     goBusinessChain() {
-      this.$router.push("/BusinessChain");
+       postD(designerMyCenterApi(), this.name).then((res) => {
+        if (res.data.auth === 2) {
+          this.$router.push("/BusinessChain");
+        } else {
+          this.dialogVisible = true;
+        }
+      })
     },
     goMatch() {
-      this.$router.push("/match");
+      postD(designerMyCenterApi(), this.name).then((res) => {
+        if (res.data.auth === 2) {
+          this.$router.push("/match");
+        } else {
+          this.dialogVisible = true;
+        }
+      })
     },
     gomyMatch() {
-      this.$router.push("/matchattended");
+      postD(designerMyCenterApi(), this.name).then((res) => {
+        if (res.data.auth === 2) {
+          this.$router.push("/matchattended");
+        } else {
+          this.dialogVisible = true;
+        }
+      })
     },
     goMywork() {
-      this.$router.push("/Mywork");
+      postD(designerMyCenterApi(), this.name).then((res) => {
+        if (res.data.auth === 2) {
+          this.$router.push("/Mywork");
+        } else {
+          this.dialogVisible = true;
+        }
+      });
     },
     startUpVip() {
-      this.$router.push("/openVip")
-    }
+      postD(designerMyCenterApi(), this.name).then((res) => {
+        if (res.data.auth === 2) {
+          this.$router.push("/openVip");
+        } else {
+          this.dialogVisible = true;
+        }
+      });
+    },
+    addGoauth() {
+      this.$router.push("/users_designer/editInfo")
+      this.dialogVisible = false;
+    },
   },
 };
 </script>

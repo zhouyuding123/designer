@@ -16,7 +16,7 @@
         <img src="@/assets/imgers/企业公示.png" alt="" />
       </div>
     </div>
-    <div style="padding-top:20px">
+    <div style="padding-top:20px" v-if="match.totalResult>10">
         <vxe-pager
           :current-page="match.offset"
           :page-size="match.limit"

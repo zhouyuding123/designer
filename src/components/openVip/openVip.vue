@@ -16,7 +16,7 @@
       </div>
       <div class="text_1">{{ item.text1 }}</div>
       <div class="text_2">{{ item.text2 }}</div>
-      <div class="go_pay"><div>付钱</div></div>
+      <div class="go_pay" @click="activateNow"><div>立即开通</div></div>
     </div>
   </div>
 </template>
@@ -63,6 +63,9 @@ export default {
             this.isVip = res.data.is_vip
       });
     },
+    activateNow() {
+      this.$router.push("/vipMember")
+    }
   },
 };
 </script>

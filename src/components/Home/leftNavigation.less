@@ -2,6 +2,9 @@
     background-color: #1A0761;
     color: #333;
     line-height: 60px;
+    position: fixed;
+    z-index: 1000000;
+    width: 100%;
 }
 
 .el-aside {
@@ -155,11 +158,13 @@
     background: #F5F5F5;
     border-radius: 30px 30px 30px 30px;
 }
+
 /deep/.el-input__inner {
     border-style: none;
     width: 90%;
     height: 50px;
 }
+
 .seatch_list {
     height: 50px;
     background: #FFFFFF;
@@ -167,6 +172,7 @@
     display: flex;
     position: relative;
 }
+
 .buttom_seatch {
     width: 70px;
     height: 30px;
@@ -182,4 +188,34 @@
         color: #333333;
         line-height: 30px;
     }
+}
+
+/deep/.el-dialog {
+    width: 600px;
+    height: 280px;
+    background: #FFFFFF;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.goauth {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333333;
+    padding-top: 50px;
+}
+
+/deep/.el-button--default {
+    width: 160px;
+    height: 40px;
+    background: #FFFFFF;
+    border-radius: 20px 20px 20px 20px;
+    opacity: 1;
+    border: 1px solid #0C032E;
+}
+
+/deep/.el-button--primary {
+    width: 160px;
+    height: 40px;
+    background: linear-gradient(180deg, #0C032E 0%, #5C5673 100%);
+    border-radius: 20px 20px 20px 20px;
 }
