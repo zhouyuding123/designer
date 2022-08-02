@@ -17,6 +17,7 @@
     "vue": "^2.6.14",
     "vue-hover-mask": "^1.0.0",
     "vue-router": "^3.5.1",
+    "vue-seamless-scroll": "^1.1.23",
     "vuex": "^3.6.2",
     "vxe-table": "^3.5.9",
     "xe-utils": "^3.5.6"

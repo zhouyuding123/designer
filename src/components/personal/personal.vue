@@ -156,22 +156,14 @@
           <el-form
             :model="authenticationruleForm"
             :rules="authenticationrules"
-            ref="authenticationruleForm"
+            ref="authenticationruleForms"
             label-width="100px"
             class="demo-ruleForm"
           >
             <el-form-item label="证件类型">
               <div class="sfz">身份证</div>
             </el-form-item>
-            <el-form-item label="真实姓名" prop="name">
-              <el-input v-model="authenticationruleForm.name"></el-input>
-            </el-form-item>
-            <el-form-item label="证件号码" prop="card_no">
-              <el-input
-                v-model="authenticationruleForm.card_no"
-                @input="inputChange"
-              ></el-input>
-            </el-form-item>
+
             <el-form-item label="证件图" required>
               <div style="margin-left: 20px; display: flex">
                 <div>
@@ -190,7 +182,6 @@
                         :src="imageUrlcard_z"
                         class="avatars"
                       />
-                      <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
                       <div v-else class="ffzz">
                         <img src="@/assets/imgers/相册.png" alt="" />
                         <div>请上传正面</div>
@@ -214,7 +205,6 @@
                         :src="imageUrlcard_f"
                         class="avatars"
                       />
-                      <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
                       <div v-else class="ffzz">
                         <img src="@/assets/imgers/相册.png" alt="" />
                         <div>请上传反面</div>
@@ -279,6 +269,19 @@
             <el-form-item label="手机号码" prop="tel">
               <el-input v-model="authenticationruleForm.tel"></el-input>
             </el-form-item>
+            <div class="zxcs">
+              
+                <el-form-item label="真实姓名" prop="name">
+                  <el-input v-model="authenticationruleForm.name"></el-input>
+                </el-form-item>
+                <el-form-item label="证件号码" prop="card_no">
+                  <el-input
+                    v-model="authenticationruleForm.card_no"
+                    @input="inputChange"
+                  ></el-input>
+               
+              </el-form-item>
+            </div>
           </el-form>
         </div>
       </div>
@@ -309,11 +312,6 @@ import { editInfoApi, setAuthApi, designerMyCenterApi } from "@/urls/wsUrl.js";
 import Addresslist from "./address/addresslist.vue";
 import authentication from "./address/authentication.vue";
 export default {
-  provide() {
-    return {
-      mypersonal: this.mypersonal,
-    };
-  },
   components: { Addresslist, authentication },
   data() {
     return {
@@ -332,7 +330,7 @@ export default {
         label: "",
         style: "",
       },
-      authenticationshow: "1",
+      authenticationshow: 1,
       authenticationruleForm: {
         name: "",
         card_z: "",
@@ -342,7 +340,9 @@ export default {
         tel: "",
         sex: "",
         license: "",
+        card_no: "",
       },
+      card_no: "",
       imageUrlcard_z: "",
       imageUrlcard_f: "",
       imageUrllicense: "",
@@ -358,7 +358,6 @@ export default {
             trigger: "blur",
           },
           {
-            required: true,
             pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9.·-]+$/,
             message: "姓名不支持特殊字符",
             trigger: "blur",
@@ -400,8 +399,6 @@ export default {
   created() {
     this.imagesValue = imgUrl();
     this.mypersonal();
-    // var valueser = localStorage.data;
-    // var valser = JSON.parse(valueser);
   },
   methods: {
     mypersonal() {
@@ -409,7 +406,6 @@ export default {
         username: localStorage.use,
       };
       postD(designerMyCenterApi(), myname).then((res) => {
-        console.log(res);
         this.myDenper = res.data;
         this.valueData.headimage = this.myDenper.headimage;
         this.valueData.nickname = this.myDenper.nickname;
@@ -464,7 +460,6 @@ export default {
             this.$message.success("保存成功");
             this.mypersonal();
             this.authenticationshow = 1;
-            
           } else {
             this.$message.error("保存时出现问题");
           }
@@ -487,17 +482,19 @@ export default {
       );
     },
     zxc() {
-      this.$refs.authenticationruleForm.validate((v) => {
+      this.$refs.authenticationruleForms.validate((v) => {
         if (!v) return;
-        postD(setAuthApi(), this.authenticationruleForm).then((res) => {
-          if (res.code == "200") {
-            this.$message.success("上传认证成功请耐心等待审核");
-            this.mypersonal();
-            this.authenticationshow = 1;
-          } else {
-            this.$message.error("上传时出现错误");
-          }
-        });
+        console.log(v);
+        console.log(this.authenticationruleForm);
+        // postD(setAuthApi(), this.authenticationruleForm).then((res) => {
+        //   if (res.code == "200") {
+        //     this.$message.success("上传认证成功请耐心等待审核");
+        //     this.mypersonal();
+        //     this.authenticationshow = 1;
+        //   } else {
+        //     this.$message.error("上传时出现错误");
+        //   }
+        // });
       });
     },
     inputChange() {

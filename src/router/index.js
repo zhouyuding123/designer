@@ -158,6 +158,26 @@ const routes = [
         path:"/Circle",
         name:"Circle",
         component:()=> import("../components/Circle/Circle.vue")
+      },
+      {
+        path:"/crDetails:id",
+        name:"crDetails",
+        component:()=> import("../components/Circle/CircleList/details/crDetails.vue")
+      },
+      {
+        path:"/Notice:id",
+        name:'Notice',
+        component:()=>import("../components/Circle/CircleList/details/Notice/Notice.vue")
+      },
+      {
+        path:"/MyMgt:id",
+        name:"MyMgt",
+        component:() => import("../components/Circle/CircleList/details/Mymgt/Mymgt.vue")
+      },
+      {
+        path:"/getMember",
+        name:"getMember",
+        component:()=> import("../components/Circle/CircleList/details/Mymgt/getMember/getMember.vue")
       }
     ]
   },

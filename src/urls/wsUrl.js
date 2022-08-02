@@ -201,6 +201,62 @@ export const payApi = () => {
 export const editMyWorksApi = () => {
     return "designer/users_designer_works/edit"
 }
+//创建圈子
+export const createCircleApi = () => {
+    return "company/Circle/createCircle"
+}
+//我的圈子列表
+export const listCircleApi = () => {
+    return "company/Circle/listCircle"
+}
+//我的圈子列表
+export const getCircleShowApi = () => {
+    return "company/Circle/getCircleShow"
+}
+//公告列表
+export const getListwApi = () => {
+    return "company/Circle/getCircleShow"
+}
+//公告发布
+export const notAddApi = () => {
+    return "company/circle_notice/add"
+}
+// 公告详情
+export const circle_noticeGetShowApi = () => {
+    return "company/circle_notice/getShow"
+}
+// 公告详情
+export const CircleGetCircleShowApi = () => {
+    return "company/Circle/getCircleShow"
+}
+//公告 修改
+export const circle_noticeEditApi = () => {
+    return "company/circle_notice/edit"
+}
+// 公告删除
+export const circle_noticeDelApi = () => {
+    return "company/circle_notice/del"
+}
+// 公告列表Circle/getCircleShow
+export const circle_noticeGetListApi = () => {
+    return "company/circle_notice/getList"
+}
+// 修改圈子
+export const editCircleApi = () => {
+    return "company/Circle/editCircle"
+}
+// 解散圈子
+export const CircledelApi = () => {
+    return "company/Circle/del"
+}
+// 成员列表
+export const CircleGetMemberApi = () => {
+    return "company/Circle/getMember"
+}
+
+
+
+
 
 
 
