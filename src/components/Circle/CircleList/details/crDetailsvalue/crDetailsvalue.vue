@@ -6,10 +6,20 @@
         <el-tab-pane label="我的帖子" name="2"></el-tab-pane>
       </el-tabs>
     </div>
-    <div v-if="Circles.category == 1" v-cloak >
+    <div v-if="Circles.category == 1" v-cloak :class="{
+      he_1:hier>500,
+      he_2:hier>600,
+      he_3:hier>700,
+      he_4:hier>800
+    }">
       <circle-post />
     </div>
-    <div v-if="Circles.category == 2" v-cloak >
+    <div v-if="Circles.category == 2" v-cloak :class="{
+      he_1:hier>500,
+      he_2:hier>600,
+      he_3:hier>700,
+      he_4:hier>800
+    }">
       <circle-post-my />
     </div>
   </div>
@@ -25,7 +35,11 @@ export default {
       Circles: {
         category: "1",
       },
+      hier:""
     };
+  },
+  created() {
+    this.hier = document.body.clientHeight
   },
   methods: {
     handleClick() {},
