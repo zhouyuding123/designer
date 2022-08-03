@@ -19,7 +19,7 @@
 
 <script>
 import { postD } from "@/api";
-import {CircleInvitationApi} from "./invitationUrl.js"
+import {CircleInvitationApi} from "@/urls/wsUrl.js"
 export default {
   data() {
     return {
@@ -49,16 +49,19 @@ export default {
       if (addInvitations === "confirm") {
         
         postD(CircleInvitationApi(),this.paramsId).then(res=>{
-            if (res.code == "200") {
-            this.$message.success("邀请成功");
-          } else if (res.code == "-200") {
-            this.$message.error("参数错误，或暂无数据");
-          } else if (res.code == "-201") {
-            this.$message.error("未登陆");
-          } else if (res.code == "-203") {
-            this.$message.error("对不起，你没有此操作权限");
+          if (res.code == "200") {
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "邀请成功",
+            });
+            this.getMemberList()
           } else {
-            this.$message.error("注册失败，账号已存在");
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
           }
         })
       }
@@ -68,6 +71,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
+/deep/.el-input__inner {
+  width: 400px;
+  height: 40px;
+  background: #ffffff;
+  border-radius: 4px 4px 4px 4px;
+  opacity: 1;
+  border: 1px solid #dfdfdf;
+}
 .line1body {
   padding: 20px 180px;
   .seatch {

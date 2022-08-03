@@ -32,6 +32,27 @@
         </div>
       </div>
     </div>
+    <div
+      v-if="btnindex == 1"
+      class="disp"
+      style="width: 1580px; margin: 0 auto"
+    >
+      <div
+        v-for="item in jsonList"
+        :key="item.id"
+        class="list_body dis"
+        @click="gocrDet(item.id)"
+      >
+        <div class="cr_headimg">
+          <img :src="imagesValue + item.headimg" alt="" />
+        </div>
+        <div class="cr_title">{{ item.title }}</div>
+        <div class="cr_more">
+          <img src="@/assets/imgers/圈子更多.png" alt="" />
+        </div>
+      </div>
+    </div>
+
     <el-dialog title="创建圈子" :visible.sync="dialogVisible" width="800px">
       <el-form :model="Circle" :rules="Circlerules" ref="CircleruleForm">
         <el-form-item label="圈子名称" prop="title">
@@ -84,7 +105,7 @@
 </template>
 
 <script>
-import { createCircleApi, listCircleApi } from "@/urls/wsUrl.js";
+import { createCircleApi, listCircleApi,CirclegetCircleApi } from "@/urls/wsUrl.js";
 import { postD } from "@/api";
 import { imgUrl } from "@/assets/js/modifyStyle";
 export default {
@@ -120,6 +141,7 @@ export default {
       imageUrl: "",
       imageUrls: "",
       circleList: [],
+      jsonList:[]
     };
   },
   created() {
@@ -127,6 +149,11 @@ export default {
     this.imagesValue = imgUrl();
   },
   methods: {
+    joinlist() {
+      postD(CirclegetCircleApi()).then(res=> {
+        this.jsonList = res.list;
+      })
+    },
     myList() {
       postD(listCircleApi()).then((res) => {
         console.log(res);
@@ -137,6 +164,9 @@ export default {
       this.btnindex = index;
       if (this.btnindex == 2) {
         this.dialogVisible = true;
+      }
+      if(this.btnindex == 1) {
+        this.joinlist()
       }
     },
     handleAvatarSuccess(res, file) {

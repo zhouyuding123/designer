@@ -40,9 +40,9 @@
 </template>
 
 <script>
-import { postD } from "../../../../../api/index.js";
-import { imgUrl } from "../../../../../assets/js/modifyStyle.js";
-import { CircleGetMemberApi } from "../../../getMember/getMemberUrl.js";
+import { postD } from "@/api";
+import { imgUrl } from "@/assets/js/modifyStyle.js";
+import { CircleGetMemberApi,CircleRemoveApi } from "@/urls/wsUrl.js";
 export default {
   data() {
     return {
@@ -68,6 +68,7 @@ export default {
     getMemberList() {
       postD(CircleGetMemberApi(), this.paramsId).then((res) => {
         this.GetMemberValue = res.list;
+        console.log(this.GetMemberValue);
         this.imgValue = imgUrl();
       });
     },
@@ -77,12 +78,40 @@ export default {
     dleValue() {
       this.arr.forEach((v) => {
         this.arrs.push(v);
+        var delvalue = {
+          circle_id:this.$route.params.id,
+          member_id: this.arrs.toString()
+        }
+        postD(CircleRemoveApi(),delvalue).then(res=> {
+           if (res.code == "200") {
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "移除成功",
+            });
+            this.getMemberList()
+          } else {
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
+          }
+        })
       });
     },
   },
 };
 </script>
 <style lang="less" scoped>
+/deep/.el-input__inner {
+  width: 400px;
+  height: 40px;
+  background: #ffffff;
+  border-radius: 4px 4px 4px 4px;
+  opacity: 1;
+  border: 1px solid #dfdfdf;
+}
 .line1body {
   padding: 20px 180px;
   .seatch {

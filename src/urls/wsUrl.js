@@ -253,6 +253,46 @@ export const CircledelApi = () => {
 export const CircleGetMemberApi = () => {
     return "company/Circle/getMember"
 }
+// 成员邀请
+export const CircleInvitationApi = () => {
+    return "company/Circle/invitation"
+}
+// 成员移除
+export const CircleRemoveApi = () => {
+    return "company/Circle/remove"
+}
+// 成员移除
+export const CirclegetCircleApi = () => {
+    return "company/Circle/getCircle"
+}
+// 退出 圈子
+export const CircleOutApi = () => {
+    return "company/Circle/out"
+}
+
+// 论坛帖子列表（圈子发布）
+export const CircleGetCircleForumApi = () => {
+    return "company/Circle/getCircleForum"
+}
+//热门话题
+export const ForumthemelistApi = () => {
+    return "company/Forum_theme/getList"
+}
+export const ForumReleaseApi = () => {
+    return "company/Forum/release"
+}
+// 设置帖子是否置顶-可批量
+export const ForumSetTopApi = () => {
+    return "company/Forum/setTop"
+}
+// 设置帖子是否精华-可批量
+export const ForumSetEssApi = () => {
+    return "company/Forum/setEss"
+}
+// 帖子删除
+export const ForumDelForumApi = () => {
+    return "company/Forum/delForum"
+}
 
 
 

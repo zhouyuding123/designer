@@ -32,7 +32,10 @@
         </div>
       </div>
     </div>
-    <div style="width:1280px;margin:20px auto" v-if="notId.totalResult.length >10">
+    <div
+      style="width: 1280px; margin: 20px auto"
+  
+    >
       <vxe-pager
         :current-page="notId.offset"
         :page-size="notId.limit"
@@ -84,7 +87,7 @@ export default {
         id: "",
         limit: 10,
         offset: 1,
-        totalResult:0
+        totalResult: 0,
       },
       imagesValue: "",
       NotUser: [],
@@ -98,15 +101,16 @@ export default {
   created() {
     this.imagesValue = imgUrl();
     this.notValue();
+    // this.notValues();
   },
   methods: {
     notValue() {
       this.notId.id = this.$route.params.id;
       postD(getListwApi(), this.notId).then((res) => {
-        console.log(res);
         this.NoticeValue = res.data.notice;
         this.NotUser = res.data.circle;
-        this.notId.totalResult = res.data.notice.length;
+        this.notId.totalResult = res.data.notice_count;
+        console.log(this.notId.totalResult);
       });
     },
     Rsh() {
@@ -119,27 +123,29 @@ export default {
     delNot() {
       postD(circle_noticeDelApi(), this.DelNotID).then((res) => {
         if (res.code == "200") {
-          this.$message.success("公告删除成功");
+          this.$message({
+            offset: 80,
+            type: "success",
+            message: "公告删除成功",
+          });
           this.notValue();
           this.dialogVisible = false;
-        } else if (res.code == "-200") {
-          this.$message.error("参数错误，或暂无数据");
-        } else if (res.code == "-201") {
-          this.$message.error("未登陆");
-        } else if (res.code == "-203") {
-          this.$message.error("对不起，你没有此操作权限");
         } else {
-          this.$message.error("注册失败，账号已存在");
+          this.$message({
+            offset: 80,
+            type: "error",
+            message: res.msg,
+          });
         }
       });
     },
     handlePageChangeActivity({ currentPage, pageSize }) {
-      this.page1.offset = currentPage;
-      this.page1.limit = pageSize;
+      this.notId.offset = currentPage;
+      this.notId.limit = pageSize;
       postD(getListwApi(), this.notId).then((res) => {
         this.NoticeValue = res.data.notice;
         this.NotUser = res.data.circle;
-        this.notId.totalResult = res.data.notice.length;
+        this.notId.totalResult = res.data.notice_count;
       });
     },
   },
@@ -188,7 +194,6 @@ export default {
   border-radius: 0px 0px 0px 0px;
   width: 1280px;
   margin: 20px auto;
-
 }
 
 .notValueStyleValue {

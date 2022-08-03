@@ -36,20 +36,20 @@
     </div>
     <div class="paging">
       <vxe-pager
-            :current-page="page1.offset"
-            :page-size="page1.limit"
-            :total="page1.totalResult"
-            :layouts="[
-              'PrevPage',
-              'JumpNumber',
-              'NextPage',
-              'FullJump',
-              'Sizes',
-              'Total',
-            ]"
-            @page-change="handlePageChangeActivity"
-            align="center"
-          ></vxe-pager>
+        :current-page="page1.offset"
+        :page-size="page1.limit"
+        :total="page1.totalResult"
+        :layouts="[
+          'PrevPage',
+          'JumpNumber',
+          'NextPage',
+          'FullJump',
+          'Sizes',
+          'Total',
+        ]"
+        @page-change="handlePageChangeActivity"
+        align="center"
+      ></vxe-pager>
     </div>
   </div>
 </template>
@@ -68,11 +68,11 @@ export default {
       Seatchinput: "",
       GetMemberValue: [],
       page1: {
-        keyword:"",
+        keyword: "",
         circle_id: "",
         offset: 1,
         limit: 10,
-        totalResult:0
+        totalResult: 0,
       },
     };
   },
@@ -85,24 +85,24 @@ export default {
       postD(CircleGetMemberApi(), this.paramsId).then((res) => {
         this.GetMemberValue = res.list;
         this.imgValue = imgUrl();
-        this.page1.totalResult = res.count
+        this.page1.totalResult = res.count;
       });
     },
     handlePageChangeActivity({ currentPage, pageSize }) {
       this.page1.offset = currentPage;
       this.page1.limit = pageSize;
       this.page1.circle_id = this.paramsId.circle_id;
-      postD(CircleGetMemberApi(),this.page1).then(res=> {
+      postD(CircleGetMemberApi(), this.page1).then((res) => {
         this.GetMemberValue = res.list;
         this.page1.totalResult = res.count;
-      })
+      });
     },
     QueryResults() {
       this.page1.circle_id = this.paramsId.circle_id;
-      postD(CircleGetMemberApi(),this.page1).then(res=> {
+      postD(CircleGetMemberApi(), this.page1).then((res) => {
         this.GetMemberValue = res.list;
         this.page1.totalResult = res.count;
-      })
+      });
     },
     zxc() {
       this.$router.push("/Circles/invitation" + this.paramsId.circle_id);
@@ -115,6 +115,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
+/deep/.el-input__inner {
+  width: 400px;
+  height: 40px;
+  background: #ffffff;
+  border-radius: 4px 4px 4px 4px;
+  opacity: 1;
+  border: 1px solid #dfdfdf;
+}
 .line1body {
   padding: 20px 180px;
   .seatch {
@@ -197,7 +205,7 @@ export default {
       .AllList {
         padding: 20px 60px;
         margin-bottom: 20px;
-         display: flex;
+        display: flex;
         .AllListItem {
           height: 112px;
           .AllListDiv {
@@ -226,8 +234,7 @@ export default {
 .paging {
   padding: 20px 180px;
   .vxe-pager {
-   background: #f9f9f9;
-
+    background: #f9f9f9;
   }
 }
 </style>

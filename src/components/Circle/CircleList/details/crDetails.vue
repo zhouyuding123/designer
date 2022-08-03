@@ -38,7 +38,12 @@
             篇帖子
           </div>
         </div>
-        <div class="qzgl" @click="goMymgt">圈子管理</div>
+        <div class="qzgl" @click="goMymgt" v-if="mydet.username == myname">
+          圈子管理
+        </div>
+        <div class="qzgl" @click="outgo" v-if="mydet.username != myname">
+          退出圈子
+        </div>
       </div>
     </div>
     <div class="Notice">
@@ -65,6 +70,12 @@
         </vue-seamless-scroll>
       </div>
     </div>
+      <div class="asd">
+        <fabu :is_circle="is_circle" :circle_id="circle_id"></fabu>
+      </div>
+    <div>
+      <cr-detailsvalue />
+    </div>
     <el-dialog title="公告详情" :visible.sync="detilsShow" width="30%">
       <div class="detilsBody">
         <div>
@@ -82,9 +93,17 @@
         <div class="detilsValuesTitle">{{ ruleFormdetils.title }}</div>
         <div class="detilsValuesContent">{{ ruleFormdetils.content }}</div>
       </div>
-      <div style="padding-top: 45px">
+      <div class="zxcssad">
         <span>
           <el-button @click="detilsShow = false">返 回</el-button>
+        </span>
+      </div>
+    </el-dialog>
+    <el-dialog :visible.sync="outShow" width="30%">
+      <div style="margin-bottom: 50px;">确定？</div>
+      <div class="zxcssads">
+        <span>
+          <el-button @click="okout">确定</el-button>
         </span>
       </div>
     </el-dialog>
@@ -92,17 +111,20 @@
 </template>
 
 <script>
+import fabu from "./fabu/fabu.vue"
+import CrDetailsvalue from "./crDetailsvalue/crDetailsvalue.vue"
 import vueSeamlessScroll from "vue-seamless-scroll";
 import {
   getCircleShowApi,
   circle_noticeGetListApi,
   CircleGetCircleShowApi,
-  circle_noticeGetShowApi
+  circle_noticeGetShowApi,
+  CircleOutApi,
 } from "@/urls/wsUrl.js";
 import { postD } from "@/api";
 import { imgUrl } from "@/assets/js/modifyStyle";
 export default {
-  components: { vueSeamlessScroll },
+  components: { vueSeamlessScroll,CrDetailsvalue,fabu },
   data() {
     return {
       myId: {
@@ -126,8 +148,12 @@ export default {
         notice_id: "",
       },
       detilsShow: false,
-      detilsValue:[],
+      detilsValue: [],
       ruleFormdetils: [],
+      myname: localStorage.getItem("use"),
+      outShow: false,
+      is_circle:1,
+      circle_id:this.$route.params.id
     };
   },
   created() {
@@ -139,7 +165,6 @@ export default {
     notValue() {
       this.notId.circle_id = this.$route.params.id;
       postD(circle_noticeGetListApi(), this.notId).then((res) => {
-        console.log(res);
         this.NoticeValue = res.list;
       });
     },
@@ -179,12 +204,54 @@ export default {
       });
     },
     goMymgt() {
-        this.$router.push("/MyMgt"+ this.myId.id)
-    }
+      this.$router.push("/MyMgt" + this.myId.id);
+    },
+    outgo() {
+      this.outShow = true;
+    },
+    okout() {
+      var out = {
+        circle_id: this.myId,
+      };
+      postD(CircleOutApi(), out).then((res) => {
+        console.log(res);
+        if (res.code == "200") {
+          this.$message({
+            offset: 80,
+            type: "success",
+            message: "已退出圈子",
+          });
+          this.$router.push("/Circle");
+        } else {
+          this.$message({
+            offset: 80,
+            type: "error",
+            message: res.msg,
+          });
+        }
+      });
+    },
   },
 };
 </script>
 
 <style lang="less" scoped>
 @import url("./crDetails.less");
+/deep/.el-dialog {
+  height: auto;
+}
+.zxcssad {
+  position: absolute;
+  left: 35%;
+  top: 93%;
+}
+.zxcssads {
+  position: absolute;
+  left: 35%;
+  top: 90%;
+}
+.asd {
+  width: 1280px;
+  margin:  0 auto;
+}
 </style>

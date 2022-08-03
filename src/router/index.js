@@ -22,7 +22,7 @@ const routes = [
     path: "/home",
     name: "home",
     component: () => import("../views/HomeView.vue"),
-    children:[
+    children: [
       {
         path: "/home",
         redirect: "/users_designer_works/getList",
@@ -33,151 +33,162 @@ const routes = [
         component: () => import("../components/homePage/homePage.vue"),
       },
       {
-        path:"/users_designer_works/getList",
-        name:"getList",
-         component: () => import("../components/AccountSettings/AccountSettings.vue"),
+        path: "/users_designer_works/getList",
+        name: "getList",
+        component: () => import("../components/AccountSettings/AccountSettings.vue"),
       },
       {
-        path:"/users_designer/editInfo",
-        name:"editInfo",
-        component: ()=> import("../components/personal/personal.vue")
+        path: "/users_designer/editInfo",
+        name: "editInfo",
+        component: () => import("../components/personal/personal.vue")
       },
       {
-        path:"/MyAdministration",
-        name:"MyAdministration",
-        component: ()=> import("../components/MyAdministration/MyAdministration.vue")
+        path: "/MyAdministration",
+        name: "MyAdministration",
+        component: () => import("../components/MyAdministration/MyAdministration.vue")
       },
       {
-        path:"/SpecialArea",
-        name:'SpecialArea',
-        component:()=> import("../components/Designerzone/Designerzone.vue")
+        path: "/SpecialArea",
+        name: 'SpecialArea',
+        component: () => import("../components/Designerzone/Designerzone.vue")
       },
       {
-        path:"/UploadWorks",
-        name:'UploadWorks',
-        component:()=> import("../components/UploadWorks/UploadWorks.vue"),
-        meta:{keepAlive:true}
+        path: "/UploadWorks",
+        name: 'UploadWorks',
+        component: () => import("../components/UploadWorks/UploadWorks.vue"),
+        meta: { keepAlive: true }
       },
       {
-        path:"/BusinessChain",
-        name:"BusinessChain",
-        component:()=> import("../components/BusinessChain/BusinessChain.vue")
+        path: "/BusinessChain",
+        name: "BusinessChain",
+        component: () => import("../components/BusinessChain/BusinessChain.vue")
       },
       {
-        path:"/entDetail:name",
-        name:"entDetail",
-        component:()=> import("../components/BusinessChain/Enterprisedetails/Enterprisedetails.vue")
+        path: "/entDetail:name",
+        name: "entDetail",
+        component: () => import("../components/BusinessChain/Enterprisedetails/Enterprisedetails.vue")
       },
       {
-        path:"/address",
-        name:"address",
-        component:()=> import("../components/address/address.vue")
+        path: "/address",
+        name: "address",
+        component: () => import("../components/address/address.vue")
       },
       {
-        path:"/brandDetails:id",
-        name:"brandDetails",
-        component: ()=> import ("../components/MyAdministration/optins/goBand.vue")
+        path: "/brandDetails:id",
+        name: "brandDetails",
+        component: () => import("../components/MyAdministration/optins/goBand.vue")
       },
       {
-         path:"/match",
-         name:"match",
-         component:()=> import("../components/match/match.vue")
+        path: "/match",
+        name: "match",
+        component: () => import("../components/match/match.vue")
       },
       {
-        path:"/ptmatch",
-        name:"ptmatch",
-        component: ()=> import("../components/match/ptmatch/ptmatch.vue")
+        path: "/ptmatch",
+        name: "ptmatch",
+        component: () => import("../components/match/ptmatch/ptmatch.vue")
       },
       {
-        path:"/entmatch",
-        name:"entmatch",
-        component: ()=> import("../components/match/entmatch/entmatch.vue")
+        path: "/entmatch",
+        name: "entmatch",
+        component: () => import("../components/match/entmatch/entmatch.vue")
       },
       {
-        path:"/EventDetails:id",
-        name:"EventDetails",
-        component: ()=> import("../components/match/EventDetails/EventDetails.vue")
+        path: "/EventDetails:id",
+        name: "EventDetails",
+        component: () => import("../components/match/EventDetails/EventDetails.vue")
       },
       {
-        path:"/compete:id",
-        name:"compete",
-        component:()=> import("../components/match/EventDetails/compete/compete.vue")
+        path: "/compete:id",
+        name: "compete",
+        component: () => import("../components/match/EventDetails/compete/compete.vue")
       },
       {
-        path:"/matchworksShow/:works_id:id",
-        name:"matchworksShow",
-        component: ()=> import ("../components/match/EventDetails/screeningDetial/screeningDetial.vue")
+        path: "/matchworksShow/:works_id:id",
+        name: "matchworksShow",
+        component: () => import("../components/match/EventDetails/screeningDetial/screeningDetial.vue")
       },
       {
-        path:"/matchattended",
-        name:"matchattended",
-        component:()=>import("../components/matchAttended/matchAttended.vue")
+        path: "/matchattended",
+        name: "matchattended",
+        component: () => import("../components/matchAttended/matchAttended.vue")
       },
       {
-        path:"/OpenMember",
-        name:'OpenMember',
-        component:()=> import("../components/OpenMember/OpenMember.vue"),
+        path: "/OpenMember",
+        name: 'OpenMember',
+        component: () => import("../components/OpenMember/OpenMember.vue"),
         meta: { keepAlive: true }
       },
       //作品详情
       {
-        path:"/workDetails:id",
-        name:'workDetails',
-        component:()=> import("../components/workDetails/workDetails.vue"),
+        path: "/workDetails:id",
+        name: 'workDetails',
+        component: () => import("../components/workDetails/workDetails.vue"),
         meta: { keepAlive: true }
       },
       {
-        path:"/Mywork",
-        name:'Mywork',
-        component:()=> import("../components/Mywork/Mywork.vue"),
+        path: "/Mywork",
+        name: 'Mywork',
+        component: () => import("../components/Mywork/Mywork.vue"),
         meta: { keepAlive: true }
       },
       //设计师主页
       {
-        path:"/DesignerHomepage",
-        name:'DesignerHomepage',
-        component:()=> import("../components/DesignerHomepage/DesignerHomepage.vue"),
+        path: "/DesignerHomepage",
+        name: 'DesignerHomepage',
+        component: () => import("../components/DesignerHomepage/DesignerHomepage.vue"),
         meta: { keepAlive: true }
       },
       {
-        path:"/openVip",
-        name:"openVip",
-        component:()=> import ("../components/openVip/openVip.vue")
+        path: "/openVip",
+        name: "openVip",
+        component: () => import("../components/openVip/openVip.vue")
       },
       {
-        path:"/download",
-        name:"download",
-        component:()=>import("../components/BusinessChain/Enterprisedetails/downloadapp.vue")
+        path: "/download",
+        name: "download",
+        component: () => import("../components/BusinessChain/Enterprisedetails/downloadapp.vue")
       },
       {
-        path:"/vipMember",
-        name:'vipMember',
-        component:()=> import("../components/openVip/vipMember/vipMember.vue")
+        path: "/vipMember",
+        name: 'vipMember',
+        component: () => import("../components/openVip/vipMember/vipMember.vue")
       },
       {
-        path:"/Circle",
-        name:"Circle",
-        component:()=> import("../components/Circle/Circle.vue")
+        path: "/Circle",
+        name: "Circle",
+        component: () => import("../components/Circle/Circle.vue")
       },
       {
-        path:"/crDetails:id",
-        name:"crDetails",
-        component:()=> import("../components/Circle/CircleList/details/crDetails.vue")
+        path: "/crDetails:id",
+        name: "crDetails",
+        component: () => import("../components/Circle/CircleList/details/crDetails.vue")
       },
       {
-        path:"/Notice:id",
-        name:'Notice',
-        component:()=>import("../components/Circle/CircleList/details/Notice/Notice.vue")
+        path: "/Notice:id",
+        name: 'Notice',
+        component: () => import("../components/Circle/CircleList/details/Notice/Notice.vue")
       },
       {
-        path:"/MyMgt:id",
-        name:"MyMgt",
-        component:() => import("../components/Circle/CircleList/details/Mymgt/Mymgt.vue")
+        path: "/MyMgt:id",
+        name: "MyMgt",
+        component: () => import("../components/Circle/CircleList/details/Mymgt/Mymgt.vue")
       },
       {
-        path:"/getMember",
-        name:"getMember",
-        component:()=> import("../components/Circle/CircleList/details/Mymgt/getMember/getMember.vue")
+        path: "/getMember:id",
+        name: "getMember",
+        component: () => import("../components/Circle/CircleList/details/Mymgt/getMember/getMember.vue")
+      }, 
+      {
+        path: "/Circles/invitation:id",
+        name: "Circles/invitation",
+        component: () => import("../components/Circle/CircleList/details/Mymgt/managementRen/managementRen.vue")
+      },
+      {
+        path: "/Circles/del:id",
+        name: "Circles/del",
+        component: () => import("../components/Circle/CircleList/details/Mymgt/managementRen/managementdel.vue")
+
       }
     ]
   },
