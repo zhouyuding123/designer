@@ -44,7 +44,11 @@ export default {
         }
       ).catch((err) => err);
       if (addInvitations !== "confirm") {
-        return this.$message.info("取消删除");
+        return this.$message({
+          offset: 80,
+          type: "info",
+          message: "取消",
+        });
       }
       if (addInvitations === "confirm") {
         

@@ -176,7 +176,11 @@ export default {
             this.detilvalue = res.data;
           });
         } else {
-          this.$message.error("已参加过此赛事");
+          this.$message({
+            offset: 80,
+            type: "error",
+            message: "已参与赛事",
+          });
         }
       });
     },
@@ -186,11 +190,19 @@ export default {
         designer_works_id: val,
       };
       postD(JoinApi(), Contribution).then((res) => {
-        if (res.code == 200) {
-          this.$message.success("成功参与赛事");
+        if (res.code == "200") {
+          this.$message({
+            offset: 80,
+            type: "success",
+            message: "成功参与赛事",
+          });
           this.$router.push("EventDetails" + Contribution.id);
         } else {
-          this.$message.error("参与赛事失败");
+          this.$message({
+            offset: 80,
+            type: "error",
+            message: "参与赛事失败",
+          });
         }
       });
     },

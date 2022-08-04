@@ -66,14 +66,15 @@
         font-weight: 400;
         color: #666666;
         margin-top: 20px;
+        /deep/.el-radio__input {
+            .el-radio__inner {
+                display: none;
+            }
+        }
     }
 }
 
-/deep/.el-radio__input {
-    .el-radio__inner {
-        display: none;
-    }
-}
+
 
 /deep/.el-radio.is-bordered.is-checked {
     background: linear-gradient(180deg, #0C032E 0%, #5C5673 100%);
@@ -199,9 +200,162 @@
     overflow: hidden;
 
     img {
-        filter: blur(25px);
-        opacity: 0.5;
+        
+ 
+    }
+    .zhezhao{
+               opacity: 0.5;
         z-index: 1;
+        filter: blur(25px);
+    }
+
+}
+.paywork {
+    .payworkline1 {
+        display: flex;
+        padding-left: 65px;
+
+        .payworkline1img {
+            width: 168px;
+            height: 120px;
+            background: #E8E8E8;
+            border-radius: 6px 6px 6px 6px;
+
+
+            img {
+                width: 168px;
+                height: 120px;
+                border-radius: 6px 6px 6px 6px;
+            }
+        }
+
+        .payworkline1title {
+            padding-left: 20px;
+            padding-top: 24px;
+
+            .payworkline1title1 {
+                text-align: left;
+                width: 282px;
+                height: 22px;
+                font-size: 16px;
+                font-family: PingFang SC-Bold, PingFang SC;
+                font-weight: bold;
+                color: #06121E;
+                overflow: hidden;
+                text-overflow: ellipsis
+            }
+
+            .payworkline1titlename {
+                padding-top: 20px;
+                text-align: left;
+                font-size: 14px;
+                font-family: PingFang SC-Regular, PingFang SC;
+                font-weight: 400;
+                color: #333333;
+            }
+
+        }
+    }
+
+    .payworkline2 {
+        padding-top: 40px;
+        display: flex;
+        justify-content: center;
+
+        .payworkline2tit {
+            padding-left: 10px;
+            font-size: 14px;
+            font-family: PingFang SC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #999999;
+        }
+    }
+
+    .payworkline3 {
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
+
+        .payworkline3zf {
+            font-size: 14px;
+            font-family: PingFang SC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #999999;
+        }
+
+        .payworkline3zfmo {
+            font-size: 20px;
+            font-family: PingFang SC-Bold, PingFang SC;
+            font-weight: bold;
+            color: #333333;
+            margin-top: -3px;
+        }
 
     }
+
+    .payworkline4 {
+        padding-top: 40px;
+        text-align: left;
+        position: relative;
+
+        .payworkline4bor {
+            width: 100%;
+            height: 0px;
+            opacity: 1;
+            border: 1px solid #DDDDDD;
+        }
+
+        .payworkline4ye {
+            height: 80px;
+            width: 100%;
+
+            .el-radio {
+                line-height: 80px;
+                margin-left: 40px;
+            }
+        }
+
+        .payworkline4dsf {
+            height: 80px;
+            width: 100%;
+
+            .el-radio {
+                line-height: 80px;
+                margin-left: 40px;
+            }
+        }
+    }
+    /deep/.el-radio__input.is-checked+.el-radio__label {
+        font-size: 14px !important;
+        font-weight: 400 !important;
+        color: #333333 !important;
+    
+    }
+    
+    /* 选中后小圆点的颜色 */
+    /deep/.el-radio__input.is-checked .el-radio__inner {
+        background: #28d4c1 !important;
+        border-color: #28d4c1 !important;
+    
+        
+    }
+    
+    /deep/.el-dialog__body {
+        padding: 30px 0px 30px 0px;
+    }
+    
+    /deep/.el-radio__label {
+        margin-left: 20px;
+    }
+    
+    /deep/.el-button--default {
+        width: 300px;
+        height: 40px;
+        border-radius: 20px 20px 20px 20px;
+    }
+
+}
+
+/deep/ .el-dialog{
+    height: auto !important;
 }

@@ -2,7 +2,7 @@
   <div>
     <div class="bodyTextline">
       <div class="bodyTextlineValue">
-        <el-input placeholder="请输入内容"  v-model="seatch.keyword"></el-input>
+        <el-input placeholder="请输入内容" v-model="seatch.keyword"></el-input>
         <div class="IsSeatch" @click="seatchInput">
           <i class="el-icon-search"></i>
           <span>搜索</span>
@@ -266,7 +266,7 @@ export default {
     this.page1.circle_id = this.circle.circle_id;
   },
   methods: {
-      Refresh() {
+    Refresh() {
       this.releaseValue();
     },
     releaseValue() {
@@ -298,7 +298,11 @@ export default {
         }
       ).catch((err) => err);
       if (SetAsTopSValue !== "confirm") {
-        return this.$message.info("取消置顶");
+        return this.$message({
+          offset: 80,
+          type: "info",
+          message: "取消置顶",
+        });
       }
       if (SetAsTopSValue === "confirm") {
         this.ToparrsValue.forEach((v) => {
@@ -307,19 +311,21 @@ export default {
         this.TopidsL.forum_id = this.Topids.toString();
         postD(ForumSetTopApi(), this.TopidsL).then((res) => {
           if (res.code == "200") {
-            this.$message.success("状态修改成功");
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "状态修改成功",
+            });
             this.releaseValue();
             this.TopidsL.forum_id = "";
             this.Topids = [];
             this.ToparrsValue = [];
-          } else if (res.code == "-200") {
-            this.$message.error("参数错误，或暂无数据");
-          } else if (res.code == "-201") {
-            this.$message.error("未登陆");
-          } else if (res.code == "-203") {
-            this.$message.error("对不起，你没有此操作权限");
           } else {
-            this.$message.error("注册失败，账号已存在");
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
           }
         });
       }
@@ -336,7 +342,11 @@ export default {
         }
       ).catch((err) => err);
       if (cancelSetAsTopSValue !== "confirm") {
-        return this.$message.info("取消操作");
+        return this.$message({
+          offset: 80,
+          type: "info",
+          message: "取消置顶",
+        });
       }
       if (cancelSetAsTopSValue === "confirm") {
         this.ToparrsValue.forEach((v) => {
@@ -345,19 +355,21 @@ export default {
         this.TopidsL1.forum_id = this.Topids.toString();
         postD(ForumSetTopApi(), this.TopidsL1).then((res) => {
           if (res.code == "200") {
-            this.$message.success("状态修改成功");
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "状态修改成功",
+            });
             this.releaseValue();
             this.TopidsL1.forum_id = "";
             this.Topids = [];
             this.ToparrsValue = [];
-          } else if (res.code == "-200") {
-            this.$message.error("参数错误，或暂无数据");
-          } else if (res.code == "-201") {
-            this.$message.error("未登陆");
-          } else if (res.code == "-203") {
-            this.$message.error("对不起，你没有此操作权限");
           } else {
-            this.$message.error("注册失败，账号已存在");
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
           }
         });
       }
@@ -374,40 +386,48 @@ export default {
         }
       ).catch((err) => err);
       if (SetAsTopValue !== "confirm") {
-        return this.$message.info("取消置顶");
+        return this.$message({
+          offset: 80,
+          type: "info",
+          message: "取消置顶",
+        });
       }
       if (SetAsTopValue === "confirm") {
         if (data.is_top !== 1) {
           this.Top.forum_id = data.id.toString();
           postD(ForumSetTopApi(), this.Top).then((res) => {
-            if (res.code == "200") {
-              this.$message.success("置顶成功");
-              this.releaseValue();
-            } else if (res.code == "-200") {
-              this.$message.error("参数错误，或暂无数据");
-            } else if (res.code == "-201") {
-              this.$message.error("未登陆");
-            } else if (res.code == "-203") {
-              this.$message.error("对不起，你没有此操作权限");
-            } else {
-              this.$message.error("注册失败，账号已存在");
-            }
+             if (res.code == "200") {
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "置顶成功",
+            });
+            this.releaseValue();
+          } else {
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
+          }
           });
         } else {
           this.Topone.forum_id = data.id.toString();
           postD(ForumSetTopApi(), this.Topone).then((res) => {
-            if (res.code == "200") {
-              this.$message.success("取消成功");
-              this.releaseValue();
-            } else if (res.code == "-200") {
-              this.$message.error("参数错误，或暂无数据");
-            } else if (res.code == "-201") {
-              this.$message.error("未登陆");
-            } else if (res.code == "-203") {
-              this.$message.error("对不起，你没有此操作权限");
-            } else {
-              this.$message.error("注册失败，账号已存在");
-            }
+             if (res.code == "200") {
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "取消成功",
+            });
+            this.releaseValue();
+          } else {
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
+          }
           });
         }
       }
@@ -424,40 +444,48 @@ export default {
         }
       ).catch((err) => err);
       if (SetAsEssenceOne !== "confirm") {
-        return this.$message.info("取消精华");
+        return this.$message({
+          offset: 80,
+          type: "info",
+          message: "取消精华",
+        });
       }
       if (SetAsEssenceOne === "confirm") {
         if (data.is_ess !== 1) {
           this.Ess.forum_id = data.id.toString();
           postD(ForumSetEssApi(), this.Ess).then((res) => {
-            if (res.code == "200") {
-              this.$message.success("设置精华成功");
-              this.releaseValue();
-            } else if (res.code == "-200") {
-              this.$message.error("参数错误，或暂无数据");
-            } else if (res.code == "-201") {
-              this.$message.error("未登陆");
-            } else if (res.code == "-203") {
-              this.$message.error("对不起，你没有此操作权限");
-            } else {
-              this.$message.error("注册失败，账号已存在");
-            }
+             if (res.code == "200") {
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "精华成功",
+            });
+            this.releaseValue();
+          } else {
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
+          }
           });
         } else {
           this.EssOne.forum_id = data.id.toString();
           postD(ForumSetEssApi(), this.EssOne).then((res) => {
-            if (res.code == "200") {
-              this.$message.success("取消精华成功");
-              this.releaseValue();
-            } else if (res.code == "-200") {
-              this.$message.error("参数错误，或暂无数据");
-            } else if (res.code == "-201") {
-              this.$message.error("未登陆");
-            } else if (res.code == "-203") {
-              this.$message.error("对不起，你没有此操作权限");
-            } else {
-              this.$message.error("注册失败，账号已存在");
-            }
+             if (res.code == "200") {
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "取消精华成功",
+            });
+            this.releaseValue();
+          } else {
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
+          }
           });
         }
       }
@@ -474,7 +502,11 @@ export default {
         }
       ).catch((err) => err);
       if (SetAsEssenceValue !== "confirm") {
-        return this.$message.info("取消精华");
+        return this.$message({
+          offset: 80,
+          type: "info",
+          message: "取消精华",
+        });
       }
       if (SetAsEssenceValue === "confirm") {
         this.EssarrsValue.forEach((v) => {
@@ -482,20 +514,22 @@ export default {
         });
         this.EssidsL.forum_id = this.Essids.toString();
         postD(ForumSetEssApi(), this.EssidsL).then((res) => {
-          if (res.code == "200") {
-            this.$message.success("状态修改成功");
+           if (res.code == "200") {
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "批量成功",
+            });
             this.releaseValue();
             this.EssidsL1.forum_id = "";
             this.Essids = [];
             this.EssarrsValue = [];
-          } else if (res.code == "-200") {
-            this.$message.error("参数错误，或暂无数据");
-          } else if (res.code == "-201") {
-            this.$message.error("未登陆");
-          } else if (res.code == "-203") {
-            this.$message.error("对不起，你没有此操作权限");
           } else {
-            this.$message.error("注册失败，账号已存在");
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
           }
         });
       }
@@ -512,7 +546,11 @@ export default {
         }
       ).catch((err) => err);
       if (cancelSetAsEssenceValue !== "confirm") {
-        return this.$message.info("取消精华");
+        return this.$message({
+          offset: 80,
+          type: "info",
+          message: "取消精华",
+        });
       }
       if (cancelSetAsEssenceValue === "confirm") {
         this.EssarrsValue.forEach((v) => {
@@ -521,19 +559,21 @@ export default {
         this.EssidsL1.forum_id = this.Essids.toString();
         postD(ForumSetEssApi(), this.EssidsL1).then((res) => {
           if (res.code == "200") {
-            this.$message.success("状态修改成功");
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "批量成功",
+            });
             this.releaseValue();
             this.EssidsL1.forum_id = "";
             this.Essids = [];
             this.EssarrsValue = [];
-          } else if (res.code == "-200") {
-            this.$message.error("参数错误，或暂无数据");
-          } else if (res.code == "-201") {
-            this.$message.error("未登陆");
-          } else if (res.code == "-203") {
-            this.$message.error("对不起，你没有此操作权限");
           } else {
-            this.$message.error("注册失败，账号已存在");
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
           }
         });
       }
@@ -550,7 +590,11 @@ export default {
         }
       ).catch((err) => err);
       if (canDelsValue !== "confirm") {
-        return this.$message.info("取消批量删除");
+        return this.$message({
+          offset: 80,
+          type: "info",
+          message: "取消删除",
+        });
       }
       if (canDelsValue === "confirm") {
         this.DeleteValue.forEach((v) => {
@@ -559,16 +603,18 @@ export default {
         this.delids.id = this.Deletes.toString();
         postD(ForumDelForumApi(), this.delids).then((res) => {
           if (res.code == "200") {
-            this.$message.success("状态修改成功");
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "批量成功",
+            });
             this.releaseValue();
-          } else if (res.code == "-200") {
-            this.$message.error("参数错误，或暂无数据");
-          } else if (res.code == "-201") {
-            this.$message.error("未登陆");
-          } else if (res.code == "-203") {
-            this.$message.error("对不起，你没有此操作权限");
           } else {
-            this.$message.error("注册失败，账号已存在");
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
           }
         });
       }
@@ -585,22 +631,28 @@ export default {
         }
       ).catch((err) => err);
       if (DeletePosts !== "confirm") {
-        return this.$message.info("取消删除");
+        return this.$message({
+          offset: 80,
+          type: "info",
+          message: "取消删除",
+        });
       }
       if (DeletePosts === "confirm") {
         this.DeletePostValue.id = data.id;
         postD(ForumDelForumApi(), this.DeletePostValue).then((res) => {
           if (res.code == "200") {
-            this.$message.success("删除成功");
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "删除成功",
+            });
             this.releaseValue();
-          } else if (res.code == "-200") {
-            this.$message.error("参数错误，或暂无数据");
-          } else if (res.code == "-201") {
-            this.$message.error("未登陆");
-          } else if (res.code == "-203") {
-            this.$message.error("对不起，你没有此操作权限");
           } else {
-            this.$message.error("注册失败，账号已存在");
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
           }
         });
       }
@@ -621,6 +673,9 @@ export default {
         this.tableData = res.list;
         this.page1.totalResult = res.count;
       });
+    },
+    detailsValue(val) {
+      this.$router.push("/Forum/showForum" + val);
     },
   },
 };

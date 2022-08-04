@@ -360,26 +360,32 @@ export default {
             this.votocountvalue = res.count;
           });
         } else {
-          this.$message.error("您已投票或投票失败");
+          this.$message({
+              offset: 80,
+              type: "error",
+              message: "您已投票或投票失败",
+            });
         }
       });
     },
     vote() {
       postD(setVotoApi(), this.votoid).then((res) => {
         if (res.code == "200") {
-          this.$message.success("投票成功");
-          this.worksValue();
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "投票成功",
+            });
+            this.worksValue();
           this.mywork();
           this.votoShow = false;
-        } else if (res.code == "-200") {
-          this.$message.error("投票失败或无次数");
-        } else if (res.code == "-201") {
-          this.$message.error("未登陆");
-        } else if (res.code == "-203") {
-          this.$message.error("对不起，你没有此操作权限");
-        } else {
-          this.$message.error("操作失败");
-        }
+          } else {
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
+          }
       });
     },
     goWorkShow(val) {

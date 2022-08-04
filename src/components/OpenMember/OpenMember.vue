@@ -192,7 +192,11 @@ export default {
               this.times = setInterval(() => {
                 this.dqddmx();
                 if (this.paymore == 1 || this.paymore == 3) {
-                  this.$message.success("恭喜你成为尊贵的会员");
+                  this.$message({
+                    offset: 80,
+                    type: "success",
+                    message: "恭喜你成为尊贵的会员",
+                  });
                   clearInterval(this.times);
                   this.$router.replace("/UploadWorks");
                 }

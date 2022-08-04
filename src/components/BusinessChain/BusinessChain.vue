@@ -3,7 +3,7 @@
     <div class="line1">
       <div class="line1img">
         <img src="@/assets/imgers/地址.png" alt="" />
-        <div class="line1imgtitle" v-if="city">{{city}}</div>
+        <div class="line1imgtitle" v-if="city">{{ city }}</div>
         <div class="line1imgtitle" v-else>请选择城市</div>
         <div @click="address">[更换]</div>
       </div>
@@ -31,7 +31,7 @@ export default {
     return {
       topicClass: ["企业专区", "代工厂", "私人订制", "原材料供应商", "打版师"],
       selectedIndex: "0",
-      city:""
+      city: "",
     };
   },
   created() {
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     account() {
-      this.city =this.getCookie("ress");
+      this.city = this.getCookie("ress");
     },
     getCookie(name) {
       var arr = document.cookie.split(";");

@@ -443,7 +443,7 @@ export default {
                 // console.log(res.data);
                 this.$router.push("/Mywork");
               } else {
-                this.$message(res.msg);
+                this.$message({ offset: 80, message: res.msg });
               }
             });
           } else {
@@ -451,11 +451,11 @@ export default {
               if (res.code == 200) {
                 // console.log(res.data);
                 setTimeout(() => {
-                  this.$message(res.msg);
+                  this.$message({ offset: 80, message: res.msg });
                   this.$router.push("/SpecialArea");
                 }, 2000);
               } else {
-                this.$message(res.msg);
+                this.$message({ offset: 80, message: res.msg });
               }
             });
           }
@@ -496,10 +496,18 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error("上传封面图只能是 JPG 格式!");
+        this.$message({
+          offset: 80,
+          type: "error",
+          message: "上传头像图片只能是 图片 格式!",
+        });
       }
       if (!isLt2M) {
-        this.$message.error("上传封面图片大小不能超过 2MB!");
+        this.$message({
+          offset: 80,
+          type: "error",
+          message: "上传封面图片大小不能超过 2MB!",
+        });
       }
       return isJPG && isLt2M;
     },
@@ -558,10 +566,18 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error("上传封面图只能是 JPG 格式!");
+        this.$message({
+          offset: 80,
+          type: "error",
+          message: "上传头像图片只能是 图片 格式!",
+        });
       }
       if (!isLt2M) {
-        this.$message.error("上传封面图片大小不能超过 2MB!");
+        this.$message({
+          offset: 80,
+          type: "error",
+          message: "上传封面图片大小不能超过 2MB!",
+        });
       }
       return isJPG && isLt2M;
     },
@@ -587,7 +603,7 @@ export default {
         if (res.code == 200) {
           this.options = res.list;
         } else {
-          this.$message(res.msg);
+          this.$message({ offset: 80, message: res.msg });
         }
       });
     },

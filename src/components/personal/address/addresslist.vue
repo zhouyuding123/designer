@@ -215,7 +215,11 @@ export default {
         if (!v) return;
         postD(addAddressApi(), this.addruleForm).then((res) => {
           if (res.code == "200") {
-            this.$message.success("保存成功");
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "保存成功",
+            });
             this.addruleForm.name = "";
             this.addruleForm.tel = "";
             this.addruleForm.province = "";
@@ -227,7 +231,11 @@ export default {
             this.address = "";
             this.listAddress();
           } else {
-            this.$message.error("保存时出现问题");
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
           }
         });
       });
@@ -272,7 +280,11 @@ export default {
       }
       postD(updateAddressApi(), this.addruleForm).then((res) => {
         if (res.code == "200") {
-          this.$message.success("保存成功");
+          this.$message({
+            offset: 80,
+            type: "success",
+            message: "保存成功",
+          });
           this.addruleForm.name = "";
           this.addruleForm.tel = "";
           this.addruleForm.province = "";
@@ -286,7 +298,11 @@ export default {
           this.province = "";
           this.listAddress();
         } else {
-          this.$message.error("保存时出现问题");
+          this.$message({
+            offset: 80,
+            type: "error",
+            message: res.msg,
+          });
         }
       });
     },
@@ -297,11 +313,19 @@ export default {
     adddelvalue() {
       postD(delAddressApi(), this.delvalueid).then((res) => {
         if (res.code == "200") {
-          this.$message.success("删除成功");
+          this.$message({
+            offset: 80,
+            type: "success",
+            message: "删除成功",
+          });
           this.delvalueshow = false;
           this.listAddress();
         } else {
-          this.$message.error("删除失败");
+          this.$message({
+            offset: 80,
+            type: "error",
+            message: res.msg,
+          });
         }
       });
     },
@@ -309,10 +333,18 @@ export default {
       this.is_topid.id = id;
       postD(updateAddressApi(), this.is_topid).then((res) => {
         if (res.code == "200") {
-          this.$message.success("设置默认地址成功");
+          this.$message({
+            offset: 80,
+            type: "success",
+            message: "设置默认地址成功",
+          });
           this.listAddress();
         } else {
-          this.$message.error("设置默认地址失败");
+          this.$message({
+            offset: 80,
+            type: "error",
+            message: res.msg,
+          });
         }
       });
     },
@@ -320,10 +352,18 @@ export default {
       this.notis_topid.id = id;
       postD(updateAddressApi(), this.notis_topid).then((res) => {
         if (res.code == "200") {
-          this.$message.success("取消默认地址成功");
+          this.$message({
+            offset: 80,
+            type: "success",
+            message: "取消默认地址成功",
+          });
           this.listAddress();
         } else {
-          this.$message.error("取消默认地址失败");
+          this.$message({
+            offset: 80,
+            type: "error",
+            message: res.msg,
+          });
         }
       });
     },

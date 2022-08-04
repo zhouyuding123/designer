@@ -149,25 +149,37 @@
     border-bottom: none;
 }
 
+.seatchersback {
+    background-color: rgba( black, 0.4);
+    width: 1920px;
+    height: 80px;
+    z-index: 100;
+    position: absolute;
+    top: 60px;
+}
 .seatchers {
     position: absolute;
-    top: 100px;
+    top: 20px;
     left: 170px;
     width: 1580px;
     height: 50px;
     background: #F5F5F5;
+    opacity: 1;
     border-radius: 30px 30px 30px 30px;
+    z-index: 100;
+        /deep/.el-input__inner {
+            border-style: none;
+            width: 90%;
+            height: 50px;
+            background-color: white;
+        }
 }
 
-// /deep/.el-input__inner {
-//     // border-style: none;
-//     // width: 90%;
-//     height: 50px;
-// }
+
 
 .seatch_list {
     height: 50px;
-    background: #FFFFFF;
+    background: white;
     border-radius: 30px 30px 30px 30px;
     display: flex;
     position: relative;

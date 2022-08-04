@@ -43,7 +43,9 @@
                 <el-menu-item index="3-2">我参与的赛事</el-menu-item>
               </div>
             </el-submenu>
-            <el-menu-item index="4" class="kzt" @click="goCircle"> 潮圈 </el-menu-item>
+            <el-menu-item index="4" class="kzt" @click="goCircle">
+              潮圈
+            </el-menu-item>
             <el-menu-item index="5" class="kzt" @click="goBusinessChain">
               商链
             </el-menu-item>
@@ -95,7 +97,7 @@
         </div>
         <div></div>
       </el-header>
-      <el-main style="padding-top:60px">
+      <el-main style="padding-top: 60px">
         <keep-alive>
           <router-view
             v-if="$route.meta.keepAlive"
@@ -108,28 +110,26 @@
         ></router-view>
       </el-main>
     </el-container>
-    <div class="seatchers" v-show="seatchShow">
-      <div class="seatch_list">
-        <i
-          class="el-icon-search"
-          style="position: absolute; margin: 18px 0 0 20px; color: #dddddd"
-        ></i>
-        <el-input placeholder="请输入内容"></el-input>
-        <div class="buttom_seatch">
-          <span> 搜索 </span>
+    <div class="seatchersback"  v-show="seatchShow">
+      <div class="seatchers">
+        <div class="seatch_list">
+          <i
+            class="el-icon-search"
+            style="position: absolute; margin: 18px 0 0 20px; color: #dddddd"
+          ></i>
+          <el-input placeholder="请输入内容"></el-input>
+          <div class="buttom_seatch">
+            <span> 搜索 </span>
+          </div>
         </div>
       </div>
     </div>
     <el-dialog :visible.sync="dialogVisible" width="30%">
-      <div class="goauth">
-        需要认证
-      </div>
-      <div style="padding-top:80px">
+      <div class="goauth">需要认证</div>
+      <div style="padding-top: 80px">
         <span>
           <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="addGoauth"
-            >确 定</el-button
-          >
+          <el-button type="primary" @click="addGoauth">确 定</el-button>
         </span>
       </div>
     </el-dialog>
@@ -199,16 +199,16 @@ export default {
         } else {
           this.dialogVisible = true;
         }
-      })
+      });
     },
     goBusinessChain() {
-       postD(designerMyCenterApi(), this.name).then((res) => {
+      postD(designerMyCenterApi(), this.name).then((res) => {
         if (res.data.auth === 2) {
           this.$router.push("/BusinessChain");
         } else {
           this.dialogVisible = true;
         }
-      })
+      });
     },
     goMatch() {
       postD(designerMyCenterApi(), this.name).then((res) => {
@@ -217,7 +217,7 @@ export default {
         } else {
           this.dialogVisible = true;
         }
-      })
+      });
     },
     gomyMatch() {
       postD(designerMyCenterApi(), this.name).then((res) => {
@@ -226,7 +226,7 @@ export default {
         } else {
           this.dialogVisible = true;
         }
-      })
+      });
     },
     goMywork() {
       postD(designerMyCenterApi(), this.name).then((res) => {
@@ -247,11 +247,11 @@ export default {
       });
     },
     addGoauth() {
-      this.$router.push("/users_designer/editInfo")
+      this.$router.push("/users_designer/editInfo");
       this.dialogVisible = false;
     },
     goCircle() {
-      this.$router.push("/Circle")
+      this.$router.push("/Circle");
     },
   },
 };

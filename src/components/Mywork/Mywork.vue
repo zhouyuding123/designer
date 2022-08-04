@@ -9,10 +9,10 @@
             </div>
             <div class="personbox">
               <div class="name flex al-c">
-                <div>设计师昵称</div>
+                <div>{{myValue.nickname}}</div>
                 <div class="font12 margin-left20">一星设计师</div>
               </div>
-              <div class="idnumber">22222</div>
+              <div class="idnumber">{{myValue.in_code}}</div>
               <div class="collect">
                 <span>
                   <span class="num">720</span>
@@ -36,7 +36,7 @@
           <div class="PublishWorks" @click="toUploadWorks">发布作品</div>
         </div>
         <div class="Psignature">
-          个性签名：三栋第0价位0if好成绩9i去武汉房产9哦钱还我9if好
+          个性签名：{{myValue.label}}
         </div>
       </div>
     </div>
@@ -59,7 +59,7 @@
           @loadmore="loadmore"
           @scroll="scroll"
         >
-          <div class="masonry" v-for="(item, index) in myworkList" :key="index">
+          <div class="masonry" v-for="(item, index) in myworkList" @click="gowork(item.id)" :key="index">
             <div class="coverimg">
               <img :src="imagesValue + item.thumb" alt="" />
               <!-- <div></div> -->
@@ -142,7 +142,7 @@
 </template>
 
 <script>
-import { getMyWorksApi, delMyWorksApi } from "@/urls/wsUrl.js";
+import { getMyWorksApi, delMyWorksApi,designerMyCenterApi } from "@/urls/wsUrl.js";
 import { postD } from "@/api";
 import { imgUrl } from "@/assets/js/modifyStyle";
 import waterfall from "../Designerzone/pul.vue";
@@ -160,10 +160,12 @@ export default {
       windowWidth: document.documentElement.clientWidth,
       count: null,
       imagesValue: "",
+      myValue:[]
     };
   },
   created() {
     this.getmyworkList();
+    this.mywork()
     this.imagesValue = imgUrl();
   },
   components: {
@@ -192,6 +194,15 @@ export default {
       this.Works.offset = 1;
       this.myworkList = [];
       this.getmyworkList();
+    },
+    mywork() {
+      var my={
+        username:localStorage.getItem('use')
+      }
+      postD(designerMyCenterApi(),my).then(res=> {
+        console.log(res);
+        this.myValue = res.data
+      })
     },
     getmyworkList() {
       postD(getMyWorksApi(), this.Works).then((res) => {
@@ -241,6 +252,9 @@ export default {
         });
       }
     },
+    gowork(val) {
+      this.$router.push("/workDetails"+val)
+    }
   },
 };
 </script>

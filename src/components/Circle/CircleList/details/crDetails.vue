@@ -191,15 +191,18 @@ export default {
       });
       postD(circle_noticeGetShowApi(), this.detilsId).then((res) => {
         if (res.code == "200") {
+          this.$message({
+            offset: 80,
+            type: "success",
+            message: res.msg,
+          });
           this.ruleFormdetils = res.data;
-        } else if (res.code == "-200") {
-          this.$message.error("参数错误，或暂无数据");
-        } else if (res.code == "-201") {
-          this.$message.error("未登陆");
-        } else if (res.code == "-203") {
-          this.$message.error("对不起，你没有此操作权限");
         } else {
-          this.$message.error("注册失败，已存在");
+          this.$message({
+            offset: 80,
+            type: "error",
+            message: res.msg,
+          });
         }
       });
     },
@@ -214,7 +217,6 @@ export default {
         circle_id: this.myId,
       };
       postD(CircleOutApi(), out).then((res) => {
-        console.log(res);
         if (res.code == "200") {
           this.$message({
             offset: 80,

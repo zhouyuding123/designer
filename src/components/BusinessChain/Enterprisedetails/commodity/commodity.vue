@@ -1,20 +1,16 @@
 <template>
-  <div>
-    
-  </div>
+  <div></div>
 </template>
 
 <script>
 export default {
-    props:["dialogshow"],
-    data() {
-        return {
-            
-        }
-    },
-    created() {
-        console.log(this.dialogshow);
-    },
-    methods:{}
-}
+  props: ["dialogshow"],
+  data() {
+    return {};
+  },
+  created() {
+    console.log(this.dialogshow);
+  },
+  methods: {},
+};
 </script>

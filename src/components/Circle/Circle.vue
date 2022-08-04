@@ -7,6 +7,12 @@
         <el-tab-pane label="圈子" name="3"></el-tab-pane>
       </el-tabs>
     </div>
+    <div v-if="Circles.category ==1">
+      <whole-county />
+    </div>
+    <div v-if="Circles.category ==2">
+      <local />
+    </div>
     <div v-if="Circles.category ==3 ">
       <circle-list-circle />
     </div>
@@ -15,13 +21,15 @@
 </template>
 
 <script>
+import wholeCounty from "./CircleList/wholeCountry.vue"
 import CircleListCircle from './CircleList/CircleListCircle.vue';
+import Local from './CircleList/local.vue';
 export default {
-  components: { CircleListCircle },
+  components: { CircleListCircle,Local,wholeCounty },
   data() {
     return {
       Circles: {
-        category: "3",
+        category: "1",
       },
       
     };

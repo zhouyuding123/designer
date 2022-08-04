@@ -244,8 +244,12 @@ export default {
             if (this.payOver.order_no != "") {
               this.timer = setInterval(() => {
                 this.OneSecond();
-               if (this.paymore == 1 || this.paymore == 3) {
-                  this.$message.success("恭喜你成为尊贵的会员");
+                if (this.paymore == 1 || this.paymore == 3) {
+                  this.$message({
+                    offset: 80,
+                    type: "success",
+                    message: "恭喜你成为尊贵的会员",
+                  });
                   clearInterval(this.timer);
                   this.$router.replace("/openVip");
                 }
@@ -261,8 +265,8 @@ export default {
           this.paymore = res.data.is_pay;
         });
       } else {
-          this.code = ""
-          clearInterval(this.timer);
+        this.code = "";
+        clearInterval(this.timer);
       }
     },
     whole() {

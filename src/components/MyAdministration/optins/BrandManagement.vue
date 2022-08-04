@@ -16,10 +16,7 @@
       </div>
     </div>
     <div style="margin-top: 20px">
-      <el-table
-        :data="tableData"
-        style="width: 100%"
-      >
+      <el-table :data="tableData" style="width: 100%">
         <el-table-column prop="thumb" label="品牌LOGO" align="center">
           <template v-slot="scoped">
             <div class="thumbstyle">
@@ -31,8 +28,8 @@
         </el-table-column>
         <el-table-column prop="style" label="品牌类型 " align="center">
           <template v-slot="scoped">
-            <div v-for="(item,index) in scoped.row.style" :key="index">
-              {{item.title}}
+            <div v-for="(item, index) in scoped.row.style" :key="index">
+              {{ item.title }}
             </div>
           </template>
         </el-table-column>
@@ -215,10 +212,18 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error("上传封面图只能是 JPG 格式!");
+        this.$message({
+          offset: 80,
+          type: "error",
+          message: "上传头像图片只能是 图片 格式!",
+        });
       }
       if (!isLt2M) {
-        this.$message.error("上传封面图片大小不能超过 2MB!");
+        this.$message({
+          offset: 80,
+          type: "error",
+          message: "上传封面图片大小不能超过 2MB!",
+        });
       }
       return isJPG && isLt2M;
     },
@@ -228,17 +233,19 @@ export default {
         if (!valid) return;
         postD(addApi(), this.ruleForm).then((res) => {
           if (res.code == "200") {
-            this.$message.success("品牌添加成功");
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "品牌添加成功",
+            });
             this.dialogVisible = false;
             this.designerGetBrand();
-          } else if (res.code == "-200") {
-            this.$message.error("参数错误，或暂无数据");
-          } else if (res.code == "-201") {
-            this.$message.error("未登陆");
-          } else if (res.code == "-203") {
-            this.$message.error("对不起，你没有此操作权限");
           } else {
-            this.$message.error("品牌添加失败");
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
           }
         });
       });
@@ -275,23 +282,25 @@ export default {
         this.delonebandId.id = val;
         postD(delApi(), this.delonebandId).then((res) => {
           if (res.code == "200") {
-            this.$message.success("删除成功");
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "删除成功",
+            });
             this.designerGetBrand();
-          } else if (res.code == "-200") {
-            this.$message.error("参数错误，或暂无数据");
-          } else if (res.code == "-201") {
-            this.$message.error("未登陆");
-          } else if (res.code == "-203") {
-            this.$message.error("对不起，你没有此操作权限");
           } else {
-            this.$message.error("删除失败");
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
           }
         });
       }
     },
     goDetails(val) {
-      this.$router.push("brandDetails"+val)
-    }
+      this.$router.push("brandDetails" + val);
+    },
   },
 };
 </script>

@@ -256,7 +256,7 @@ import { ForumthemelistApi, ForumReleaseApi } from "@/urls/wsUrl";
 import { timestampToTime } from "@/assets/js/time";
 export default {
   inject:["reload"],
-  props: ["is_circle", "circle_id"],
+  props: ["is_circle", "circle_id","styless"],
   components: {
     EleUploadVideo,
   },
@@ -309,7 +309,6 @@ export default {
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
     },
     switchbtn(index) {
       this.btnindex = index;
@@ -317,16 +316,15 @@ export default {
     //获取热门话题
     getForumthemelist() {
       postD(ForumthemelistApi()).then((res) => {
-        console.log(res);
         if (res.code == 200) {
           console.log(res.list);
           this.PopularTranslations = res.list;
+          this.$emit('remenlist',res.list)
         }
       });
     },
     //图片上传
     handleAvatarSuccesser1(res, file, fileList) {
-      console.log(fileList);
       this.imageList = fileList;
     },
     //查看图片
@@ -344,19 +342,25 @@ export default {
         file.type === "image/x-pn" ||
         file.type === "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
-
       if (!isJPG) {
-        this.$message.error("上传封面图只能是 JPG 格式!");
+        this.$message({
+          offset: 80,
+          type: "error",
+          message: "上传头像图片只能是 图片 格式!",
+        });
       }
       if (!isLt2M) {
-        this.$message.error("上传封面图片大小不能超过 2MB!");
+        this.$message({
+          offset: 80,
+          type: "error",
+          message: "上传封面图片大小不能超过 2MB!",
+        });
       }
       return isJPG && isLt2M;
     },
     //删除图片
     fileRemove(file, fileList) {
       this.imageList = fileList;
-      console.log(this.imageList);
     },
     //视频
     handleResponse(response, file) {
@@ -374,7 +378,6 @@ export default {
     },
     //投票图片上传
     handleAvatarSuccesser2(res, file, fileList) {
-      console.log(fileList);
       this.imageList2 = fileList;
     },
     //投票删除图片
@@ -393,7 +396,6 @@ export default {
     },
     //话题选择
     handleCommand(command) {
-      console.log(command);
       // this.content='#'+command+'#'+this.content
       // this.content
     },
@@ -424,8 +426,6 @@ export default {
     confirmVote() {
       this.centerDialogVisible = false;
       this.votetof = true;
-      console.log(this.votetof);
-      console.log(this.value);
     },
 
     //发布帖子
@@ -449,9 +449,7 @@ export default {
       } else if (this.tagsindex == 2) {
         var enddata = this.datetime3.getTime();
         enddata = timestampToTime(enddata);
-        console.log(enddata);
       }
-      console.log(date.getTime());
 
       let nowitem = [];
       if (this.wordindex == 0) {
@@ -466,7 +464,6 @@ export default {
         }
       }
 
-      console.log(this.PopularTranslations);
       var themeid = null;
       var theme = null;
       for (let i of this.PopularTranslations) {
@@ -476,16 +473,16 @@ export default {
           theme = this.biaoqianvalue;
         }
       }
-      console.log(themeid);
 
       if (this.votetof) {
         var params = {
-          is_circle: this.is_circle == 1 ? 1 : "",
-          circle_id: this.circle_id || "",
+          is_circle: this.is_circle == 1 ? 1 : null,
+          circle_id: this.circle_id || null,
           title: this.title,
           thumb: tmp.join(",") || "",
           description: this.content,
           is_voto: 1,
+          style:this.styless,
           method: this.value, //投票方式
           voto_start_time: timestampToTime(date.getTime()), //投票开始
           voto_end_time: enddata,
@@ -495,9 +492,10 @@ export default {
         };
       } else {
         var params = {
-          is_circle: this.is_circle == 1 ? 1 : "",
-          circle_id: this.circle_id || "",
+          is_circle: this.is_circle == 1 ? 1 : null,
+          circle_id: this.circle_id || null,
           title: this.title,
+          style:this.styless,
           thumb: tmp.join(",") || "",
           description: this.content,
           is_voto: 0,
@@ -507,7 +505,6 @@ export default {
       }
       postD(ForumReleaseApi(), params).then((res) => {
         if (res.code == 200) {
-          console.log(res.data);
           this.$message(res.msg);
           this.reload()
         } else {

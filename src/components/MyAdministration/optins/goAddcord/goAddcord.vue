@@ -157,7 +157,12 @@
 </template>
 
 <script>
-import { listBankApi, addBankApi,delBankApi,showBankApi } from "@/urls/wsUrl.js";
+import {
+  listBankApi,
+  addBankApi,
+  delBankApi,
+  showBankApi,
+} from "@/urls/wsUrl.js";
 import { imgUrl } from "@/assets/js/modifyStyle";
 import Bin from "bankcardinfo";
 import { postD } from "../../../../api";
@@ -266,20 +271,40 @@ export default {
         if (!v) return;
         postD(addBankApi(), this.addCards).then((res) => {
           if (res.code == "200") {
-            this.$message.success("添加成功");
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "添加成功",
+            });
             this.models = 3;
             this.listBankList();
           } else if (res.code == "-200") {
-            this.$message.error("参数错误，或暂无数据");
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: "参数错误，或暂无数据",
+            });
             this.models = 4;
           } else if (res.code == "-201") {
-            this.$message.error("未登陆");
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: "未登陆",
+            });
             this.models = 4;
           } else if (res.code == "-203") {
-            this.$message.error("对不起，你没有此操作权限");
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: "对不起，你没有此操作权限",
+            });
             this.models = 4;
           } else {
-            this.$message.error("注册失败，已存在");
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: "已存在",
+            });
             this.models = 4;
           }
         });
@@ -293,7 +318,7 @@ export default {
       this.addCards.tel = "";
       this.addCards.icon = "";
     },
-     Unbind(val) {
+    Unbind(val) {
       this.edlUnbindId.id = val;
       this.delcardlist = false;
       this.UnbindShow = true;
@@ -309,11 +334,19 @@ export default {
     edlUnbind() {
       postD(delBankApi(), this.edlUnbindId).then((res) => {
         if (res.code == "200") {
-          this.$message.success("银行卡解绑成功");
+          this.$message({
+            offset: 80,
+            type: "success",
+            message: "银行卡解绑成功",
+          });
           this.UnbindShow = false;
           this.listBankList();
         } else {
-          this.$message.error("银行卡解绑失败");
+          this.$message({
+            offset: 80,
+            type: "error",
+            message: "银行卡解绑失败",
+          });
         }
       });
     },

@@ -147,7 +147,7 @@ export default {
         this.$message({
           offset: 80,
           type: "error",
-          message: "这是一条消息提示",
+          message: "上传封面图片大小不能超过 2MB!",
         });
       }
       return isJPG && isLt2M;
@@ -167,7 +167,11 @@ export default {
             });
             this.listCircleValue();
           } else {
-            this.$message.error(res.msg);
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
           }
         });
       });
@@ -185,7 +189,11 @@ export default {
           });
           this.$router.push("/Circle")
         } else {
-          this.$message.error(res.msg);
+          this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
         }
       });
     },

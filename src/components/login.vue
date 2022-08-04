@@ -124,12 +124,22 @@ export default {
         if (!valid) return;
         postD(loginPWApi(), this.loginFrom)
           .then((res) => {
-            if (res.code !== 200) return this.$message.error("登入失败");
-            this.$message.success("登入成功");
+            if (res.code !== 200)
+              return this.$message({
+                offset: 80,
+                type: "error",
+                message: "登入失败",
+              });
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "登入成功",
+            });
+
             localStorage.setItem("token", res.token);
             localStorage.setItem("use", res.data.username);
             localStorage.setItem("work", this.loginFrom.password);
-            localStorage.setItem("data",JSON.stringify(res.data))
+            localStorage.setItem("data", JSON.stringify(res.data));
             this.$router.push("/home");
             if (this.checked == true) {
               //存入cookie

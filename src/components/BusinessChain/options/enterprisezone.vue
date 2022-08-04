@@ -58,7 +58,7 @@
         </div>
       </div>
     </div>
-    <div v-if="total>10">
+    <div v-if="total > 10">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"

@@ -134,7 +134,7 @@ const routes = [
       },
       //设计师主页
       {
-        path: "/DesignerHomepage",
+        path: "/DesignerHomepage:id",
         name: 'DesignerHomepage',
         component: () => import("../components/DesignerHomepage/DesignerHomepage.vue"),
         meta: { keepAlive: true }
@@ -178,7 +178,7 @@ const routes = [
         path: "/getMember:id",
         name: "getMember",
         component: () => import("../components/Circle/CircleList/details/Mymgt/getMember/getMember.vue")
-      }, 
+      },
       {
         path: "/Circles/invitation:id",
         name: "Circles/invitation",
@@ -188,6 +188,22 @@ const routes = [
         path: "/Circles/del:id",
         name: "Circles/del",
         component: () => import("../components/Circle/CircleList/details/Mymgt/managementRen/managementdel.vue")
+      }
+      , {
+        path: "/Forum/showForum:id",
+        name: "Forum/showForum",
+        component: () => import("../components/Circle/CircleList/createDetils/createDetils.vue")
+      },
+      {
+        path: "/hotTopic",
+        name: "hotTopic",
+        component: () => import("../components/Circle/CircleList/details/hotTopic/hotTopic.vue"),
+
+      },
+      {
+        path: "/hotTopicdetail",
+        name: "hotTopicdetail",
+        component: () => import("../components/Circle/CircleList/details/hotTopic/hotTopicdetail.vue"),
 
       }
     ]

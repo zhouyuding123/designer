@@ -293,17 +293,40 @@ export const ForumSetEssApi = () => {
 export const ForumDelForumApi = () => {
     return "company/Forum/delForum"
 }
+// 论坛帖子列表
+export const ForumListForumApi = () => {
+    return "company/Forum/listForum"
+}
+// 我的帖子
+export const CircleGetForumApi = () => {
+    return "company/Circle/getForum"
+}
+// 评论
+export const ForumCommentApi = () => {
+    return "company/Forum/comment"
+}
+// 评论详情
+export const ForumShowForumApi = () => {
+    return "company/Forum/showForum"
+}
+// 是否可以投票
+export const ForumSeteVotoApi = () => {
+    return "company/Forum/seteVoto"
+}
+// 投票
+export const ForumVotoApi = () => {
+    return "company/Forum/voto"
+}
 
+// 话题帖子
+export const ForumThemeApi = () => {
+    return "company/Forum_theme/getShow"
+}
 
-
-
-
-
-
-
-
-
-
+//创建付费订单
+export const ordersAddWorksApi = () => {
+    return "company/orders/addWorks"
+}
 
 
 

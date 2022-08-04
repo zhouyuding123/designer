@@ -270,16 +270,14 @@
               <el-input v-model="authenticationruleForm.tel"></el-input>
             </el-form-item>
             <div class="zxcs">
-              
-                <el-form-item label="真实姓名" prop="name">
-                  <el-input v-model="authenticationruleForm.name"></el-input>
-                </el-form-item>
-                <el-form-item label="证件号码" prop="card_no">
-                  <el-input
-                    v-model="authenticationruleForm.card_no"
-                    @input="inputChange"
-                  ></el-input>
-               
+              <el-form-item label="真实姓名" prop="name">
+                <el-input v-model="authenticationruleForm.name"></el-input>
+              </el-form-item>
+              <el-form-item label="证件号码" prop="card_no">
+                <el-input
+                  v-model="authenticationruleForm.card_no"
+                  @input="inputChange"
+                ></el-input>
               </el-form-item>
             </div>
           </el-form>
@@ -444,10 +442,18 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 图片 格式!");
+        this.$message({
+          offset: 80,
+          type: "error",
+          message: "上传头像图片只能是 图片 格式!",
+        });
       }
       if (!isLt2M) {
-        this.$message.error("这是一条消息提示");
+        this.$message({
+          offset: 80,
+          type: "error",
+          message: "上传封面图片大小不能超过 2MB!",
+        });
       }
       return isJPG && isLt2M;
     },
@@ -457,11 +463,19 @@ export default {
         this.personalruleForm = this.valueData;
         postD(editInfoApi(), this.personalruleForm).then((res) => {
           if (res.code == "200") {
-            this.$message.success("保存成功");
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "保存成功",
+            });
             this.mypersonal();
             this.authenticationshow = 1;
           } else {
-            this.$message.error("保存时出现问题");
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
           }
         });
       });

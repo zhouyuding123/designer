@@ -21,24 +21,22 @@
       <!-- 上传进度 -->
       <el-progress
         :percentage="videoUploadPercent"
-        style="margin-top: 20px;"
+        style="margin-top: 20px"
         type="circle"
         v-if="videoUploadPercent > 0"
       />
 
       <!-- 上传提示 -->
       <template v-else>
-        <i class="el-icon-video-camera" style="font-size:30px;line-height:146px;color:#ACB2B7"></i>
-     
+        <i
+          class="el-icon-video-camera"
+          style="font-size: 30px; line-height: 146px; color: #acb2b7"
+        ></i>
+
         <div class="el-upload__tip" slot="tip" v-if="showTip">
-        
-          <span style="color: #f56c6c;"
-            >  上传视频</span
-          >
+          <span style="color: #f56c6c"> 上传视频</span>
           <template v-if="fileSize">
-            
-            <span style="color: #f56c6c;"></span
-            >
+            <span style="color: #f56c6c"></span>
           </template>
         </div>
       </template>
@@ -72,7 +70,7 @@
         :autoplay="true"
         :src="value"
         controls="controls"
-        style="width: 100%;"
+        style="width: 100%"
         v-if="isShowVideo"
       >
         您的浏览器不支持视频播放
@@ -177,7 +175,11 @@ export default {
       }
 
       if (!isVideo) {
-        this.$message.error(`${file.name}格式不正确, 请上传格式正确的视频`);
+        this.$message({
+          offset: 80,
+          type: "error",
+          message: `${file.name}格式不正确, 请上传格式正确的视频`,
+        });
         return false;
       }
 
@@ -185,7 +187,11 @@ export default {
       if (this.fileSize) {
         const isLt = file.size / 1024 / 1024 < this.fileSize;
         if (!isLt) {
-          this.$message.error(`上传视频大小不能超过${this.fileSize}MB哦!`);
+          this.$message({
+            offset: 80,
+            type: "error",
+            message: `上传视频大小不能超过${this.fileSize}MB哦!`,
+          });
           return false;
         }
       }
@@ -201,7 +207,11 @@ export default {
     handleUploadSuccess(response, file) {
       this.videoUploadPercent = 0;
       if (this.isShowSuccessTip) {
-        this.$message.success("上传成功!");
+        this.$message({
+          offset: 80,
+          type: "success",
+          message: "上传成功",
+        });
       }
       if (this.responseFn) {
         this.$emit("input", this.responseFn(response, file));
@@ -212,14 +222,18 @@ export default {
 
     // 上传失败
     handleUploadError(err, file, fileList) {
-      this.$message.error("上传失败, 请重试!");
+      this.$message({
+        offset: 80,
+        type: "error",
+        message: "上传失败, 请重试!",
+      });
       this.videoUploadPercent = 0;
       this.$emit("error", err, file, fileList);
     },
 
     // 删除视频
     doRemove() {
-      this.$emit("delete",);
+      this.$emit("delete");
       this.$emit("input", null);
     },
 

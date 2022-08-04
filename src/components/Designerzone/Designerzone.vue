@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="syimg">
-      <el-carousel height="600px" >
-        <el-carousel-item v-for="item in advertisementImg" :key="item.id" >
-          <img :src="imagesValue+item.thumb" alt="" @click="goad(item)" />
+      <el-carousel height="600px">
+        <el-carousel-item v-for="item in advertisementImg" :key="item.id">
+          <img :src="imagesValue + item.thumb" alt="" @click="goad(item)" />
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <div class="list_free">
+    <div class="list_free" style="min-height: 500px">
       <div class="list_free_list">
         <waterfall
           v-if="Works.category == 2"
@@ -119,13 +119,24 @@
             class="masonry"
             v-for="(item, index) in workList"
             :key="index"
-            @click="todetails(item.id)"
+            @click="payit(item)"
           >
             <div class="coverimg">
               <div class="payimg">
-                <img :src="imagesValue + item.thumb" alt="" />
+                <img
+                  :src="imagesValue + item.thumb"
+                  :class="{
+                    zhezhao: !(item.is_pay == 1 || item.username == myusername),
+                  }"
+                  alt=""
+                />
               </div>
-              <img src="@/assets/imgers/12574@2x.png" class="img1" alt="" />
+              <img
+                src="@/assets/imgers/12574@2x.png"
+                v-if="!(item.is_pay == 1 || item.username == myusername)"
+                class="img1"
+                alt=""
+              />
             </div>
             <div class="list_title">
               <div class="list_title_title">
@@ -179,14 +190,80 @@
         </waterfall>
       </div>
     </div>
+    <el-dialog :visible.sync="payshow" width="600px">
+      <div v-if="payshows == 1">
+        <div class="paywork">
+          <div class="payworkline1">
+            <div class="payworkline1img">
+              <img :src="imagesValue + payshowvalue.thumb" alt="" />
+            </div>
+            <div class="payworkline1title">
+              <div class="payworkline1title1">{{ payshowvalue.title }}</div>
+              <div class="payworkline1titlename">
+                {{ payshowvalue.nickname }}
+              </div>
+            </div>
+          </div>
+          <div class="payworkline2">
+            <!-- <div><img src="@/assets/myimger/感叹号.png" alt="" /></div> -->
+            <div class="payworkline2tit">
+              因该作品为私密作品，付费后可永久查看
+            </div>
+          </div>
+          <div class="payworkline3">
+            <div class="payworkline3zf">支付金额：</div>
+            <div class="payworkline3zfmo">￥{{ payshowvalue.money }}</div>
+          </div>
+          <div class="payworkline4">
+            <div class="payworkline4bor"></div>
+            <div class="payworkline4ye">
+              <el-radio v-model="paymodel" label="1">余额</el-radio>
+            </div>
+            <div class="payworkline4bor"></div>
+            <div class="payworkline4dsf">
+              <el-radio v-model="paymodel" label="2">第三方支付</el-radio>
+            </div>
+            <div class="payworkline4bor"></div>
+          </div>
+        </div>
+
+        <div style="padding-top: 30px">
+          <el-button type="primary" @click="addpay"
+            ><span>立即购买</span></el-button
+          >
+        </div>
+      </div>
+      <div v-if="payshows == 2">
+        <div class="smalls">
+          <!-- <img src="@/assets/myimger/small微信.png" alt="" /> -->
+          <div>使用微信扫一扫支付</div>
+        </div>
+        <img :src="imagesValues + code" alt="" style="margin-top: 42px" />
+        <div style="margin-top: 42px; font-size: 24px">
+          给你{{ times }}秒时间支付
+        </div>
+        <div style="padding-top: 30px">
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="payshow = false">取 消</el-button>
+          </span>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 
 <script>
-import { getListWorksApi, getListApi, AdApi } from "@/urls/wsUrl.js";
+import {
+  getListWorksApi,
+  getListApi,
+  AdApi,
+  ordersAddWorksApi,
+  getOrderStatApi,
+  payApi,
+} from "@/urls/wsUrl.js";
 import { postD } from "@/api";
-import { imgUrl } from "@/assets/js/modifyStyle";
+import { imgUrls, imgUrl } from "@/assets/js/modifyStyle";
 import waterfall from "./pul.vue";
 
 export default {
@@ -202,11 +279,27 @@ export default {
       },
       workList: [],
       imagesValue: "",
+      imagesValues: "",
       windowWidth: document.documentElement.clientWidth,
       tid: {
         tid: 10,
       },
       advertisementImg: [],
+      myusername: "",
+      payshow: false,
+      payshows: 1,
+      payshowvalue: {},
+      paymodel: "2",
+      code: "",
+      times: 60,
+      payOver: {
+        type:4,
+        order_no:""
+      },
+      payorder_no: {
+        order_no:""
+      },
+      paymore:""
     };
   },
   components: {
@@ -217,6 +310,8 @@ export default {
     this.getListApi();
     this.imagesValue = imgUrl();
     this.advertisement();
+    this.myusername = localStorage.getItem("use");
+    this.imagesValues = imgUrls();
   },
   watch: {
     windowWidth(val) {
@@ -295,17 +390,108 @@ export default {
     scroll() {},
     //点击设计师头像
     topersonalinfo(name) {
-      this.$router.push({
-        path: "/DesignerHomepage",
-        query: { username: name },
-      });
+      this.$router.push("/DesignerHomepage"+name);
     },
     todetails(id) {
       this.$router.push("/workDetails" + id);
     },
     goad(val) {
-      this.$router.push(val.url)
-    }
+      this.$router.push(val.url);
+    },
+    //付费作品跳转
+    payit(obj) {
+      console.log(obj);
+      if (obj.username == localStorage.getItem("use") || obj.is_pay == 1) {
+        this.$router.push("/workDetails" + obj.id);
+      } else {
+        this.payshow = true;
+        this.payshowvalue = obj;
+      }
+    },
+    addpay() {
+      postD(ordersAddWorksApi(), { works_id: this.payshowvalue.id }).then(
+        (res) => {
+          this.payshows = 2;
+          console.log(res);
+          this.payorder_no.order_no = res.data.order_no;
+          this.payOver.order_no = res.data.order_no;
+          postD(payApi(), this.payorder_no).then((res) => {
+            if (res.code == 200) {
+              this.code = res.data.substring(10);
+              // if (this.payOver.order_no != "") {
+              //   this.timer = setInterval(() => {
+              //     this.times--;
+              //     this.OneSecond();
+              //     if (this.times == 0) {
+              //       clearInterval(this.timer);
+              //       this.payshow = false;
+              //       this.$message.info("支付超时");
+              //       this.payorder_no.order_no = "";
+              //       this.payOver.order_no = "";
+              //       this.code = "";
+              //       this.times = 60;
+              //       this.payshows = 1;
+              //     } else if (this.time < 0) {
+              //       clearInterval(this.timer);
+              //       this.payshow = false;
+              //       this.$message.info("支付超时");
+              //       this.payorder_no.order_no = "";
+              //       this.payOver.order_no = "";
+              //       this.times = 60;
+              //       this.code = "";
+              //       this.payshows = 1;
+              //     }
+              //     if (this.payshow == false) {
+              //       clearInterval(this.timer);
+              //       this.$message.info("支付失败");
+              //       this.payorder_no.order_no = "";
+              //       this.payOver.order_no = "";
+              //       this.times = 60;
+              //       this.code = "";
+              //       this.payshows = 1;
+              //     }
+              //     if (this.paymore == 1) {
+              //       clearInterval(this.timer);
+              //       this.$message.success("恭喜付费成功");
+              //       this.$router.push("/workDetails" + obj.id);
+              //     }
+              //   }, 1000);
+              // } else {
+              //   this.$message({
+              //     offset: 80,
+              //     message: res.msg,
+              //   });
+              // }
+               if (this.payOver.order_no != "") {
+              this.timer = setInterval(() => {
+                this.OneSecond();
+                if (this.paymore == 1 || this.paymore == 3) {
+                  this.$message({
+                    offset: 80,
+                    type: "success",
+                    message: "恭喜付费成功",
+                  });
+                  clearInterval(this.timer);
+                  this.$router.push("/workDetails"+ this.payshowvalue.id);
+                }
+              }, 1000);
+            }
+            }
+          });
+        }
+      );
+    },
+    OneSecond() {
+      if (this.payshow == true) {
+        postD(getOrderStatApi(), this.payOver).then((res) => {
+          console.log(res);
+          this.paymore = res.data.is_pay;
+        });
+      } else {
+        this.code = "";
+        clearInterval(this.timer);
+      }
+    },
   },
 };
 </script>

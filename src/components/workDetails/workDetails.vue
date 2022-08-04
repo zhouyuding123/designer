@@ -410,7 +410,7 @@ export default {
       });
     },
     goMyDetil(val) {
-      this.$router.push("/designer/myCenter/" + val);
+      this.$router.push("/DesignerHomepage"+val);
     },
     gofreelist() {
       this.$router.push("/designer_works/getListMF");
