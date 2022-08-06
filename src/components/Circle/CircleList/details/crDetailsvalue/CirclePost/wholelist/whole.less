@@ -259,6 +259,19 @@
 
 .Postdescription {
     margin-top: 20px;
+    width: 1205px;
+    height: 44px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #999999;
+    overflow: hidden;
+    /* 溢出部分进行隐藏 */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    /* 盒模型元素从顶部向底部垂直排列子元素 */
+    -webkit-line-clamp: 2;
+    /* 显示两行 */
+    text-overflow: ellipsis;
 }
 
 .tablineValue3 {
@@ -340,6 +353,7 @@
     z-index: 1999;
     left: 80px;
     top: 30px;
+
     /deep/.el-button {
         width: 80px;
         height: 30px;
@@ -354,6 +368,7 @@
         padding: 0;
     }
 }
+
 .strollName {
     margin-top: 25px;
     padding-left: 10px;

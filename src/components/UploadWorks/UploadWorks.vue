@@ -1,97 +1,64 @@
 <template>
   <div>
     <div class="">
-      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-        <div class="wrap" style="height: 750px">
+      <el-form
+        ref="form"
+        :model="form"
+        :rules="rules"
+        label-width="100px"
+        hide-required-asterisk
+      >
+        <div class="wrap" style="height: 600px">
           <el-form-item label="作品标题" prop="title">
             <el-input v-model="form.title"></el-input>
           </el-form-item>
           <!--  -->
-          <el-form-item label="添加封面" prop="imgs">
-            <el-upload
-              class="avatar-uploader"
-              action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
-              :data="{ fileType: this.fileType }"
-              multiple
-              list-type="picture-card"
-              :limit="9"
-              :on-success="handleAvatarSuccesser2"
-              :file-list="imageList2"
-              :on-preview="handlePictureCardPreview"
-              :before-upload="beforeAvatarUpload1"
-              :on-remove="fileRemove2"
-            >
-              <i
-                class="el-icon-picture-outline"
-                style="background-color: #f5f5f5"
-              ></i>
-            </el-upload>
-          </el-form-item>
-          <!--  -->
-
-          <el-form-item label="作品首页图" prop="thumb">
-            <el-upload
-              class="avatar-uploader"
-              action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
-              list-type="picture-card"
-              :limit="1"
-              :file-list="imageList1"
-              :on-preview="handlePictureCardPreview"
-              :data="{ fileType: this.fileType }"
-              :on-success="handleAvatarSuccesser"
-              :before-upload="beforeAvatarUpload"
-              :on-remove="fileRemove1"
-            >
-              <!-- <img v-if="form.thumb" style="width:150px;height:150px" :src="imagesValue + form.thumb" > -->
-
-              <i
-                class="el-icon-picture-outline"
-                style="background-color: #f5f5f5"
-              ></i>
-            </el-upload>
-          </el-form-item>
-
-          <el-form-item label="风格标签" prop="label">
-            <el-input
-              v-model="form.label"
-              placeholder="请用逗号隔开"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="作品类别" prop="product_type_id">
-            <el-select v-model="form.product_type_id" placeholder="请选择">
-              <el-option
-                v-for="item in options"
-                :key="item.id"
-                :label="item.title"
-                :value="item.id"
+          <div>
+            <el-form-item label="上传图片" prop="iamgs">
+              <el-upload
+                class="avatar-uploader"
+                action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
+                :data="{ fileType: this.fileType }"
+                multiple
+                list-type="picture-card"
+                :limit="9"
+                :on-success="handleAvatarSuccesser2"
+                :file-list="imageList2"
+                :on-preview="handlePictureCardPreview"
+                :before-upload="beforeAvatarUpload1"
+                :on-remove="fileRemove2"
               >
-              </el-option>
-            </el-select>
+                <i
+                  class="el-icon-picture-outline"
+                  style="background-color: #f5f5f5"
+                ></i>
+              </el-upload>
+            </el-form-item>
+          </div>
+          <!--  -->
+          <el-form-item label="上传视频">
+            <div class="flex">
+              <ele-upload-video
+                :data="{ fileType: this.fileType1 }"
+                @error="handleUploadError"
+                :responseFn="handleResponse"
+                action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
+                v-model="videosrc"
+                @delete="delete1"
+              />
+            </div>
           </el-form-item>
-          <el-form-item label="众筹版权费" prop="crowd_price">
+
+          <el-form-item label="作品说明" class="" prop="description">
             <el-input
-              v-model="form.crowd_price"
-              style="width: 200px"
+              v-model="form.description"
+              type="textarea"
+              rows="4"
             ></el-input>
-            元
-          </el-form-item>
-          <el-form-item label="私人定制费" prop="personal_price">
-            <el-input
-              v-model="form.personal_price"
-              style="width: 200px"
-            ></el-input>
-            元
-          </el-form-item>
-          <el-form-item label="版权购买费" class="" prop="copyright_price">
-            <el-input
-              v-model="form.copyright_price"
-              style="width: 200px"
-            ></el-input>
-            元
           </el-form-item>
         </div>
 
-        <div class="wrap">
+        <!-- <div class="wrap">
           <div style="text-align: left" class="font20 fontw">图文介绍</div>
           <el-form-item>
             <el-input
@@ -131,15 +98,67 @@
               />
             </div>
           </el-form-item>
-        </div>
+        </div> -->
 
         <div class="wrap">
-          <el-form-item label="设计理念" class="" prop="description">
+          <el-form-item label="作品首页图" prop="thumb">
+            <el-upload
+              class="avatar-uploader"
+              action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
+              list-type="picture-card"
+              :limit="1"
+              :file-list="imageList1"
+              :on-preview="handlePictureCardPreview"
+              :data="{ fileType: this.fileType }"
+              :on-success="handleAvatarSuccesser"
+              :before-upload="beforeAvatarUpload"
+              :on-remove="fileRemove1"
+            >
+              <!-- <img v-if="form.thumb" style="width:150px;height:150px" :src="imagesValue + form.thumb" > -->
+
+              <i
+                class="el-icon-picture-outline"
+                style="background-color: #f5f5f5"
+              ></i>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="风格标签" prop="label">
             <el-input
-              v-model="form.description"
-              type="textarea"
-              rows="4"
+              v-model="form.label"
+              placeholder="请用逗号隔开"
             ></el-input>
+          </el-form-item>
+          <el-form-item label="作品类别" prop="product_type_id">
+            <el-select v-model="form.product_type_id" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.id"
+                :label="item.title"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="众筹版权费" prop="crowd_price">
+            <el-input
+              v-model="form.crowd_price"
+              style="width: 200px"
+            ></el-input>
+            元
+          </el-form-item>
+          <el-form-item label="私人定制费" prop="personal_price">
+            <el-input
+              v-model="form.personal_price"
+              style="width: 200px"
+            ></el-input>
+            元
+          </el-form-item>
+          <el-form-item label="版权购买费" class="" prop="copyright_price">
+            <el-input
+              v-model="form.copyright_price"
+              style="width: 200px"
+            ></el-input>
+            元
           </el-form-item>
         </div>
 
@@ -202,13 +221,84 @@ import { imgUrl } from "@/assets/js/modifyStyle";
 import {
   getListApi,
   addWorksApi,
-  showBankApi,
   getMyWorksshowApi,
   editMyWorksApi,
 } from "@/urls/wsUrl";
 import EleUploadVideo from "./EleUploadVideo.vue";
 export default {
   data() {
+    var asd = (rule, value, callback) => {
+      let isVal = value.toString(); //先转换成字符串类型
+      let regnumDot = /[^\d.]/g;
+      if (isVal === "") {
+        callback(new Error("请输入金额"));
+      } else if (isVal.indexOf(".") === 0) {
+        callback(new Error(".不能放首位"));
+      } else if (isVal.indexOf(".") < 0 && isVal != "" && isVal == Number) {
+        this.form.money = parseFloat(isVal); //如果没有小数点，首位不能为类似于 01、02的金额
+        callback(new Error("0不能放首位"));
+      } else if (regnumDot.test(isVal)) {
+        this.form.money = isVal.replace(/[^\d.]/g, ""); //清除“数字”和“.”以外的字符
+        callback(new Error("只能输入“数字”和“.”的字符"));
+      } else if (isVal.split(".").length - 1 > 1) {
+        this.form.money = isVal.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        callback(new Error("只能输入两个小数"));
+      } else if (isVal.indexOf(".") > 1) {
+        this.form.money = isVal.replace(/^(\-)*(\d+)\.(\d\d).*$/, "$1$2.$3"); //只能输入两个小数
+        callback(new Error("只能输入两个小数"));
+      }
+      return callback();
+    };
+    var asds = (rule, value, callback) => {
+      let isVal = value.toString(); //先转换成字符串类型
+      let regnumDot = /[^\d.]/g;
+      if (isVal === "") {
+        callback(new Error("请输入金额"));
+      } else if (isVal.indexOf(".") === 0) {
+        callback(new Error(".不能放首位"));
+      } else if (isVal.indexOf(".") < 0 && isVal != "" && isVal == Number) {
+        this.form.money = parseFloat(isVal); //如果没有小数点，首位不能为类似于 01、02的金额
+        callback(new Error("0不能放首位"));
+      } else if (regnumDot.test(isVal)) {
+        this.form.money = isVal.replace(/[^\d.]/g, ""); //清除“数字”和“.”以外的字符
+        callback(new Error("只能输入“数字”和“.”的字符"));
+      } else if (isVal.split(".").length - 1 > 1) {
+        this.form.money = isVal.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        callback(new Error("只能输入两个小数"));
+      } else if (isVal.indexOf(".") > 1) {
+        this.form.money = isVal.replace(/^(\-)*(\d+)\.(\d\d).*$/, "$1$2.$3"); //只能输入两个小数
+        callback(new Error("只能输入两个小数"));
+      }
+      return callback();
+    };
+    var asder = (rule, value, callback) => {
+      let isVal = value.toString(); //先转换成字符串类型
+      let regnumDot = /[^\d.]/g;
+      if (isVal === "") {
+        callback(new Error("请输入金额"));
+      } else if (isVal.indexOf(".") === 0) {
+        callback(new Error(".不能放首位"));
+      } else if (isVal.indexOf(".") < 0 && isVal != "" && isVal == Number) {
+        this.form.money = parseFloat(isVal); //如果没有小数点，首位不能为类似于 01、02的金额
+        callback(new Error("0不能放首位"));
+      } else if (regnumDot.test(isVal)) {
+        this.form.money = isVal.replace(/[^\d.]/g, ""); //清除“数字”和“.”以外的字符
+        callback(new Error("只能输入“数字”和“.”的字符"));
+      } else if (isVal.split(".").length - 1 > 1) {
+        this.form.money = isVal.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        callback(new Error("只能输入两个小数"));
+      } else if (isVal.indexOf(".") > 1) {
+        this.form.money = isVal.replace(/^(\-)*(\d+)\.(\d\d).*$/, "$1$2.$3"); //只能输入两个小数
+        callback(new Error("只能输入两个小数"));
+      }
+      return callback();
+    };
+    var imagesert = (rule, value, callback) => {
+      if (value == "") {
+        callback(new Error("请上传图片"));
+      }
+      return callback();
+    };
     return {
       imageList: [],
       centerDialogVisible: false,
@@ -225,6 +315,7 @@ export default {
         crowd_price: "",
         personal_price: "",
         copyright_price: "",
+        imgs: "",
       },
       rules: {
         title: [
@@ -232,22 +323,16 @@ export default {
           { min: 4, message: "长度在4个字符以上", trigger: "blur" },
         ],
         label: [{ required: true, message: "请输入风格标签", trigger: "blur" }],
-        // thumb: [{ required: true, message: "请添加封面图", trigger: "blur" }],
         description: [
-          { required: true, message: "请输入设计理念", trigger: "blur" },
+          { required: true, message: "请输入作品说明", trigger: "blur" },
         ],
+        iamgs: [{ validator: imagesert, trigger: "blur" }],
         product_type_id: [
           { required: true, message: "请选择作品分类", trigger: "change" },
         ],
-        crowd_price: [
-          { required: true, message: "请输入众筹版权费", trigger: "blur" },
-        ],
-        personal_price: [
-          { required: true, message: "请输入私人定制费", trigger: "blur" },
-        ],
-        copyright_price: [
-          { required: true, message: "请输入版权购买费", trigger: "blur" },
-        ],
+        crowd_price: [{ validator: asd, trigger: "blur" }],
+        personal_price: [{ validator: asds, trigger: "blur" }],
+        copyright_price: [{ validator: asder, trigger: "blur" }],
         category: [
           { required: true, message: "请选择权限", trigger: "change" },
         ],
@@ -365,8 +450,8 @@ export default {
                 url: this.imagesValue + image,
               });
             } else {
-              this.videosrc = this.imagesValue + item;
-              this.videosrc1 = item;
+              this.videosrc = this.imagesValue + image;
+              this.videosrc1 = image;
             }
           }
         }
@@ -375,6 +460,7 @@ export default {
 
     //点击确定按钮
     submitForm(form) {
+      console.log(this.form);
       this.$refs[form].validate((valid) => {
         console.log(this.videosrc1);
         var tmp = [];

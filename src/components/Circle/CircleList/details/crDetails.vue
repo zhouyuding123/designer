@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width:1280px;margin:20px auto;">
     <div class="myimg"><img :src="imagesValue + mydet.thumb" alt="" /></div>
     <div class="muval">
       <div class="muvalmar">

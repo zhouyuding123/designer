@@ -9,7 +9,7 @@
             mode="horizontal"
             @select="handleSelect"
             text-color="#333"
-            active-text-color="#ffd04b"
+            active-text-color="#1A0761"
           >
             <el-menu-item index="0" class="kzt" @click="goConsole"
               >控制台</el-menu-item
@@ -52,9 +52,9 @@
             <el-submenu index="6">
               <template slot="title">榜单</template>
               <div class="syitem">
-                <el-menu-item index="6-1">设计师榜</el-menu-item>
-                <el-menu-item index="6-2">作品榜</el-menu-item>
-                <el-menu-item index="6-3">团体榜</el-menu-item>
+                <el-menu-item index="6-1" @click="goDesignerList">设计师榜</el-menu-item>
+                <el-menu-item index="6-2" @click="goworkList">作品榜</el-menu-item>
+                <el-menu-item index="6-3" @click="goteam">团体榜</el-menu-item>
               </div>
             </el-submenu>
             <el-menu-item index="7" class="kzt" @click="goMyAdministration">
@@ -253,6 +253,15 @@ export default {
     goCircle() {
       this.$router.push("/Circle");
     },
+    goDesignerList() {
+      this.$router.push("/DesignerList")
+    },
+    goteam() {
+      this.$router.push("/team")
+    },
+    goworkList() {
+      this.$router.push("/worksList")
+    }
   },
 };
 </script>

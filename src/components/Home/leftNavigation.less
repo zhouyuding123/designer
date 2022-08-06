@@ -3,7 +3,7 @@
     color: #333;
     line-height: 60px;
     position: fixed;
-    z-index: 1000000;
+    z-index: 1999;
     width: 100%;
 }
 
@@ -22,7 +22,7 @@
 
 .el-menu {
     display: flex;
-    margin-left: 556px;
+    margin-left: 560px;
     // justify-content: center;
     background-color: #1A0761;
 }
@@ -30,7 +30,7 @@
 .el-menu-item.is-active:active {
     color: #FFDC00 !important;
     border-bottom-color: #FFDC00;
-    background-color: #1A0761;
+    // background-color: #1A0761;
 }
 
 /deep/.el-menu .el-menu-item:hover {
@@ -66,8 +66,10 @@
 }
 
 .syitem {
-    width: 160px !important;
+    max-width: 150px !important;
     text-align: center;
+    margin-left: 3px;
+    
 
     .el-menu-item:hover {
         color: #FFDC00;

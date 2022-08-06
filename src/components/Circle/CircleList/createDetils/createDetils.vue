@@ -537,7 +537,8 @@ export default {
 
 <style lang="less" scoped>
 .detilBody {
-  padding: 20px 180px;
+  margin: 20px auto ;
+  width: 1580px;
   .detilnr {
     width: 100%;
     height: 100%;
@@ -622,7 +623,6 @@ export default {
   padding: 0px 30px 30px 30px;
   .el-image {
     width: 600px;
-    height: 900px;
   }
 }
 .Line6 {

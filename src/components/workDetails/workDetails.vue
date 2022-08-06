@@ -60,30 +60,32 @@
             </div>
           </div>
         </div>
-        <div>
-          <el-carousel height="150px">
-            <el-carousel-item v-for="(item, index) in imagesthb" :key="index">
-              <img :src="imagesValue + item" alt="" style="height: 100%" />
-            </el-carousel-item>
-          </el-carousel>
-        </div>
-        <div class="worksDiv2line2">
-          <span>{{ WorksShowDataContent.text }}</span>
+   
+          <div class="worksDiv2line2">
+          <span>{{ WorksShowData.description }}</span>
+ 
         </div>
         <div v-for="item in imgs" :key="item.item" class="imgs">
-          <img
-            :src="imagesValue + item"
-            alt=""
-            v-if="item.split('/')[0] == 'images'"
-          />
-          <video
-            v-if="item.split('/')[0] == 'moves'"
-            controls
-            style="width: 100%"
-          >
+          <video v-if="item.split('/')[0] == 'moves' && item != ''" controls>
             <source :src="imagesValue + item" type="video/mp4" />
             <source :src="imagesValue + item" type="video/ogg" />
           </video>
+          <img
+            :src="imagesValue + item"
+            alt=""
+            v-if="item.split('/')[0] == 'images' && item != ''"
+          />
+        </div>
+        <div
+          v-for="(item, index) in imgsList"
+          :key="index"
+        >
+          <el-image
+            style="max-width: 1200px;margin-bottom: 20px;"
+            :src="imagesValue + item"
+            :preview-src-list="showimgsList"
+          >
+          </el-image>
         </div>
       </div>
       <div class="worksDiv3">
@@ -143,9 +145,14 @@
             <span>相关作品</span>
           </div>
           <div class="myWorkWidth">
-            <div v-for="item in relevantList" :key="item.id" class="myWorkBody" @click="relevant(item.id)">
-              <img :src="imagesValue+item.thumb" alt="">
-              <div>{{item.title}}</div>
+            <div
+              v-for="item in relevantList"
+              :key="item.id"
+              class="myWorkBody"
+              @click="relevant(item.id)"
+            >
+              <img :src="imagesValue + item.thumb" alt="" />
+              <div>{{ item.title }}</div>
             </div>
           </div>
         </div>
@@ -294,7 +301,9 @@ export default {
         status: 1,
         category: 2,
       },
-      relevantList:[]
+      relevantList: [],
+      imgsList:[],
+      showimgsList:[]
     };
   },
   created() {
@@ -304,12 +313,14 @@ export default {
   methods: {
     mywokList() {
       postD(designerWorksApi(), this.myworkListId).then((res) => {
-        this.relevantList=res.list.slice(0,5)
+        this.relevantList = res.list.slice(0, 5);
       });
     },
     WorkDetailsList() {
       postD(getMyWorksshowApi(), this.$route.params).then((res) => {
         this.WorksShowData = res.data;
+        this.imgsList = res.data.imgs.split(',')
+         
         this.imagesValue = imgUrl();
         this.imagesthb = [res.data.thumb];
         var ss = JSON.parse(res.data.content);
@@ -355,6 +366,9 @@ export default {
           });
         });
         this.comment_list = tmp;
+         this.imgsList.forEach((v=> {
+          this.showimgsList.push(this.imagesValue +v)
+         }))
       });
     },
     fullTime(val) {
@@ -410,15 +424,15 @@ export default {
       });
     },
     goMyDetil(val) {
-      this.$router.push("/DesignerHomepage"+val);
+      this.$router.push("/DesignerHomepage" + val);
     },
     gofreelist() {
       this.$router.push("/designer_works/getListMF");
     },
     relevant(val) {
-         this.$router.replace("/workDetails" +val);
-         this.WorkDetailsList();
-    }
+      this.$router.replace("/workDetails" + val);
+      this.WorkDetailsList();
+    },
   },
 };
 </script>

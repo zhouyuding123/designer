@@ -5,12 +5,14 @@
         <div class="flex al-c">
           <div class="flex">
             <div class="avator">
-              <img src="@/assets/imgers/头像.png" alt="" />
+              <img :src="imagesValue+myValue.headimage" alt="" style="border-radius: 50%;" />
             </div>
             <div class="personbox">
               <div class="name flex al-c">
                 <div>{{myValue.nickname}}</div>
-                <div class="font12 margin-left20">一星设计师</div>
+                <div class="font12 margin-left20 sjs">
+                  <img src="@/assets/imgers/设计师等级.png" alt="">
+                </div>
               </div>
               <div class="idnumber">{{myValue.in_code}}</div>
               <div class="collect">

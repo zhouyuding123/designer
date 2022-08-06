@@ -261,8 +261,6 @@ export default {
   created() {
     this.imagesValue = imgUrl();
     this.releaseValue();
-
-    console.log(this.circle.circle_id);
     this.page1.circle_id = this.circle.circle_id;
   },
   methods: {
@@ -272,7 +270,6 @@ export default {
     releaseValue() {
       this.circle.circle_id = this.$route.params.id;
       postD(CircleGetCircleForumApi(), this.circle).then((res) => {
-        console.log(res);
         this.tableData = res.list;
         this.page1.totalResult = res.count;
       });

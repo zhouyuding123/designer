@@ -1,5 +1,9 @@
-.strollStyle {
-    padding: 20px 180px;
+// .strollStyle {
+//     padding: 20px 180px;
+// }\
+.disj {
+    width: 1580px;
+    margin: 0 auto;
 }
 .fb {
     display: flex;
@@ -142,7 +146,21 @@
 
 .tablineValue2 {
     text-align: left;
-    padding-top: 20px;
+    margin-top: 20px;
+    width: 1205px;
+    height: 44px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #999999;
+    overflow: hidden;
+    /* 溢出部分进行隐藏 */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    /* 盒模型元素从顶部向底部垂直排列子元素 */
+    -webkit-line-clamp: 2;
+    /* 显示两行 */
+    text-overflow: ellipsis;
+    line-height: 24px;
 }
 
 .tablineValue3 {
@@ -329,6 +347,7 @@
 
 .mytablineValue2 {
     text-align: left;
+
 }
 
 /deep/.el-checkbox__inner {
@@ -489,7 +508,7 @@
 
 .bodyTextline {
     width: 1280px;
-    margin: 10px auto 0 auto;
+    margin: 10px 0 0 0;
 
     .bodyTextlineValue {
         display: flex;
@@ -548,7 +567,6 @@
 
 .listRight_mar {
     width: 1280px;
-    margin: 0 auto;
     text-align: right;
     position: relative;
     .listRight {
@@ -573,7 +591,6 @@
 }
 .margin-tab {
     width: 1280px;
-    margin: 0 auto;
     margin-top: 20px;
 }
 .strollName {
@@ -763,6 +780,19 @@
 
 .Postdescription {
     margin-top: 20px;
+    width: 1205px;
+    height: 44px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #999999;
+    overflow: hidden;
+    /* 溢出部分进行隐藏 */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    /* 盒模型元素从顶部向底部垂直排列子元素 */
+    -webkit-line-clamp: 2;
+    /* 显示两行 */
+    text-overflow: ellipsis;
 }
 
 .tablineValue3 {
@@ -837,4 +867,52 @@
             }
         }
     }
+}
+.contentBox {
+    position: relative;
+    display: flex;
+    .rightBox {
+        margin-top: -50px;
+        width: 280px;
+        height: auto;
+        position: absolute;
+        right: 0;
+        background: #ffffff;
+        .huatibox {
+          height: 80px;
+          padding: 15px 30px;
+          border-bottom: 1px solid #dddddd;
+    
+          .maintitle {
+            font-size: 20px;
+            width: 188px;
+            font-family: PingFang SC-Bold, PingFang SC;
+            font-weight: bold;
+            color: #333333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .line {
+            width: 0px;
+            height: 10px;
+            opacity: 1;
+            margin: 0 11px;
+            border-right: 1px solid #cccccc;
+          }
+        }
+        .lookmore {
+          // width: 72px;
+          height: 39px;
+          text-align: center;
+          line-height: 39px;
+          font-size: 12px;
+          font-family: PingFang SC-Regular, PingFang SC;
+          font-weight: 400;
+          color: #999999;
+        }
+      }
+}
+.vxe-table--render-default.border--default .vxe-body--column {
+    background-position:unset
 }

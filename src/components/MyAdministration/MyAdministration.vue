@@ -14,8 +14,17 @@
     <div v-if="selectedIndex == 1">
       <brand-management />
     </div>
-    <div v-if="selectedIndex == 5">
+    <div v-if="selectedIndex == 0">
+      <order />
+    </div>
+    <div v-if="selectedIndex == 4">
       <wallet-management />
+    </div>
+    <div v-if="selectedIndex == 2">
+      <crowd-funding />
+    </div>
+    <div v-if="selectedIndex == 3">
+      <activity />
     </div>
   </div>
 </template>
@@ -23,8 +32,11 @@
 <script>
 import WalletManagement from "./optins/WalletManagement.vue"
 import BrandManagement from "./optins/BrandManagement.vue"
+import Order from './optins/order.vue';
+import CrowdFunding from './optins/crowd-funding.vue';
+import Activity from './optins/activity.vue';
 export default {
-  components: { WalletManagement,BrandManagement },
+  components: { WalletManagement,BrandManagement, Order, CrowdFunding, Activity },
   data() {
     return {
       topicClass: [
@@ -32,7 +44,6 @@ export default {
         "品牌管理",
         "众筹管理",
         "活动管理",
-        "帖子管理",
         "钱包管理",
       ],
       selectedIndex: "1",

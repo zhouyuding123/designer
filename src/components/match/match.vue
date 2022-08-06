@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="matchbody">
     <div class="paddingmatch">
       <div class="matchtitle">
         <div class="matchtitle_left">官方赛事</div>

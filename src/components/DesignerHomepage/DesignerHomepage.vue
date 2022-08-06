@@ -201,8 +201,6 @@
 <script>
 import { getListWorksApi, myCenterApi } from "@/urls/wsUrl.js";
 import {
-  getListApi,
-  AdApi,
   ordersAddWorksApi,
   getOrderStatApi,
   payApi,
@@ -366,6 +364,9 @@ export default {
         });
       } else {
         this.code = "";
+        this.payorder_no.order_no = "";
+        this.payOver.order_no = "";
+        this.payshows = 1;
         clearInterval(this.timer);
       }
     },

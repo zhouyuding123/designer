@@ -395,15 +395,17 @@ body,
   margin-left: -45px;
   border-radius: 10px 10px 10px 10px;
 }
-
 .el-menu--horizontal {
   .el-menu--popup:nth-child(1) {
+    margin-top: 0px;
     min-width: 160px !important;
-    margin-left: -25px;
+    margin-left: -30px;
     border-radius: 10px 10px 10px 10px;
   }
 }
-
+.el-menu-item:hover {
+  color: #FFDC00 !important;
+}
 
 .el-menu-item.kzt {
   background-color: #1A0761 !important;
@@ -411,7 +413,8 @@ body,
 }
 
 .el-menu-item.is-active {
-  color: #FFDC00 !important;
+  color: black !important;
+  background-color: white;
 }
 ::-webkit-scrollbar {
   width: 0px;
@@ -717,4 +720,13 @@ page {
 .disj {
   display: flex;
   justify-content: center;
+}
+.desred {
+  background: #ff0000 !important;
+}
+.desorange {
+  background: #ff8000 !important;
+}
+.desyellow {
+  background: #ffdc00 !important;
 }

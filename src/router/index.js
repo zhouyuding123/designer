@@ -25,7 +25,7 @@ const routes = [
     children: [
       {
         path: "/home",
-        redirect: "/users_designer_works/getList",
+        redirect: "/SpecialArea",
       },
       {
         path: "/pageHome",
@@ -198,13 +198,26 @@ const routes = [
         path: "/hotTopic",
         name: "hotTopic",
         component: () => import("../components/Circle/CircleList/details/hotTopic/hotTopic.vue"),
-
       },
       {
         path: "/hotTopicdetail",
         name: "hotTopicdetail",
         component: () => import("../components/Circle/CircleList/details/hotTopic/hotTopicdetail.vue"),
-
+      },
+      {
+        path:'/DesignerList',
+        name:"DesignerList",
+        component:()=>import("../components/DesignerList/DesignerList.vue")
+      },
+      {
+        path:'/team',
+        name:"team",
+        component:()=>import("../components/team/team.vue")
+      },
+      {
+        path:"/worksList",
+        name:"worksList",
+        component:()=>import("../components/worksList/worksList.vue")
       }
     ]
   },
@@ -216,7 +229,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  mode: "hash",
   base: process.env.BASE_URL,
   routes,
 });

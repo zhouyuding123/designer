@@ -1,6 +1,6 @@
 <template>
   <div class="disj">
-    <div style="margin-right: 20px">
+    <div style="width: 1580px">
       <div class="btns flex">
         <div
           class="btnstyle"
@@ -13,12 +13,14 @@
           {{ item }}
         </div>
       </div>
-      <div v-if="btnindex === 0">
+      <div v-if="btnindex === 0" class="contentBox">
         <div>
-          <div style="width: 1280px; margin: 0 auto">
-            <fabu />
+          <div style="width: 1280px;">
+            <fabu
+              @remenlist="getremen"
+            />
           </div>
-          <div style="width: 1280px; margin: 0 auto">
+          <div style="width: 1280px;">
             <div
               class="tabline"
               v-for="item in strollList"
@@ -128,8 +130,34 @@
             ></vxe-pager>
           </div>
         </div>
+        <div class="rightBox" v-if="remenlist.length">
+      <div
+        class="huatibox"
+        v-for="(item, index) in remenlist"
+        :key="index"
+        @click="todetail(item.id)"
+      >
+        <div class="flex al-c">
+          <div>
+            <img
+              src="@/assets/imgers/icon/14756@2x.png"
+              style="margin-right: 9px; height: 20px; width: 20px"
+              alt=""
+            />
+          </div>
+          <div class="maintitle">{{ item.title }}</div>
+        </div>
+        <div class="flex al-c ju-c" style="margin-top: 15px">
+          <div class="maincontent coloccc font12">{{ item.count }}篇内容</div>
+          <div class="line"></div>
+          <div class="coloccc font12">{{ item.browse }}次浏览</div>
+        </div>
       </div>
-      <div v-if="btnindex === 1">
+      <!-- v-if="remenlist.length>=7" -->
+      <div class="lookmore" @click="lookmore">查看更多话题</div>
+    </div>
+      </div>
+      <div v-if="btnindex === 1" class="contentBox">
         <div>
           <div class="bodyTextline">
             <div class="bodyTextlineValue">
@@ -282,19 +310,42 @@
             ></vxe-pager>
           </div>
         </div>
+     
+     <div class="rightBox" v-if="remenlist.length">
+      <div
+        class="huatibox"
+        v-for="(item, index) in remenlist"
+        :key="index"
+        @click="todetail(item.id)"
+      >
+        <div class="flex al-c">
+          <div>
+            <img
+              src="@/assets/imgers/icon/14756@2x.png"
+              style="margin-right: 9px; height: 20px; width: 20px"
+              alt=""
+            />
+          </div>
+          <div class="maintitle">{{ item.title }}</div>
+        </div>
+        <div class="flex al-c ju-c" style="margin-top: 15px">
+          <div class="maincontent coloccc font12">{{ item.count }}篇内容</div>
+          <div class="line"></div>
+          <div class="coloccc font12">{{ item.browse }}次浏览</div>
+        </div>
+      </div>
+      <!-- v-if="remenlist.length>=7" -->
+      <div class="lookmore" @click="lookmore">查看更多话题</div>
+    </div>
       </div>
     </div>
-    <div style="width: 280px; height: 680px; background: #ffffff"></div>
+    
   </div>
 </template>
 
 
 <script>
-import {
-  ForumListForumApi,
-  CircleGetForumApi,
-  ForumDelForumApi,
-} from "@/urls/wsUrl.js";
+import { ForumListForumApi, ForumDelForumApi } from "@/urls/wsUrl.js";
 import { postD } from "@/api";
 import fabu from "./details/fabu/fabu.vue";
 import { imgUrl } from "@/assets/js/modifyStyle.js";
@@ -341,6 +392,7 @@ export default {
       },
       //批量删除选中时将对象保存到arrs中
       arrs: [],
+      remenlist: [],
     };
   },
   created() {
@@ -349,6 +401,21 @@ export default {
     this.Mystroll();
   },
   methods: {
+    todetail(id) {
+      this.$router.push({
+        path: "/hotTopicdetail",
+        query: {
+          id: id,
+        },
+      });
+    },
+    lookmore() {
+      this.$router.push("/hotTopic");
+    },
+    getremen(list) {
+      // console.log(list)
+      this.remenlist = list.slice(0, 8);
+    },
     switchbtn(index) {
       this.btnindex = index;
     },
@@ -477,8 +544,6 @@ export default {
 
 <style lang="less" scoped>
 .btns {
-  width: 1280px;
-  margin: 0px auto;
   margin-bottom: 20px;
 
   .btnstyle {

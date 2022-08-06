@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 20px 170px">
+  <div style="margin: 20px auto;width:1580px">
     <div class="titleline1">
       <div class="countSstyle">
         <div class="numbervalue">

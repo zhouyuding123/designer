@@ -3,6 +3,8 @@ const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
+  parallel: false,
+  publicPath: '',
   configureWebpack: {
     resolve: {
       fallback: {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="syimg">
-      <el-carousel height="600px">
+      <el-carousel height="560px">
         <el-carousel-item v-for="item in advertisementImg" :key="item.id">
           <img :src="imagesValue + item.thumb" alt="" @click="goad(item)" />
         </el-carousel-item>
@@ -239,9 +239,6 @@
           <div>使用微信扫一扫支付</div>
         </div>
         <img :src="imagesValues + code" alt="" style="margin-top: 42px" />
-        <div style="margin-top: 42px; font-size: 24px">
-          给你{{ times }}秒时间支付
-        </div>
         <div style="padding-top: 30px">
           <span slot="footer" class="dialog-footer">
             <el-button @click="payshow = false">取 消</el-button>
@@ -293,13 +290,13 @@ export default {
       code: "",
       times: 60,
       payOver: {
-        type:4,
-        order_no:""
+        type: 4,
+        order_no: "",
       },
       payorder_no: {
-        order_no:""
+        order_no: "",
       },
-      paymore:""
+      paymore: "",
     };
   },
   components: {
@@ -390,7 +387,7 @@ export default {
     scroll() {},
     //点击设计师头像
     topersonalinfo(name) {
-      this.$router.push("/DesignerHomepage"+name);
+      this.$router.push("/DesignerHomepage" + name);
     },
     todetails(id) {
       this.$router.push("/workDetails" + id);
@@ -418,64 +415,20 @@ export default {
           postD(payApi(), this.payorder_no).then((res) => {
             if (res.code == 200) {
               this.code = res.data.substring(10);
-              // if (this.payOver.order_no != "") {
-              //   this.timer = setInterval(() => {
-              //     this.times--;
-              //     this.OneSecond();
-              //     if (this.times == 0) {
-              //       clearInterval(this.timer);
-              //       this.payshow = false;
-              //       this.$message.info("支付超时");
-              //       this.payorder_no.order_no = "";
-              //       this.payOver.order_no = "";
-              //       this.code = "";
-              //       this.times = 60;
-              //       this.payshows = 1;
-              //     } else if (this.time < 0) {
-              //       clearInterval(this.timer);
-              //       this.payshow = false;
-              //       this.$message.info("支付超时");
-              //       this.payorder_no.order_no = "";
-              //       this.payOver.order_no = "";
-              //       this.times = 60;
-              //       this.code = "";
-              //       this.payshows = 1;
-              //     }
-              //     if (this.payshow == false) {
-              //       clearInterval(this.timer);
-              //       this.$message.info("支付失败");
-              //       this.payorder_no.order_no = "";
-              //       this.payOver.order_no = "";
-              //       this.times = 60;
-              //       this.code = "";
-              //       this.payshows = 1;
-              //     }
-              //     if (this.paymore == 1) {
-              //       clearInterval(this.timer);
-              //       this.$message.success("恭喜付费成功");
-              //       this.$router.push("/workDetails" + obj.id);
-              //     }
-              //   }, 1000);
-              // } else {
-              //   this.$message({
-              //     offset: 80,
-              //     message: res.msg,
-              //   });
-              // }
-               if (this.payOver.order_no != "") {
-              this.timer = setInterval(() => {
-                this.OneSecond();
-                if (this.paymore == 1 || this.paymore == 3) {
-                  this.$message({
-                    offset: 80,
-                    type: "success",
-                    message: "恭喜付费成功",
-                  });
-                  clearInterval(this.timer);
-                  this.$router.push("/workDetails"+ this.payshowvalue.id);
-                }
-              }, 1000);
-            }
+              if (this.payOver.order_no != "") {
+                this.timer = setInterval(() => {
+                  this.OneSecond();
+                  if (this.paymore == 1 || this.paymore == 3) {
+                    this.$message({
+                      offset: 80,
+                      type: "success",
+                      message: "恭喜付费成功",
+                    });
+                    clearInterval(this.timer);
+                    this.$router.push("/workDetails" + this.payshowvalue.id);
+                  }
+                }, 1000);
+              }
             }
           });
         }
@@ -484,11 +437,13 @@ export default {
     OneSecond() {
       if (this.payshow == true) {
         postD(getOrderStatApi(), this.payOver).then((res) => {
-          console.log(res);
           this.paymore = res.data.is_pay;
         });
       } else {
         this.code = "";
+        this.payorder_no.order_no = "";
+        this.payOver.order_no = "";
+        this.payshows = 1;
         clearInterval(this.timer);
       }
     },

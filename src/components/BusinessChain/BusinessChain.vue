@@ -20,13 +20,29 @@
     <div v-if="selectedIndex == 0">
       <enterprisezone />
     </div>
+    <div v-if="selectedIndex == 1">
+      <oem />
+    </div>
+    <div v-if="selectedIndex == 2">
+      <personaltailor />
+    </div>
+    <div v-if="selectedIndex == 3">
+      <rawmaterial />
+    </div>
+    <div v-if="selectedIndex == 4">
+      <clapper />
+    </div>
   </div>
 </template>
 
 <script>
+import Clapper from './options/Clapper.vue';
 import Enterprisezone from "./options/enterprisezone.vue";
+import Oem from './options/oem.vue';
+import Personaltailor from './options/Personaltailor.vue';
+import Rawmaterial from './options/rawmaterial.vue';
 export default {
-  components: { Enterprisezone },
+  components: { Enterprisezone, Oem, Personaltailor, Rawmaterial, Clapper },
   data() {
     return {
       topicClass: ["企业专区", "代工厂", "私人订制", "原材料供应商", "打版师"],
