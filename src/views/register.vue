@@ -99,7 +99,7 @@
             </el-form-item>
           </div>
           <div class="enterprise">
-            <el-form-item label="手机号">
+            <el-form-item label="手机号" prop="tel">
               <el-input v-model="ruleForm.tel"></el-input>
             </el-form-item>
             <el-form-item label="验证码">
@@ -351,7 +351,7 @@ export default {
             this.$message.success("注册成功");
             this.$router.push("/login");
           } else {
-            this.$message.error("注册失败或者账号已存在");
+            this.$message.error(res.msg);
           }
         });
       });

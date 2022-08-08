@@ -1,6 +1,6 @@
 // 账号密码登陆
 export const loginPWApi = () => {
-    return "User/users/loginPW"
+    return "designer/users_designer/loginPW"
 }// 注册验证账号
 export const verifyUsersApi = () => {
     return "User/users/verifyUsers"

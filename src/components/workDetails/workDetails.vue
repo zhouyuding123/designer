@@ -381,6 +381,7 @@ export default {
         if (res.code == "200") {
           this.$message.success("已成功评论");
           this.WorkDetailsList();
+          this.commentValue.content = ''
         } else if (res.code == "-200") {
           this.$message.error("参数错误，或暂无数据");
         } else if (res.code == "-201") {
@@ -393,6 +394,7 @@ export default {
       });
     },
     comment(e) {
+      this.commentValueser.content = "";
       this.showInput = e.id;
       if (e.pid == 0) {
         this.commentValueser.works_id = this.$route.params.id;
@@ -407,6 +409,7 @@ export default {
       }
     },
     zxc() {
+      this.commentValueser.works_id = this.$route.params.id;
       postD(designerWorkscomment(), this.commentValueser).then((res) => {
         if (res.code == "200") {
           this.$message.success("已成功评论");

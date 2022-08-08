@@ -217,12 +217,6 @@
         </div>
       </div>
       <div class="bottoms dis">
-        <!-- <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >确 定</el-button
-        >
-      </span> -->
         <div class="disleft">
           <div class="disleftimg">
             <img src="@/assets/imgers/购物车.png" alt="" />
@@ -266,8 +260,8 @@ export default {
       seatchname: {
         username: "",
         type: "",
-        limit: 1,
-        offset: 10,
+        limit: 10,
+        offset: 1,
       },
       page1: {
         username: "",

@@ -218,6 +218,16 @@ const routes = [
         path:"/worksList",
         name:"worksList",
         component:()=>import("../components/worksList/worksList.vue")
+      },
+      {
+        path:"/news",
+        name:"news",
+        component:()=>import("../components/news/news.vue")
+      },
+      {
+        path:"/follow",
+        name:'follow',
+        component:()=> import("../components/Mywork/follow/follow.vue")
       }
     ]
   },

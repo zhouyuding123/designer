@@ -1,5 +1,5 @@
 .midbox{
-    width: 1580px;
+    width: 1280px;
     height: 80px;
     margin: 20px auto;
     padding-left: 30px;
@@ -54,13 +54,36 @@
 }
 
 .line2 {
-    width: 100%;
+    margin: 0 auto;
+    width: 1280px;
     background-color: white;
     margin-top: 20px;
 
     .lineongpadding {
         padding: 40px 50px;
         text-align: left;
+        /deep/.el-upload.el-upload--text {
+            height: auto;
+           
+        }
+    }
+}
+.linetp {
+    margin: 0 auto;
+    width: 1280px;
+    background-color: white;
+    margin-top: 20px;
+
+    .lineongpadding {
+        padding: 40px 50px;
+        text-align: left;
+        /deep/.el-upload.el-upload--text {
+            height: 240px;
+            img {
+                max-width: 400px;
+                max-height: 240px;
+            }
+        }
     }
 }
 
@@ -126,6 +149,7 @@
 
 /deep/.el-upload--text {
     width: 400px;
+    height: 240px;
 }
 
 .avatar-uploader-icon {

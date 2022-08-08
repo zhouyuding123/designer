@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 20px 320px">
+  <div>
     <div class="midbox">
       <el-tabs v-model="activeName">
         <el-tab-pane label="用户管理" name="1"></el-tab-pane>
@@ -151,7 +151,7 @@
       </div>
     </div>
     <div v-if="activeName == 1 && authenticationshow == 2">
-      <div class="line2">
+      <div class="linetp">
         <div class="lineongpadding">
           <el-form
             :model="authenticationruleForm"
@@ -217,7 +217,7 @@
             <el-form-item
               label="营业执照"
               prop="license"
-              v-if="authenticationruleForm.style == 2"
+              v-if="mystyle == 2"
             >
               <el-upload
                 style="margin-left: 20px"
@@ -303,10 +303,10 @@
 
 
 <script>
-import { timestampToTime } from "@/assets/js/time.js";
+import { timestampToTime, } from "@/assets/js/time.js";
 import { imgUrl } from "@/assets/js/modifyStyle";
 import { postD } from "../../api";
-import { editInfoApi, setAuthApi, designerMyCenterApi } from "@/urls/wsUrl.js";
+import { editInfoApi, setAuthApi, designerMyCenterApi,myCenterApi } from "@/urls/wsUrl.js";
 import Addresslist from "./address/addresslist.vue";
 import authentication from "./address/authentication.vue";
 export default {
@@ -392,13 +392,24 @@ export default {
         ],
       },
       myDenper: [],
+      mynames:{
+        username:localStorage.getItem('use')
+      },
+      mystyle:""
     };
   },
   created() {
     this.imagesValue = imgUrl();
+    this.mypersonalvalue()
     this.mypersonal();
+    
   },
   methods: {
+    mypersonalvalue() {
+      postD(myCenterApi(),this.mynames).then(res=>{
+        this.mystyle = res.data.style
+      })
+    },
     mypersonal() {
       var myname = {
         username: localStorage.use,
@@ -500,15 +511,15 @@ export default {
         if (!v) return;
         console.log(v);
         console.log(this.authenticationruleForm);
-        // postD(setAuthApi(), this.authenticationruleForm).then((res) => {
-        //   if (res.code == "200") {
-        //     this.$message.success("上传认证成功请耐心等待审核");
-        //     this.mypersonal();
-        //     this.authenticationshow = 1;
-        //   } else {
-        //     this.$message.error("上传时出现错误");
-        //   }
-        // });
+        postD(setAuthApi(), this.authenticationruleForm).then((res) => {
+          if (res.code == "200") {
+            this.$message.success("上传认证成功请耐心等待审核");
+            this.mypersonal();
+            this.authenticationshow = 1;
+          } else {
+            this.$message.error("上传时出现错误");
+          }
+        });
       });
     },
     inputChange() {

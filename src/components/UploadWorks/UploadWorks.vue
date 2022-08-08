@@ -8,7 +8,7 @@
         label-width="100px"
         hide-required-asterisk
       >
-        <div class="wrap" style="height: 600px">
+        <div class="wrap" style="min-height: 600px">
           <el-form-item label="作品标题" prop="title">
             <el-input v-model="form.title"></el-input>
           </el-form-item>
@@ -21,7 +21,7 @@
                 :data="{ fileType: this.fileType }"
                 multiple
                 list-type="picture-card"
-                :limit="9"
+                :limit="100"
                 :on-success="handleAvatarSuccesser2"
                 :file-list="imageList2"
                 :on-preview="handlePictureCardPreview"

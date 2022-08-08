@@ -96,6 +96,8 @@ export default {
       nummore(val) {
           if(String(val).length>=4) {
               return val.substring(0,String(val).length-4)+ "万"
+          }else {
+            return val
           }
       }
   },

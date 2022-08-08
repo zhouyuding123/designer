@@ -126,7 +126,7 @@
                 'Sizes',
                 'Total',
               ]"
-              @page-change="handlePageChangeActivity"
+              @page-change="handlePageChangeActivitys"
               style="margin-top: 20px"
             ></vxe-pager>
           </div>
@@ -444,6 +444,14 @@ export default {
       postD(ForumListForumApi(), this.page1).then((res) => {
         this.strollList = res.list;
         this.page1.totalResult = res.count;
+      });
+    },
+    handlePageChangeActivitys({ currentPage, pageSize }) {
+      this.page2.offset = currentPage;
+      this.page2.limit = pageSize;
+      postD(ForumListForumApi(), this.page2).then((res) => {
+        this.tableData = res.list;
+        this.page2.totalResult = res.count;
       });
     },
     // 搜索

@@ -86,7 +86,7 @@
       </div>
     </div>
     <el-dialog :visible.sync="delvalueshow" width="30%">
-      <span>这是一段信息</span>
+      <span>您确定要删除该地址吗?</span>
       <div style="padding-top: 70px">
         <span slot="footer" class="dialog-footer">
           <el-button @click="delvalueshow = false">取 消</el-button>

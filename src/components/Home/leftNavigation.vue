@@ -52,8 +52,12 @@
             <el-submenu index="6">
               <template slot="title">榜单</template>
               <div class="syitem">
-                <el-menu-item index="6-1" @click="goDesignerList">设计师榜</el-menu-item>
-                <el-menu-item index="6-2" @click="goworkList">作品榜</el-menu-item>
+                <el-menu-item index="6-1" @click="goDesignerList"
+                  >设计师榜</el-menu-item
+                >
+                <el-menu-item index="6-2" @click="goworkList"
+                  >作品榜</el-menu-item
+                >
                 <el-menu-item index="6-3" @click="goteam">团体榜</el-menu-item>
               </div>
             </el-submenu>
@@ -67,13 +71,41 @@
               <div class="sc" @click="uploadWork">
                 <img src="@/assets/imgers/上传.png" alt="" />
               </div>
-              <div class="tz">
-                <img src="@/assets/imgers/通知.png" alt="" />
+              <div class="tz" slot="reference">
+                <el-popover placement="bottom" width="280" trigger="click" popper-class="popperStyle">
+                  <div class="tz_value">
+                    <div class="dis line1top">
+                      <div class="line1topleft">消息</div>
+                      <div class="line1topright">清空</div>
+                    </div>
+                    <div
+                      class="news_value"
+                      v-for="(item, index) in news"
+                      :key="index"
+                    >
+                      <div class="news_valueimg">
+                        <img :src="imagesValue + item.wuimg" alt="" />
+                      </div>
+                      <div class="news_title">
+                        <div>{{ item.name }}</div>
+                        <div>{{ item.text }}</div>
+                      </div>
+                    </div>
+                    <div class="more cur" @click="gonews">查看更多</div>
+                  </div>
+                  <img src="@/assets/imgers/通知.png" alt="" slot="reference" />
+                </el-popover>
               </div>
               <div class="tx">
                 <el-submenu index="8">
-                  <template slot="title"
-                    ><img
+                  <template slot="title">
+                    <img
+                      v-if="!imagescxk"
+                      :src="imagesValue + wuimg"
+                      alt=""
+                      style="width: 35px; height: 35px; border-radius: 50%" />
+                    <img
+                      v-else
                       :src="imagesValue + imagescxk"
                       alt=""
                       style="width: 35px; height: 35px; border-radius: 50%"
@@ -97,20 +129,22 @@
         </div>
         <div></div>
       </el-header>
-      <el-main style="padding-top: 60px">
+      <el-main style="padding-top: 60px;padding-bottom:20px" @click="outs">
         <keep-alive>
           <router-view
+            @click="outs"
             v-if="$route.meta.keepAlive"
             :key="$route.fullPath"
           ></router-view>
         </keep-alive>
         <router-view
+          @click="outs"
           v-if="!$route.meta.keepAlive"
           :key="$route.fullPath"
         ></router-view>
       </el-main>
     </el-container>
-    <div class="seatchersback"  v-show="seatchShow">
+    <div class="seatchersback" v-show="seatchShow">
       <div class="seatchers">
         <div class="seatch_list">
           <i
@@ -152,6 +186,34 @@ export default {
       },
       authentication: "",
       dialogVisible: false,
+      wuimg: "images/20220808/1659924390102aa33ae2b2c86837a584c502d8cfea.png",
+      news: [
+        {
+          wuimg:
+            "images/20220808/1659924390102aa33ae2b2c86837a584c502d8cfea.png",
+          name: "系统消息",
+          text: "你发布的作品《作品标题》已通过",
+        },
+        {
+          wuimg:
+            "images/20220808/1659924390102aa33ae2b2c86837a584c502d8cfea.png",
+          name: "系统消息",
+          text: "你发布的作品《作品标题》已通过",
+        },
+        {
+          wuimg:
+            "images/20220808/1659924390102aa33ae2b2c86837a584c502d8cfea.png",
+          name: "系统消息",
+          text: "你发布的作品《作品标题》已通过",
+        },
+        {
+          wuimg:
+            "images/20220808/1659924390102aa33ae2b2c86837a584c502d8cfea.png",
+          name: "系统消息",
+          text: "你发布的作品《作品标题》已通过",
+        },
+      ],
+      newsshow: false,
     };
   },
   created() {
@@ -162,6 +224,16 @@ export default {
     this.name.username = localStorage.getItem("use");
   },
   methods: {
+    outs() {
+      this.newsshow = false;
+    },
+    newsShow() {
+      if (this.newsshow == false) {
+        this.newsshow = true;
+      } else {
+        this.newsshow = false;
+      }
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -254,13 +326,16 @@ export default {
       this.$router.push("/Circle");
     },
     goDesignerList() {
-      this.$router.push("/DesignerList")
+      this.$router.push("/DesignerList");
     },
     goteam() {
-      this.$router.push("/team")
+      this.$router.push("/team");
     },
     goworkList() {
-      this.$router.push("/worksList")
+      this.$router.push("/worksList");
+    },
+    gonews() {
+      this.$router.push('/news')
     }
   },
 };
@@ -268,6 +343,16 @@ export default {
 
 <style lang="less" scoped>
 @import url("./leftNavigation.less");
+</style>
+
+
+<style>
+.popperStyle {
+  width: 280px;
+  height: 350px;
+  border-radius: 10px 10px 10px 10px;
+  padding: 0;
+}
 </style>
 
 

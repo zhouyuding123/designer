@@ -1,54 +1,5 @@
 <template>
   <div>
-    <div class="wrap">
-      <div class="insidewrap">
-        <div class="flex al-c">
-          <div class="flex">
-            <div class="avator">
-              <img :src="imagesValue+myValue.headimage" alt="" style="border-radius: 50%;" />
-            </div>
-            <div class="personbox">
-              <div class="name flex al-c">
-                <div>{{myValue.nickname}}</div>
-                <div class="font12 margin-left20 sjs">
-                  <img src="@/assets/imgers/设计师等级.png" alt="">
-                </div>
-              </div>
-              <div class="idnumber">{{myValue.in_code}}</div>
-              <div class="collect">
-                <span>
-                  <span class="num cur" @click="gofollow">720</span>
-                  <span class="word">收藏</span>
-                </span>
-                <span>
-                  <span class="num cur" @click="gofollow">720</span>
-                  <span class="word">关注</span>
-                </span>
-                <span>
-                  <span class="num cur" @click="gofollow">720</span>
-                  <span class="word">粉丝</span>
-                </span>
-                <span>
-                  <span class="num cur" @click="gofollow">720</span>
-                  <span class="word">帖子</span>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="PublishWorks" @click="toUploadWorks">发布作品</div>
-        </div>
-        <div class="Psignature">
-          个性签名：{{myValue.label}}
-        </div>
-      </div>
-    </div>
-    <div class="midbox">
-      <el-tabs v-model="Works.category" @tab-click="handleClick">
-        <el-tab-pane label="公开作品" name="2"></el-tab-pane>
-        <el-tab-pane label="付费作品" name="3"></el-tab-pane>
-        <el-tab-pane label="私密作品" name="1"></el-tab-pane>
-      </el-tabs>
-    </div>
     <div class="list_free">
       <div class="list_free_list">
         <waterfall
@@ -61,11 +12,16 @@
           @loadmore="loadmore"
           @scroll="scroll"
         >
-          <div class="masonry" v-for="(item, index) in myworkList" @click="gowork(item.id)" :key="index">
+          <div
+            class="masonry"
+            v-for="(item, index) in myworkList"
+            @click="gowork(item.id)"
+            :key="index"
+          >
             <div class="coverimg">
               <img :src="imagesValue + item.thumb" alt="" />
               <!-- <div></div> -->
-              <div class="drop">
+              <!-- <div class="drop">
                 <el-dropdown @command="handleCommand">
                   <span class="el-dropdown-link">
                     <div class="icon"></div>
@@ -82,7 +38,7 @@
                     >
                   </el-dropdown-menu>
                 </el-dropdown>
-              </div>
+              </div> -->
             </div>
             <div class="list_title">
               <div class="list_title_title">
@@ -144,30 +100,25 @@
 </template>
 
 <script>
-import { getMyWorksApi, delMyWorksApi,designerMyCenterApi } from "@/urls/wsUrl.js";
+import {
+  getMyWorksApi,
+  delMyWorksApi,
+  designerMyCenterApi,
+} from "@/urls/wsUrl.js";
 import { postD } from "@/api";
 import { imgUrl } from "@/assets/js/modifyStyle";
-import waterfall from "../Designerzone/pul.vue";
+import waterfall from "@/components/Designerzone/pul.vue";
 export default {
   data() {
     return {
-      activeName: "1",
-      Works: {
-        category: "2",
-        status: 1,
-        limit: "10",
-        offset: "1",
-      },
-      myworkList: [],
       windowWidth: document.documentElement.clientWidth,
-      count: null,
       imagesValue: "",
-      myValue:[]
+      myworkList: [],
     };
   },
-  created() {
+   created() {
     this.getmyworkList();
-    this.mywork()
+    // this.mywork();
     this.imagesValue = imgUrl();
   },
   components: {
@@ -190,22 +141,6 @@ export default {
     };
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-      console.log(this.Works.category);
-      this.Works.offset = 1;
-      this.myworkList = [];
-      this.getmyworkList();
-    },
-    mywork() {
-      var my={
-        username:localStorage.getItem('use')
-      }
-      postD(designerMyCenterApi(),my).then(res=> {
-        console.log(res);
-        this.myValue = res.data
-      })
-    },
     getmyworkList() {
       postD(getMyWorksApi(), this.Works).then((res) => {
         // console.log(res.list)
@@ -222,10 +157,6 @@ export default {
       // this.Listshow()
     },
     scroll() {},
-    //跳转到发布作品
-    toUploadWorks() {
-      this.$router.push("/UploadWorks");
-    },
     handleCommand(command) {
       // console.log(command)
       // console.log(id)
@@ -257,13 +188,161 @@ export default {
     gowork(val) {
       this.$router.push("/workDetails"+val)
     },
-    gofollow(){
-      this.$router.push('/follow')
-    }
   },
 };
 </script>
 
+
 <style lang="less" scoped>
-@import url("./Mywork.less");
+
+
+.list_free {
+    margin-top: 20px;
+    // display: flex;
+    // justify-content: center;
+
+
+    .list_free_list {
+        max-width: 1580px;
+        margin: 0 auto;
+        // width: 100%;
+        // display: flex;
+        // flex-wrap: wrap;
+    }
+}
+
+.masonry {
+    max-width: 300px;
+    min-width: 300px;
+    width: 100%;
+    background: #FFFFFF;
+    border-radius: 6px 6px 6px 6px;
+    margin-bottom: 20px;
+
+    .coverimg {
+        background-color: #000000;
+        opacity: 1;
+        position: relative;
+        z-index: 10;
+        cursor: pointer;
+
+        .drop {
+            position: absolute;
+            top: 0;
+            right: 0px;
+
+            .icon {
+                background: url('@/assets/imgers/icon/14692@2x.png');
+                z-index: 9999;
+                width: 40px;
+                height: 24px;
+                background-size: cover;
+            }
+
+            /deep/.el-dropdown-menu__item:focus,
+            .el-dropdown-menu__item:hover {
+                color: #FFDC00;
+            }
+        }
+
+        img {
+            max-width: 300px;
+        }
+
+        .img1 {
+            position: absolute;
+            top: calc(50% - 40px);
+            left: calc(50% - 35px);
+            z-index: 9;
+        }
+    }
+
+    .list_title {
+        // height: 60px;
+        display: flex;
+
+        .list_title_title {
+            text-align: left;
+            width: 222px;
+            padding: 7px 11px;
+
+            .list_title_title_title {
+                width: 200px;
+                // height: 22px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                font-size: 16px;
+                color: #06121E;
+                font-family: PingFang SC-Bold, PingFang SC;
+                font-weight: bold;
+                color: #06121E;
+            }
+
+            .list_title_title_title_tag {
+                margin-bottom: 12px;
+                margin-top: 4px;
+                flex-wrap: wrap;
+
+                div {
+                    // width: 50px;
+                    margin: 5px;
+                    padding: 10px;
+                    height: 20px;
+                    background: #EEEEEE;
+                    text-align: center;
+                    border-radius: 10px 10px 10px 10px;
+                    font-size: 12px;
+                    line-height: 0px;
+                    font-family: PingFang SC-Regular, PingFang SC;
+                    font-weight: 400;
+                    color: #CCCCCC;
+                    margin-right: 3px;
+                }
+            }
+
+            .icon {
+                div {
+
+
+                    img {
+                        width: 16px;
+                        height: 16px;
+                    }
+                }
+
+            }
+        }
+
+        .list_title_img {
+            // margin-left: auto;
+            padding-right: 9px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+
+            img {
+                width: 46px;
+                height: 46px;
+                border-radius: 50%;
+            }
+        }
+    }
+}
+
+.payimg {
+    width: 300px;
+
+    background: rgba(0, 0, 0, 1);
+    overflow: hidden;
+
+    img {
+        filter: blur(25px);
+        opacity: 0.5;
+        z-index: 1;
+
+    }
+}
+.sjs {
+    background: url();
+}
 </style>
