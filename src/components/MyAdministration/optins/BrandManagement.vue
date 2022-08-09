@@ -306,5 +306,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
+/deep/.el-dialog {
+  height: auto;
+}
 @import url("./BrandManagement.less");
 </style>

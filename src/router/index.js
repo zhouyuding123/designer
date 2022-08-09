@@ -228,6 +228,16 @@ const routes = [
         path:"/follow",
         name:'follow',
         component:()=> import("../components/Mywork/follow/follow.vue")
+      },
+      {
+        path:"/bond",
+        name:"bond",
+        component:()=>import("../components/openVip/bond/bond.vue")
+      },
+      {
+        path:"/complaint",
+        name:'complaint',
+        component:()=> import("../components/complaint/complaint.vue")
       }
     ]
   },

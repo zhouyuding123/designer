@@ -60,10 +60,9 @@
             </div>
           </div>
         </div>
-   
-          <div class="worksDiv2line2">
+
+        <div class="worksDiv2line2">
           <span>{{ WorksShowData.description }}</span>
- 
         </div>
         <div v-for="item in imgs" :key="item.item" class="imgs">
           <video v-if="item.split('/')[0] == 'moves' && item != ''" controls>
@@ -76,12 +75,9 @@
             v-if="item.split('/')[0] == 'images' && item != ''"
           />
         </div>
-        <div
-          v-for="(item, index) in imgsList"
-          :key="index"
-        >
+        <div v-for="(item, index) in imgsList" :key="index">
           <el-image
-            style="max-width: 1200px;margin-bottom: 20px;"
+            style="max-width: 1200px; margin-bottom: 20px"
             :src="imagesValue + item"
             :preview-src-list="showimgsList"
           >
@@ -94,8 +90,10 @@
         </div>
         <div class="worksDiv3line2">
           <div>
-            <span class="worksline1">原创作品</span
-            ><span class="worksline1Value">服装设计 成人卫衣</span>
+            <span class="worksline1">作品类别</span
+            ><span class="worksline1Value">{{
+              WorksShowData.prodtuc_type
+            }}</span>
           </div>
           <div>
             <span class="worksline1">上传时间</span>
@@ -103,7 +101,19 @@
           </div>
           <div>
             <span class="worksline1">作品版权</span
-            ><span class="worksline1Value">服装设计 成人卫衣</span>
+            ><span class="worksline1Value" v-if="WorksShowData.cert == ''"
+              >此作品还未进行版权认证</span
+            >
+            <span class="worksline1Value"
+              >此作品已在深圳数字作品备案中心备案，可
+              <el-image
+                :src="imagesValue + djimg"
+                style="width: 33px; height: 16px; margin-top: 3px"
+                :preview-src-list="srcList"
+              >
+              </el-image>
+              查看证书详情</span
+            >
           </div>
           <div class="lastDiv">
             <span class="worksline1">作品标签</span>
@@ -119,7 +129,7 @@
           <div class="statement">
             声明：本站内用户发表的所有内容及言论仅代表其本人，并不反映本站意见及观点。
           </div>
-          <div class="operation">
+          <div class="operation" @click="gojsshowtrue">
             <div class="complaint">
               <img
                 src="@/assets/imgers/icon/12819@2x.png"
@@ -128,15 +138,6 @@
               />
             </div>
             <span>举报</span>
-            <div class="fgx"></div>
-            <div class="forward">
-              <img
-                src="@/assets/imgers/icon/14388@2x.png"
-                style="width: 20px; height: 20px"
-                alt=""
-              />
-            </div>
-            <span>转发</span>
           </div>
         </div>
         <div class="shaped"></div>
@@ -260,6 +261,43 @@
         </div>
       </div>
     </div>
+    <el-dialog title="举报" :visible.sync="dialogVisible" width="30%">
+      <div v-if="jbshow === 1">
+        <el-radio v-model="radio" label="1">侵权</el-radio>
+        <el-radio v-model="radio" label="2">政治有害</el-radio>
+        <el-radio v-model="radio" label="2">低俗色情</el-radio>
+        <el-radio v-model="radio" label="2">暴力恐怖</el-radio>
+        <el-radio v-model="radio" label="2">诈骗</el-radio>
+        <el-radio v-model="radio" label="2">侮辱、恶意及辱骂行为</el-radio>
+      </div>
+      <div v-if="jbshow == 2" class="zxcssss">
+        <el-radio v-model="radios" label="1"
+          >我是版权费/原作者，该内容侵犯了我的权益</el-radio
+        >
+        <el-radio v-model="radios" label="2"
+          >我的热心网友，该内容侵犯了他人的权益</el-radio
+        >
+        <el-input
+          type="textarea"
+          :rows="2"
+          placeholder="请输入内容"
+          v-model="textarea"
+        >
+        </el-input>
+      </div>
+      <div style="padding: 30px" v-if="jbshow === 1">
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="gojbshow">确 定</el-button>
+        </span>
+      </div>
+      <div style="padding: 30px" v-if="jbshow == 2">
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -275,6 +313,10 @@ import { timestampToTime } from "@/assets/js/time.js";
 export default {
   data() {
     return {
+      textarea:"",
+      jbshow: 1,
+      radio: "",
+      radios: "",
       WorksShowData: [],
       imagesValue: "",
       imgs: "",
@@ -302,8 +344,11 @@ export default {
         category: 2,
       },
       relevantList: [],
-      imgsList:[],
-      showimgsList:[]
+      imgsList: [],
+      showimgsList: [],
+      srcList: [],
+      djimg: "images/20220809/1660039929693dca3d7cefdf9a5a78c19d03237a55.jpg",
+      dialogVisible: false,
     };
   },
   created() {
@@ -319,8 +364,7 @@ export default {
     WorkDetailsList() {
       postD(getMyWorksshowApi(), this.$route.params).then((res) => {
         this.WorksShowData = res.data;
-        this.imgsList = res.data.imgs.split(',')
-         
+        this.imgsList = res.data.imgs.split(",");
         this.imagesValue = imgUrl();
         this.imagesthb = [res.data.thumb];
         var ss = JSON.parse(res.data.content);
@@ -366,9 +410,12 @@ export default {
           });
         });
         this.comment_list = tmp;
-         this.imgsList.forEach((v=> {
-          this.showimgsList.push(this.imagesValue +v)
-         }))
+        this.imgsList.forEach((v) => {
+          this.showimgsList.push(this.imagesValue + v);
+        });
+        res.data.cert.split(",").forEach((v) => {
+          this.srcList.push(this.imagesValue + v);
+        });
       });
     },
     fullTime(val) {
@@ -381,7 +428,7 @@ export default {
         if (res.code == "200") {
           this.$message.success("已成功评论");
           this.WorkDetailsList();
-          this.commentValue.content = ''
+          this.commentValue.content = "";
         } else if (res.code == "-200") {
           this.$message.error("参数错误，或暂无数据");
         } else if (res.code == "-201") {
@@ -435,6 +482,12 @@ export default {
     relevant(val) {
       this.$router.replace("/workDetails" + val);
       this.WorkDetailsList();
+    },
+    gojsshowtrue() {
+      this.dialogVisible = true
+    },
+    gojbshow() {
+      this.jbshow = 2;
     },
   },
 };

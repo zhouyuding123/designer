@@ -181,6 +181,33 @@
             元
           </el-form-item>
         </div>
+        <div class="wrap">
+          <el-form-item label="备案证书" prop="bazs">
+            <el-upload
+              class="avatar-uploader"
+              action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
+              :data="{ fileType: this.fileType }"
+              multiple
+              list-type="picture-card"
+              :limit="100"
+              :on-success="handleAvatarSuccesser3"
+              :file-list="imageList3"
+              :on-preview="handlePictureCardPreview"
+              :before-upload="beforeAvatarUpload1"
+              :on-remove="fileRemove3"
+            >
+              <i
+                class="el-icon-picture-outline"
+                style="background-color: #f5f5f5"
+              ></i>
+            </el-upload>
+            若此作品还未备案，可点击
+            <a href="http://www.333cn.com/beian/"
+              >http://www.333cn.com/beian/</a
+            >
+            前往备案
+          </el-form-item>
+        </div>
 
         <el-button
           type="primary"
@@ -316,6 +343,7 @@ export default {
         personal_price: "",
         copyright_price: "",
         imgs: "",
+        cert: "",
       },
       rules: {
         title: [
@@ -336,6 +364,7 @@ export default {
         category: [
           { required: true, message: "请选择权限", trigger: "change" },
         ],
+        bazs: [{ validator: imagesert, trigger: "blur" }],
       },
       fileType: "images",
       fileType1: "moves",
@@ -351,6 +380,7 @@ export default {
       is_vip: undefined,
       imageList1: [],
       imageList2: [],
+      imageList3: [],
     };
   },
   components: {
@@ -398,7 +428,6 @@ export default {
           (this.form.money = info.money || ""),
           (this.form.category = String(info.category) || "");
         let cc = JSON.parse(info.content);
-        console.log(cc);
         this.introduction = cc.text;
 
         if (info.imgs != "" && info.imgs != null) {
@@ -421,8 +450,28 @@ export default {
           });
         }
 
+        let szimg = info.cert;
+        if (szimg != "" && szimg != null) {
+          szimg.split(",").forEach((item, i) => {
+            if (szimg.split(",").indexOf(",") > -1) {
+              this.imageList3.push({
+                response: {
+                  url: item,
+                },
+                url: this.imagesValue + item,
+              });
+            } else {
+              this.imageList3.push({
+                response: {
+                  url: item,
+                },
+                url: this.imagesValue + item,
+              });
+            }
+          });
+        }
+
         let image = cc.images;
-        console.log(image);
         if (image != "") {
           if (image.indexOf(",") > -1) {
             image.split(",").forEach((item, i) => {
@@ -442,7 +491,6 @@ export default {
             });
           } else {
             if (image.indexOf("images") > -1) {
-              console.log(image);
               this.imageList.push({
                 response: {
                   url: image,
@@ -474,14 +522,16 @@ export default {
           text: this.introduction,
           images: tmp.join(","),
         };
+        let zsvalue = [];
+        this.imageList3.forEach((item, i) => {
+          zsvalue.push(item.response.url);
+        });
 
         this.form.content = JSON.stringify(content);
-
         var imgslist = [];
         this.imageList2.forEach((item, i) => {
           imgslist.push(item.response.url);
         });
-        console.log();
         if (valid) {
           if (form.category == 3) {
             var params = {
@@ -498,6 +548,7 @@ export default {
               personal_price: this.form.personal_price,
               copyright_price: this.form.copyright_price,
               money: this.form.money,
+              cert: zsvalue.join(","),
             };
           } else {
             var params = {
@@ -513,6 +564,7 @@ export default {
               crowd_price: this.form.crowd_price,
               personal_price: this.form.personal_price,
               copyright_price: this.form.copyright_price,
+              cert: zsvalue.join(","),
             };
           }
           if (this.form.category != 2) {
@@ -605,6 +657,9 @@ export default {
       console.log(fileList);
       this.imageList2 = fileList;
     },
+    handleAvatarSuccesser3(res, file, fileList) {
+      this.imageList3 = fileList;
+    },
     fileRemove(file, fileList) {
       this.imageList = fileList;
       console.log(this.imageList);
@@ -631,6 +686,7 @@ export default {
     },
     fileRemove2(file, fileList) {
       this.imageList2 = fileList;
+
       console.log(this.imageList1);
       // const list = []
       // this.imageList.forEach(item => {
@@ -640,6 +696,9 @@ export default {
       //       })
       //   })
       //   this.form.listUploadId = list
+    },
+    fileRemove3(file, fileList) {
+      this.imageList3 = fileList;
     },
     //图片上传前
     beforeAvatarUpload1(file) {

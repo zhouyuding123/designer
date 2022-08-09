@@ -356,5 +356,8 @@ export default {
 
 
 <style lang="less" scoped>
+/deep/.el-dialog {
+  height: auto;
+}
 @import url("./goAddcord.less");
 </style>

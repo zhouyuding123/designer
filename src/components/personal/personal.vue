@@ -43,6 +43,19 @@
             <el-form-item label="昵称">
               <el-input v-model="valueData.nickname"></el-input>
             </el-form-item>
+            <el-form-item label="ID">
+              <div style="margin-left: 20px" class="dis">
+                <div>
+                  {{ valueData.username }}
+                </div>
+                <div style="margin-top: 3px; margin-left: 10px">
+                  <img src="@/assets/imgers/放大镜.png" alt="" />
+                </div>
+                <div style="margin-top: 3px; margin-left: 10px"  v-if="NobleVip ==1">
+                  <img src="@/assets/imgers/vip.png" alt="" />
+                </div>
+              </div>
+            </el-form-item>
             <el-form-item label="个性签名">
               <el-input v-model="valueData.description"></el-input>
             </el-form-item>
@@ -214,11 +227,7 @@
                 </div>
               </div>
             </el-form-item>
-            <el-form-item
-              label="营业执照"
-              prop="license"
-              v-if="mystyle == 2"
-            >
+            <el-form-item label="营业执照" prop="license" v-if="mystyle == 2">
               <el-upload
                 style="margin-left: 20px"
                 class="avatar-uploader"
@@ -303,12 +312,18 @@
 
 
 <script>
-import { timestampToTime, } from "@/assets/js/time.js";
+import { timestampToTime } from "@/assets/js/time.js";
 import { imgUrl } from "@/assets/js/modifyStyle";
 import { postD } from "../../api";
-import { editInfoApi, setAuthApi, designerMyCenterApi,myCenterApi } from "@/urls/wsUrl.js";
+import {
+  editInfoApi,
+  setAuthApi,
+  designerMyCenterApi,
+  myCenterApi,
+} from "@/urls/wsUrl.js";
 import Addresslist from "./address/addresslist.vue";
 import authentication from "./address/authentication.vue";
+import { t } from 'vxe-table';
 export default {
   components: { Addresslist, authentication },
   data() {
@@ -392,23 +407,23 @@ export default {
         ],
       },
       myDenper: [],
-      mynames:{
-        username:localStorage.getItem('use')
+      mynames: {
+        username: localStorage.getItem("use"),
       },
-      mystyle:""
+      mystyle: "",
+      NobleVip:""
     };
   },
   created() {
     this.imagesValue = imgUrl();
-    this.mypersonalvalue()
+    this.mypersonalvalue();
     this.mypersonal();
-    
   },
   methods: {
     mypersonalvalue() {
-      postD(myCenterApi(),this.mynames).then(res=>{
-        this.mystyle = res.data.style
-      })
+      postD(myCenterApi(), this.mynames).then((res) => {
+        this.mystyle = res.data.style;
+      });
     },
     mypersonal() {
       var myname = {
@@ -423,9 +438,11 @@ export default {
         this.valueData.is_cust = this.myDenper.is_cust;
         this.valueData.label = this.myDenper.label;
         this.valueData.is_receive = this.myDenper.is_receive;
+        this.valueData.username = this.myDenper.username;
         this.authenticationruleForm.tel = this.myDenper.tel;
         this.authenticationruleForm.style = this.myDenper.style;
         this.authenticationruleForm.license = this.myDenper.license;
+        this.NobleVip = this.myDenper.is_vip
       });
     },
     handleAvatarSuccesser(res, file) {

@@ -117,7 +117,10 @@
                     <el-menu-item index="8-2" @click="gopersonal"
                       >账号设置</el-menu-item
                     >
-                    <el-menu-item index="8-3" @click="goLogin"
+                    <el-menu-item index="8-3" @click="goTS"
+                      >投诉建议</el-menu-item
+                    >
+                    <el-menu-item index="8-4" @click="goLogin"
                       >退出登录</el-menu-item
                     >
                   </div>
@@ -336,7 +339,8 @@ export default {
     },
     gonews() {
       this.$router.push('/news')
-    }
+    },
+    goTS() {this.$router.push('/complaint')}
   },
 };
 </script>

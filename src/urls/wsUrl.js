@@ -327,6 +327,15 @@ export const ForumThemeApi = () => {
 export const ordersAddWorksApi = () => {
     return "company/orders/addWorks"
 }
+//创建保障金订单
+export const bondApi = () => {
+    return "company/orders/bond"
+}
+
+//投诉
+export const ComplaintApi = () => {
+    return "user/Complaint/add"
+}
 
 
 
