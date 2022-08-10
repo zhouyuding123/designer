@@ -238,6 +238,11 @@ const routes = [
         path:"/complaint",
         name:'complaint',
         component:()=> import("../components/complaint/complaint.vue")
+      },
+      {
+        path:"/crowd",
+        name:"crowd",
+        component:()=>import("../components/workDetails/crowd-funding/crowd-funding.vue")
       }
     ]
   },

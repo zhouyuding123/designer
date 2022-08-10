@@ -93,11 +93,13 @@
               </div>
               <div v-if="scoped.row.thumb" class="tablineValue4">
                 <div
-                  v-for="items in scoped.row.thumb.split(',').slice(1, 4)"
+                  v-for="items in scoped.row.thumb.split(',').slice(0, 3)"
                   :key="items"
                   class="imgadde"
                 >
+                  <div v-if="items.split('/')[0] == 'moves'"></div>
                   <img
+                    v-if="items.split('/')[0] == 'images'"
                     :src="imagesValue + items"
                     alt=""
                     style="width: 106px; height: 106px"
@@ -393,38 +395,38 @@ export default {
         if (data.is_top !== 1) {
           this.Top.forum_id = data.id.toString();
           postD(ForumSetTopApi(), this.Top).then((res) => {
-             if (res.code == "200") {
-            this.$message({
-              offset: 80,
-              type: "success",
-              message: "置顶成功",
-            });
-            this.releaseValue();
-          } else {
-            this.$message({
-              offset: 80,
-              type: "error",
-              message: res.msg,
-            });
-          }
+            if (res.code == "200") {
+              this.$message({
+                offset: 80,
+                type: "success",
+                message: "置顶成功",
+              });
+              this.releaseValue();
+            } else {
+              this.$message({
+                offset: 80,
+                type: "error",
+                message: res.msg,
+              });
+            }
           });
         } else {
           this.Topone.forum_id = data.id.toString();
           postD(ForumSetTopApi(), this.Topone).then((res) => {
-             if (res.code == "200") {
-            this.$message({
-              offset: 80,
-              type: "success",
-              message: "取消成功",
-            });
-            this.releaseValue();
-          } else {
-            this.$message({
-              offset: 80,
-              type: "error",
-              message: res.msg,
-            });
-          }
+            if (res.code == "200") {
+              this.$message({
+                offset: 80,
+                type: "success",
+                message: "取消成功",
+              });
+              this.releaseValue();
+            } else {
+              this.$message({
+                offset: 80,
+                type: "error",
+                message: res.msg,
+              });
+            }
           });
         }
       }
@@ -451,38 +453,38 @@ export default {
         if (data.is_ess !== 1) {
           this.Ess.forum_id = data.id.toString();
           postD(ForumSetEssApi(), this.Ess).then((res) => {
-             if (res.code == "200") {
-            this.$message({
-              offset: 80,
-              type: "success",
-              message: "精华成功",
-            });
-            this.releaseValue();
-          } else {
-            this.$message({
-              offset: 80,
-              type: "error",
-              message: res.msg,
-            });
-          }
+            if (res.code == "200") {
+              this.$message({
+                offset: 80,
+                type: "success",
+                message: "精华成功",
+              });
+              this.releaseValue();
+            } else {
+              this.$message({
+                offset: 80,
+                type: "error",
+                message: res.msg,
+              });
+            }
           });
         } else {
           this.EssOne.forum_id = data.id.toString();
           postD(ForumSetEssApi(), this.EssOne).then((res) => {
-             if (res.code == "200") {
-            this.$message({
-              offset: 80,
-              type: "success",
-              message: "取消精华成功",
-            });
-            this.releaseValue();
-          } else {
-            this.$message({
-              offset: 80,
-              type: "error",
-              message: res.msg,
-            });
-          }
+            if (res.code == "200") {
+              this.$message({
+                offset: 80,
+                type: "success",
+                message: "取消精华成功",
+              });
+              this.releaseValue();
+            } else {
+              this.$message({
+                offset: 80,
+                type: "error",
+                message: res.msg,
+              });
+            }
           });
         }
       }
@@ -511,7 +513,7 @@ export default {
         });
         this.EssidsL.forum_id = this.Essids.toString();
         postD(ForumSetEssApi(), this.EssidsL).then((res) => {
-           if (res.code == "200") {
+          if (res.code == "200") {
             this.$message({
               offset: 80,
               type: "success",

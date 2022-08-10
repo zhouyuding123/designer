@@ -93,11 +93,15 @@
               </div>
               <div v-if="scoped.row.thumb" class="tablineValue4">
                 <div
-                  v-for="items in scoped.row.thumb.split(',').slice(1, 4)"
+                  v-for="items in scoped.row.thumb.split(',').slice(0, 3)"
                   :key="items"
                   class="imgadde"
                 >
+                <div v-if="items.split('/')[0] == 'moves'">
+
+                </div>
                   <img
+                  v-if="items.split('/')[0] == 'images'"
                     :src="imagesValue + items"
                     alt=""
                     style="width: 106px; height: 106px"

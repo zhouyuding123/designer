@@ -341,4 +341,7 @@ export default {
   font-weight: 400;
   color: #ffffff;
 }
+/deep/.el-dialog {
+  height: auto;
+}
 </style>

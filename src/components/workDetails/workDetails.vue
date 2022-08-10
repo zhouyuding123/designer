@@ -23,7 +23,12 @@
           </div>
         </div>
         <div class="buttons">
-          <div class="button_follow"><span>+关注</span></div>
+          <div class="button_follow" @click="gocrowd">
+            <span>发起众筹</span>
+          </div>
+          <div class="button_follows" @click="gocrowds">
+            <span>修改作品</span>
+          </div>
         </div>
       </div>
       <!-- <div class="shaped" style="height:20px"></div> -->
@@ -294,7 +299,22 @@
       <div style="padding: 30px" v-if="jbshow == 2">
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+          <el-button type="primary" @click="dialogVisible = false"
+            >确 定</el-button
+          >
+        </span>
+      </div>
+    </el-dialog>
+    <el-dialog title="选择众筹对象" :visible.sync="zhongchouShow" width="420px">
+      <div>
+        <el-radio v-model="radiozhongchou" label="1">不限制</el-radio>
+      </div>
+      <div>
+        <el-radio v-model="radiozhongchou" label="2">加盟/联盟</el-radio>
+      </div>
+      <div style="padding: 20px">
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="gozhongchou">确 定</el-button>
         </span>
       </div>
     </el-dialog>
@@ -313,7 +333,9 @@ import { timestampToTime } from "@/assets/js/time.js";
 export default {
   data() {
     return {
-      textarea:"",
+      radiozhongchou: "",
+      zhongchouShow: false,
+      textarea: "",
       jbshow: 1,
       radio: "",
       radios: "",
@@ -484,15 +506,52 @@ export default {
       this.WorkDetailsList();
     },
     gojsshowtrue() {
-      this.dialogVisible = true
+      this.dialogVisible = true;
     },
     gojbshow() {
       this.jbshow = 2;
+    },
+    gocrowd() {
+      this.zhongchouShow = true;
+    },
+    gocrowds() {
+      let command={
+        id:this.$route.params.id
+      }
+      this.$router.push({ path: "/UploadWorks", query: { id: command.id } });
+    },
+
+    gozhongchou() {
+      this.$router.push("/crowd");
+      this.zhongchouShow = false;
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
+/deep/.el-radio__label {
+  font-weight: bold;
+  color: #999999;
+  margin-top: 3px;
+}
+
+/deep/.el-radio__input.is-checked + .el-radio__label {
+  font-weight: bold;
+  color: #333333;
+}
+/deep/.el-radio__input.is-checked .el-radio__inner {
+  color: #00b567;
+  background-color: #00b567;
+}
+/deep/.el-radio__inner {
+  width: 20px;
+  height: 20px;
+}
+/deep/.el-radio__inner::after {
+  width: 20px;
+  height: 20px;
+  background-image: url("@/assets/imgers/单选.png");
+}
 @import url("./workDetails.less");
 </style>

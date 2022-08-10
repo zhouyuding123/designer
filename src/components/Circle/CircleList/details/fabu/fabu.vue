@@ -7,7 +7,7 @@
             <el-radio :label="1">发布帖子</el-radio>
             <el-radio :label="2">发布活动</el-radio>
           </el-radio-group>
-          <div class="postbtn" @click="goForum">发表帖子</div>
+          <div class="postbtn cur" @click="goForum">发表帖子</div>
         </div>
         <div style="margin-top: 19px">
           <el-input v-model="title" placeholder="输入标题"></el-input>

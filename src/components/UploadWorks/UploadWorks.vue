@@ -579,6 +579,7 @@ export default {
               // this.$router.push('/SpecialArea')
               if (res.code == 200) {
                 // console.log(res.data);
+                this.$message({ offset: 80, message: res.msg });
                 this.$router.push("/Mywork");
               } else {
                 this.$message({ offset: 80, message: res.msg });

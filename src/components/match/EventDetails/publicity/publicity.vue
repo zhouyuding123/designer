@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 20px auto;width:1580px">
+  <div style="margin: 20px auto; width: 1580px">
     <div class="titleline1">
       <div class="countSstyle">
         <div class="numbervalue">
@@ -41,8 +41,14 @@
     </div>
     <div class="disc" style="width: 100%">
       <div class="ext">
-        <div class="extList" v-for="item in publicityValueList" :key="item.works_id">
-          <div class="RankStyle">第一名</div>
+        <div
+          class="extList"
+          v-for="(item, index) in publicityValueList"
+          :key="index"
+        >
+          <div class="RankStyle" v-if="index == 0"><img src="@/assets/imgers/第一名.png" alt="" /></div>
+          <div class="RankStyle" v-if="index == 1"><img src="@/assets/imgers/第二名.png" alt="" /></div>
+          <div class="RankStyle" v-if="index == 2"><img src="@/assets/imgers/第三名.png" alt="" /></div>
           <div class="pubimg" @click="goWorkShow(item)">
             <img :src="imagesValue + item.thumb" alt="" />
           </div>
@@ -154,18 +160,18 @@ export default {
     //   this.pricelist = mapva;
     //   console.log(this.pricelist);
     // },
-//     prices(newval) {
-//       if(this.time == 1){
-//           setInterval(() => {
-//         var mapva = [];
-//         this.time = 0;
-//         newval.forEach((item, i) => {
-//           mapva.push(...this.publicityValueList.splice(0, item.amount));
-//         });
-//         return (this.pricelist = mapva), console.log(mapva),console.log(this.time);;
-//       }, 3000);
-//       }
-//     },
+    //     prices(newval) {
+    //       if(this.time == 1){
+    //           setInterval(() => {
+    //         var mapva = [];
+    //         this.time = 0;
+    //         newval.forEach((item, i) => {
+    //           mapva.push(...this.publicityValueList.splice(0, item.amount));
+    //         });
+    //         return (this.pricelist = mapva), console.log(mapva),console.log(this.time);;
+    //       }, 3000);
+    //       }
+    //     },
   },
 };
 </script>

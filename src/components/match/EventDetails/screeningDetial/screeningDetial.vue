@@ -13,7 +13,7 @@
           <div class="name_nickname">
             <span class="nickname_span">{{ WorksShowData.nickname }}</span>
             <div class="top">
-              <span>一级设计师</span>
+              <img src="@/assets/imgers/list.png" alt="">
             </div>
           </div>
           <div class="fans_num">

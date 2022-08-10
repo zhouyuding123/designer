@@ -91,4 +91,7 @@ export default {
 
 <style lang="less" scoped>
 @import url("./compete.less");
+/deep/.el-dialog {
+  height: auto;
+}
 </style>

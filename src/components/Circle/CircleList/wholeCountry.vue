@@ -52,7 +52,11 @@
                   :key="items"
                   class="imgadde"
                 >
+                <div v-if="items.split('/')[0] == 'moves'">
+
+                </div>
                   <img
+                  v-if="items.split('/')[0] == 'images'"
                     :src="imagesValue + items"
                     alt=""
                     style="width: 106px; height: 106px"
@@ -239,11 +243,16 @@
                     </div>
                     <div v-if="scoped.row.thumb" class="tablineValue4">
                       <div
-                        v-for="items in scoped.row.thumb.split(',').slice(1, 4)"
+                        v-for="items in scoped.row.thumb.split(',').slice(0, 3)"
                         :key="items"
                         class="imgadde"
                       >
+                      <div v-if="items.split('/')[0] == 'moves'">
+
+                      </div>
+                      
                         <img
+                        v-if="items.split('/')[0] == 'images'"
                           :src="imagesValue + items"
                           alt=""
                           style="width: 106px; height: 106px"
@@ -438,7 +447,7 @@ export default {
     funTime(val) {
       return timestampToTime(val);
     },
-    handlePageChangeActivity({ currentPage, pageSize }) {
+    handlePageChangeActivitys({ currentPage, pageSize }) {
       this.page1.offset = currentPage;
       this.page1.limit = pageSize;
       postD(ForumListForumApi(), this.page1).then((res) => {
@@ -446,7 +455,7 @@ export default {
         this.page1.totalResult = res.count;
       });
     },
-    handlePageChangeActivitys({ currentPage, pageSize }) {
+    handlePageChangeActivity({ currentPage, pageSize }) {
       this.page2.offset = currentPage;
       this.page2.limit = pageSize;
       postD(ForumListForumApi(), this.page2).then((res) => {

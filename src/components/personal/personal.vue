@@ -7,6 +7,7 @@
         <el-tab-pane label="收货地址" name="3"></el-tab-pane>
       </el-tabs>
     </div>
+    <div></div>
     <div v-if="activeName == 1 && authenticationshow == 1">
       <div class="line2">
         <div class="lineongpadding">
@@ -17,7 +18,10 @@
             label-width="100px"
             class="demo-ruleForm"
           >
-            <el-form-item label="头像">
+            <el-form-item>
+              <div class="zsdas">
+                头像
+              </div>
               <el-upload
                 action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
                 :show-file-list="false"
@@ -46,12 +50,15 @@
             <el-form-item label="ID">
               <div style="margin-left: 20px" class="dis">
                 <div>
-                  {{ valueData.username }}
+                  {{ myDenper.username }}
                 </div>
                 <div style="margin-top: 3px; margin-left: 10px">
                   <img src="@/assets/imgers/放大镜.png" alt="" />
                 </div>
-                <div style="margin-top: 3px; margin-left: 10px"  v-if="NobleVip ==1">
+                <div
+                  style="margin-top: 3px; margin-left: 10px"
+                  v-if="NobleVip == 1"
+                >
                   <img src="@/assets/imgers/vip.png" alt="" />
                 </div>
               </div>
@@ -164,7 +171,24 @@
       </div>
     </div>
     <div v-if="activeName == 1 && authenticationshow == 2">
+      <!-- <div class="btns flex">
+        <div
+          class="btnstyle"
+          v-for="(item, index) in btntitle"
+          :key="index"
+          :class="{ active: btnindex == index }"
+          @click="switchbtn(index)"
+          style="margin-right: 20px"
+        >
+          {{ item }}
+        </div>
+      </div> -->
+
       <div class="linetp">
+        <div class="jigo">
+          <el-radio v-model="btnindex" label="1">个人认证</el-radio>
+          <el-radio v-model="btnindex" label="2">组织机构认证</el-radio>
+        </div>
         <div class="lineongpadding">
           <el-form
             :model="authenticationruleForm"
@@ -227,7 +251,7 @@
                 </div>
               </div>
             </el-form-item>
-            <el-form-item label="营业执照" prop="license" v-if="mystyle == 2">
+            <el-form-item label="营业执照" prop="license" v-if="btnindex == 2">
               <el-upload
                 style="margin-left: 20px"
                 class="avatar-uploader"
@@ -253,7 +277,7 @@
                 <div>
                   <el-form-item prop="card_start_time">
                     <el-date-picker
-                      type="datetime"
+                      type="date"
                       placeholder="选择开始时间"
                       v-model="card_start_time"
                       style="width: 100%"
@@ -265,7 +289,7 @@
                 <div>
                   <el-form-item prop="card_end_time">
                     <el-date-picker
-                      type="datetime"
+                      type="date"
                       placeholder="选择结束时间"
                       v-model="card_end_time"
                       style="width: 100%"
@@ -293,13 +317,17 @@
         </div>
       </div>
       <div class="okadd">
+        <div @click="outauth">
+          <span>返回</span>
+        </div>
         <div @click="zxc"><span>确认并提交</span></div>
       </div>
+      
     </div>
     <div v-if="activeName == 1 && authenticationshow == 3">
       <authentication />
       <div class="out_previous">
-        <div @click="outauth">
+        <div @click="outauth" class="cur">
           <span>返回</span>
         </div>
       </div>
@@ -323,7 +351,6 @@ import {
 } from "@/urls/wsUrl.js";
 import Addresslist from "./address/addresslist.vue";
 import authentication from "./address/authentication.vue";
-import { t } from 'vxe-table';
 export default {
   components: { Addresslist, authentication },
   data() {
@@ -343,6 +370,9 @@ export default {
         label: "",
         style: "",
       },
+      btntitle: ["个人设计师", "企业设计师"],
+      btnindex: "1",
+      selectedIndex: 0,
       authenticationshow: 1,
       authenticationruleForm: {
         name: "",
@@ -379,6 +409,9 @@ export default {
         card_z: [
           { required: true, message: "请上传身份证正面", trigger: "blur" },
         ],
+        license: [
+          { required: true, message: "请上传营业执照", trigger: "blur" },
+        ],
         card_f: [
           { required: true, message: "请上传身份证反面", trigger: "blur" },
         ],
@@ -411,7 +444,7 @@ export default {
         username: localStorage.getItem("use"),
       },
       mystyle: "",
-      NobleVip:""
+      NobleVip: "",
     };
   },
   created() {
@@ -438,11 +471,10 @@ export default {
         this.valueData.is_cust = this.myDenper.is_cust;
         this.valueData.label = this.myDenper.label;
         this.valueData.is_receive = this.myDenper.is_receive;
-        this.valueData.username = this.myDenper.username;
         this.authenticationruleForm.tel = this.myDenper.tel;
         this.authenticationruleForm.style = this.myDenper.style;
         this.authenticationruleForm.license = this.myDenper.license;
-        this.NobleVip = this.myDenper.is_vip
+        this.NobleVip = this.myDenper.is_vip;
       });
     },
     handleAvatarSuccesser(res, file) {
@@ -526,17 +558,29 @@ export default {
     zxc() {
       this.$refs.authenticationruleForms.validate((v) => {
         if (!v) return;
-        console.log(v);
-        console.log(this.authenticationruleForm);
-        postD(setAuthApi(), this.authenticationruleForm).then((res) => {
-          if (res.code == "200") {
-            this.$message.success("上传认证成功请耐心等待审核");
-            this.mypersonal();
-            this.authenticationshow = 1;
-          } else {
-            this.$message.error("上传时出现错误");
-          }
-        });
+        if (this.btnindex == 0) {
+          this.authenticationruleForm.style = 1;
+          postD(setAuthApi(), this.authenticationruleForm).then((res) => {
+            if (res.code == "200") {
+              this.$message.success("上传认证成功请耐心等待审核");
+              this.mypersonal();
+              this.authenticationshow = 1;
+            } else {
+              this.$message.error("上传时出现错误");
+            }
+          });
+        } else if (this.btnindex == 1) {
+          this.authenticationruleForm.style = 2;
+          postD(setAuthApi(), this.authenticationruleForm).then((res) => {
+            if (res.code == "200") {
+              this.$message.success("上传认证成功请耐心等待审核");
+              this.mypersonal();
+              this.authenticationshow = 1;
+            } else {
+              this.$message.error("上传时出现错误");
+            }
+          });
+        }
       });
     },
     inputChange() {
@@ -555,5 +599,28 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.btns {
+  width: 1280px;
+  margin: 0px auto;
+  margin-bottom: 20px;
+  .btnstyle {
+    width: 120px;
+    height: 30px;
+    background: #fbfbfb;
+    border-radius: 3px 3px 3px 3px;
+    border: 1px solid #dddddd;
+    font-size: 14px;
+    font-family: PingFang SC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #999999;
+    line-height: 30px;
+    cursor: pointer;
+  }
+  .active {
+    background: #ffdc00;
+    color: #333333;
+    border: 1px solid #ffff;
+  }
+}
 @import url("./personal.less");
 </style>

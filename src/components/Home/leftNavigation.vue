@@ -11,11 +11,14 @@
             text-color="#333"
             active-text-color="#1A0761"
           >
-            <el-menu-item index="0" class="kzt" @click="goConsole"
+            <!-- <el-menu-item index="0" class="kzt" @click="goConsole"
               >控制台</el-menu-item
-            >
+            > -->
             <el-submenu index="1">
-              <template slot="title">首页</template>
+              <template slot="title"
+                >首页
+                <div class="borderyel" v-if="showindex[0]==1" ></div>
+              </template>
               <div class="syitem">
                 <el-menu-item index="1-1" @click="goDesignerZone"
                   >设计师专区</el-menu-item
@@ -26,7 +29,9 @@
               </div>
             </el-submenu>
             <el-submenu index="2">
-              <template slot="title">赛事专区</template>
+              <template slot="title">赛事专区
+                <div class="borderyel" v-if="showindex[0]==2" ></div>
+              </template>
               <div class="syitem">
                 <el-menu-item index="2-1" @click="goMatch()"
                   >赛事列表</el-menu-item
@@ -37,7 +42,9 @@
               </div>
             </el-submenu>
             <el-submenu index="3">
-              <template slot="title">需求大厅</template>
+              <template slot="title">需求大厅
+                <div class="borderyel" v-if="showindex[0]==3" ></div>
+              </template>
               <div class="syitem">
                 <el-menu-item index="3-1">赛事列表</el-menu-item>
                 <el-menu-item index="3-2">我参与的赛事</el-menu-item>
@@ -45,12 +52,16 @@
             </el-submenu>
             <el-menu-item index="4" class="kzt" @click="goCircle">
               潮圈
+              <div class="borderyels" v-if="showindex[0]==4" ></div>
             </el-menu-item>
             <el-menu-item index="5" class="kzt" @click="goBusinessChain">
+              <div class="borderyels" v-if="showindex[0]==5" ></div>
               商链
             </el-menu-item>
             <el-submenu index="6">
-              <template slot="title">榜单</template>
+              <template slot="title">榜单
+                <div class="borderyel" v-if="showindex[0]==6" ></div>
+              </template>
               <div class="syitem">
                 <el-menu-item index="6-1" @click="goDesignerList"
                   >设计师榜</el-menu-item
@@ -63,6 +74,7 @@
             </el-submenu>
             <el-menu-item index="7" class="kzt" @click="goMyAdministration">
               我的管理
+              <div class="borderyel" v-if="showindex[0]==7" ></div>
             </el-menu-item>
             <div class="zxc">
               <div class="ss" @click="seatcher">
@@ -72,7 +84,12 @@
                 <img src="@/assets/imgers/上传.png" alt="" />
               </div>
               <div class="tz" slot="reference">
-                <el-popover placement="bottom" width="280" trigger="click" popper-class="popperStyle">
+                <el-popover
+                  placement="bottom"
+                  width="280"
+                  trigger="click"
+                  popper-class="popperStyle"
+                >
                   <div class="tz_value">
                     <div class="dis line1top">
                       <div class="line1topleft">消息</div>
@@ -132,22 +149,24 @@
         </div>
         <div></div>
       </el-header>
-      <el-main style="padding-top: 60px;padding-bottom:20px" @click="outs">
-        <keep-alive>
+      <el-main style="padding-top: 60px; padding-bottom: 20px">
+        <div @click="outs">
+          <keep-alive>
+            <router-view
+              @click="outs"
+              v-if="$route.meta.keepAlive"
+              :key="$route.fullPath"
+            ></router-view>
+          </keep-alive>
           <router-view
             @click="outs"
-            v-if="$route.meta.keepAlive"
+            v-if="!$route.meta.keepAlive"
             :key="$route.fullPath"
           ></router-view>
-        </keep-alive>
-        <router-view
-          @click="outs"
-          v-if="!$route.meta.keepAlive"
-          :key="$route.fullPath"
-        ></router-view>
+        </div>
       </el-main>
     </el-container>
-    <div class="seatchersback" v-show="seatchShow">
+    <div class="seatchersback" v-show="seatchShow" id="ss">
       <div class="seatchers">
         <div class="seatch_list">
           <i
@@ -177,6 +196,7 @@
 import { designerMyCenterApi } from "@/urls/wsUrl.js";
 import { imgUrl } from "@/assets/js/modifyStyle";
 import { postD } from "@/api";
+
 export default {
   data() {
     return {
@@ -217,6 +237,7 @@ export default {
         },
       ],
       newsshow: false,
+      showindex:''
     };
   },
   created() {
@@ -228,7 +249,7 @@ export default {
   },
   methods: {
     outs() {
-      this.newsshow = false;
+      this.seatchShow = false;
     },
     newsShow() {
       if (this.newsshow == false) {
@@ -238,7 +259,8 @@ export default {
       }
     },
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+      this.showindex = keyPath
+      console.log(this.showindex);
     },
     goLogin() {
       localStorage.clear();
@@ -265,7 +287,6 @@ export default {
       } else {
         this.seatchShow = true;
       }
-      console.log(123);
     },
     uploadWork() {
       postD(designerMyCenterApi(), this.name).then((res) => {
@@ -338,9 +359,11 @@ export default {
       this.$router.push("/worksList");
     },
     gonews() {
-      this.$router.push('/news')
+      this.$router.push("/news");
     },
-    goTS() {this.$router.push('/complaint')}
+    goTS() {
+      this.$router.push("/complaint");
+    },
   },
 };
 </script>

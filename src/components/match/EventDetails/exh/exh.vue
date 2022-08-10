@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 20px auto;width:1580px">
+  <div style="margin: 20px auto; width: 1580px">
     <div class="titleline1">
       <div class="countSstyle">
         <div class="numbervalue">
@@ -30,10 +30,10 @@
             style="position: absolute; margin: 12px 0 0 20px; color: #dddddd"
           ></i>
           <el-input
-            v-model="seatcher.keyword"
+            v-model="seatchers"
             placeholder="请输入内容"
           ></el-input>
-          <div class="buttom_seatch" @click="seatchvalue">
+          <div class="buttom_seatch cur" @click="seatchvalue">
             <span> 搜索 </span>
           </div>
         </div>
@@ -116,7 +116,7 @@
                 <div class="bodywithbon">当前排名</div>
               </div>
               <div class="bodywith">
-                <div class="voto_num">{{item.voto_count}}</div>
+                <div class="voto_num">{{ item.voto_count }}</div>
                 <div class="bodywithbon">当前票数</div>
               </div>
               <div class="bodywith">
@@ -130,39 +130,43 @@
     </div>
     <div class="titleline3">
       <div class="titlevoto" v-for="items in workvalue" :key="items.accept_id">
-        <div class="titleimg">
-          <span>{{ items.accept_id }}</span>
-          <img
-            :src="imagesValue + items.thumb"
-            alt=""
-            @click="goWorkShow(items)"
-          />
-        </div>
-        <div class="titleTitle">
-          <div class="titleValues">
-            <span>{{ items.title }}</span>
+        <div class="imagser_img">
+          <div class="titleimg">
+            <span>{{ items.accept_id }}</span>
+            <a href="">
+              <img
+                :src="imagesValue + items.thumb"
+                alt=""
+                @click="goWorkShow(items)"
+              />
+            </a>
           </div>
-          <div class="hsadimg">
-            <div class="imghead">
-              <el-image
-                :src="imagesValue + items.headimage"
-                style="border-radius: 50%; width: 42px; height: 42px"
-              ></el-image>
+          <div class="titleTitle">
+            <div class="titleValues">
+              <span>{{ items.title }}</span>
             </div>
-            <div class="imgname">
-              <span>{{ items.nickname }}</span>
+            <div class="hsadimg">
+              <div class="imghead">
+                <el-image
+                  :src="imagesValue + items.headimage"
+                  style="border-radius: 50%; width: 42px; height: 42px"
+                ></el-image>
+              </div>
+              <div class="imgname">
+                <span>{{ items.nickname }}</span>
+              </div>
             </div>
-          </div>
-          <div
-            class="votonum"
-            id="votonumvo"
-            v-if="items.is_voto === 1"
-            @click="votonums(items)"
-          >
-            <span>投TA一票</span>
-          </div>
-          <div class="votonumser" v-if="items.is_voto === 2">
-            <span>您已投票</span>
+            <div
+              class="votonum"
+              id="votonumvo"
+              v-if="items.is_voto === 1"
+              @click="votonums(items)"
+            >
+              <span>投TA一票</span>
+            </div>
+            <div class="votonumser" v-if="items.is_voto === 2">
+              <span>您已投票</span>
+            </div>
           </div>
         </div>
       </div>
@@ -244,7 +248,19 @@ export default {
       },
       votocountvalue: "",
       votoShow: false,
+      seatchers:""
     };
+  },
+  watch:{
+    seatchers:{
+      handler:function(value){
+        this.seatcher.keyword = value
+        postD(votoWorksApi(), this.seatcher).then((res) => {
+        this.workvalue = res.list.reverse();
+        this.detialId.totalResult = res.accept_count;
+      });
+      }
+    }
   },
   created() {
     this.token = localStorage.getItem("token");
@@ -361,44 +377,44 @@ export default {
           });
         } else {
           this.$message({
-              offset: 80,
-              type: "error",
-              message: "您已投票或投票失败",
-            });
+            offset: 80,
+            type: "error",
+            message: "您的投票次数已用完，更换赛事试试吧~",
+          });
         }
       });
     },
     vote() {
       postD(setVotoApi(), this.votoid).then((res) => {
         if (res.code == "200") {
-            this.$message({
-              offset: 80,
-              type: "success",
-              message: "投票成功",
-            });
-            this.worksValue();
+          this.$message({
+            offset: 80,
+            type: "success",
+            message: "投票成功",
+          });
+          this.worksValue();
           this.mywork();
           this.votoShow = false;
-          } else {
-            this.$message({
-              offset: 80,
-              type: "error",
-              message: res.msg,
-            });
-          }
+        } else {
+          this.$message({
+            offset: 80,
+            type: "error",
+            message: res.msg,
+          });
+        }
       });
     },
     goWorkShow(val) {
-      var works_id = val.works_id
-      var match_id = val.match_id
-       this.$router.push({
+      var works_id = val.works_id;
+      var match_id = val.match_id;
+      this.$router.push({
         name: "matchworksShow",
         params: {
           works_id: works_id,
           id: match_id,
         },
       });
-    }
+    },
   },
 };
 </script>

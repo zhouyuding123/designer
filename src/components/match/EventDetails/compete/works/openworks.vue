@@ -322,6 +322,9 @@ export default {
 /deep/.el-dialog {
   border-radius: 10px;
 }
+/deep/.el-dialog {
+  height: auto;
+}
 .el-button--default {
   width: 160px;
   height: 40px;

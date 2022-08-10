@@ -15,11 +15,11 @@
         <div class="loginline5t"><span>没有账号? </span></div>
         <div @click="reg" class="loginline5l"><span>立即登入</span></div>
       </div>
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <!-- <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="个人设计师" name="1"></el-tab-pane>
         <el-tab-pane label="企业设计师" name="2"></el-tab-pane>
-      </el-tabs>
-      <div class="loginline3" v-if="activeName == '1'">
+      </el-tabs> -->
+      <div class="loginline3">
         <el-form :model="ruleForm" :rules="ruleFormrules" ref="ruleFormRef">
           <el-form-item label="登入账号" prop="username">
             <el-input v-model="usernames"></el-input>
@@ -67,7 +67,7 @@
           <span>立即注册</span>
         </div>
       </div>
-      <div v-if="activeName == '2'">
+      <!-- <div v-if="activeName == '2'">
         <el-form
           :model="ruleForm"
           :rules="ruleFormrules"
@@ -147,7 +147,7 @@
         <div class="Register_nows" v-if="checked == false">
           <span>立即注册</span>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

@@ -1,17 +1,45 @@
 <template>
   <div class="detialBody">
     <div class="detialImg">
-      <img :src="imagesValue + detialValueList.poster" alt="" />
-      <div class="sxgj" @click="goCompete" v-if="this.types == 1">
+      <img
+        @click="goxqq"
+        class="cur"
+        :src="imagesValue + detialValueList.poster"
+        alt=""
+      />
+      <div
+        class="sxgj"
+        @click="goCompete"
+        v-if="
+          this.types == 1 &&
+          Nowtimes < Date.parse(detialValueList.sign_end_time)
+        "
+      >
         <span>我要参赛</span>
       </div>
-      <div class="sxgj" v-if="this.types == 2">
+      <div
+        class="sxgj"
+        v-if="
+          this.types == 2 &&
+          Nowtimes < Date.parse(detialValueList.sign_end_time)
+        "
+      >
         <span>已参赛</span>
+      </div>
+      <div
+        class="sxgj"
+        v-if="
+          (Nowtimes > Date.parse(detialValueList.sign_end_time) &&
+            Nowtimes < Date.parse(detialValueList.voto_start_time)) 
+        "
+      >
+        <span>已过投稿时间</span>
       </div>
     </div>
     <div
       class="eventbackground"
-      v-if="Nowtimes < Date.parse(detialValueList.sign_end_time)"
+      v-if="Nowtimes < Date.parse(detialValueList.voto_start_time)||
+          xq === true"
     >
       <div class="eventline1">
         <div class="eventline1_div1" @click="eveTheme('aa' + 1)">
@@ -195,7 +223,7 @@
     <div
       v-if="
         Nowtimes > Date.parse(detialValueList.voto_start_time) &&
-        Nowtimes < Date.parse(detialValueList.voto_end_time)
+        Nowtimes < Date.parse(detialValueList.exh_start_time)
       "
     >
       <exh />
@@ -216,9 +244,9 @@ import { MatchShowApi, verJoinApi } from "@/urls/wsUrl.js";
 import { postD } from "@/api";
 import { imgUrl } from "@/assets/js/modifyStyle";
 import exh from "./exh/exh.vue";
-import publicity from "./publicity/publicity.vue"
+import publicity from "./publicity/publicity.vue";
 export default {
-  components: { exh ,publicity },
+  components: { exh, publicity },
   data() {
     return {
       imagesValue: "",
@@ -228,6 +256,7 @@ export default {
       detialValueList: [],
       types: "",
       Nowtimes: "",
+      xq: false,
     };
   },
   created() {
@@ -260,6 +289,13 @@ export default {
       postD(verJoinApi(), this.matchShowid).then((res) => {
         this.types = res.type;
       });
+    },
+    goxqq() {
+      if(this.xq == false){
+        this.xq = true;
+      }else {
+        this.xq = false;
+      }
     },
   },
 };

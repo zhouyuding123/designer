@@ -15,12 +15,10 @@
       </div>
       <div v-if="btnindex === 0" class="contentBox">
         <div>
-          <div style="width: 1280px;">
-            <fabu
-              @remenlist="getremen"
-            />
+          <div style="width: 1280px">
+            <fabu @remenlist="getremen" />
           </div>
-          <div style="width: 1280px;">
+          <div style="width: 1280px">
             <div
               class="tabline"
               v-for="item in strollList"
@@ -51,7 +49,9 @@
                   :key="items"
                   class="imgadde"
                 >
+                  <div v-if="items.split('/')[0] == 'moves'"></div>
                   <img
+                    v-if="items.split('/')[0] == 'images'"
                     :src="imagesValue + items"
                     alt=""
                     style="width: 106px; height: 106px"
@@ -131,31 +131,33 @@
           </div>
         </div>
         <div class="rightBox" v-if="remenlist.length">
-      <div
-        class="huatibox"
-        v-for="(item, index) in remenlist"
-        :key="index"
-        @click="todetail(item.id)"
-      >
-        <div class="flex al-c">
-          <div>
-            <img
-              src="@/assets/imgers/icon/14756@2x.png"
-              style="margin-right: 9px; height: 20px; width: 20px"
-              alt=""
-            />
+          <div
+            class="huatibox"
+            v-for="(item, index) in remenlist"
+            :key="index"
+            @click="todetail(item.id)"
+          >
+            <div class="flex al-c">
+              <div>
+                <img
+                  src="@/assets/imgers/icon/14756@2x.png"
+                  style="margin-right: 9px; height: 20px; width: 20px"
+                  alt=""
+                />
+              </div>
+              <div class="maintitle">{{ item.title }}</div>
+            </div>
+            <div class="flex al-c ju-c" style="margin-top: 15px">
+              <div class="maincontent coloccc font12">
+                {{ item.count }}篇内容
+              </div>
+              <div class="line"></div>
+              <div class="coloccc font12">{{ item.browse }}次浏览</div>
+            </div>
           </div>
-          <div class="maintitle">{{ item.title }}</div>
+          <!-- v-if="remenlist.length>=7" -->
+          <div class="lookmore" @click="lookmore">查看更多话题</div>
         </div>
-        <div class="flex al-c ju-c" style="margin-top: 15px">
-          <div class="maincontent coloccc font12">{{ item.count }}篇内容</div>
-          <div class="line"></div>
-          <div class="coloccc font12">{{ item.browse }}次浏览</div>
-        </div>
-      </div>
-      <!-- v-if="remenlist.length>=7" -->
-      <div class="lookmore" @click="lookmore">查看更多话题</div>
-    </div>
       </div>
       <div v-if="btnindex === 1" class="contentBox">
         <div>
@@ -231,11 +233,13 @@
                     </div>
                     <div v-if="scoped.row.thumb" class="tablineValue4">
                       <div
-                        v-for="items in scoped.row.thumb.split(',').slice(1, 4)"
+                        v-for="items in scoped.row.thumb.split(',').slice(0, 3)"
                         :key="items"
                         class="imgadde"
                       >
+                        <div v-if="items.split('/')[0] == 'moves'"></div>
                         <img
+                          v-if="items.split('/')[0] == 'images'"
                           :src="imagesValue + items"
                           alt=""
                           style="width: 106px; height: 106px"
@@ -310,36 +314,37 @@
             ></vxe-pager>
           </div>
         </div>
-     
-     <div class="rightBox" v-if="remenlist.length">
-      <div
-        class="huatibox"
-        v-for="(item, index) in remenlist"
-        :key="index"
-        @click="todetail(item.id)"
-      >
-        <div class="flex al-c">
-          <div>
-            <img
-              src="@/assets/imgers/icon/14756@2x.png"
-              style="margin-right: 9px; height: 20px; width: 20px"
-              alt=""
-            />
+
+        <div class="rightBox" v-if="remenlist.length">
+          <div
+            class="huatibox"
+            v-for="(item, index) in remenlist"
+            :key="index"
+            @click="todetail(item.id)"
+          >
+            <div class="flex al-c">
+              <div>
+                <img
+                  src="@/assets/imgers/icon/14756@2x.png"
+                  style="margin-right: 9px; height: 20px; width: 20px"
+                  alt=""
+                />
+              </div>
+              <div class="maintitle">{{ item.title }}</div>
+            </div>
+            <div class="flex al-c ju-c" style="margin-top: 15px">
+              <div class="maincontent coloccc font12">
+                {{ item.count }}篇内容
+              </div>
+              <div class="line"></div>
+              <div class="coloccc font12">{{ item.browse }}次浏览</div>
+            </div>
           </div>
-          <div class="maintitle">{{ item.title }}</div>
-        </div>
-        <div class="flex al-c ju-c" style="margin-top: 15px">
-          <div class="maincontent coloccc font12">{{ item.count }}篇内容</div>
-          <div class="line"></div>
-          <div class="coloccc font12">{{ item.browse }}次浏览</div>
+          <!-- v-if="remenlist.length>=7" -->
+          <div class="lookmore" @click="lookmore">查看更多话题</div>
         </div>
       </div>
-      <!-- v-if="remenlist.length>=7" -->
-      <div class="lookmore" @click="lookmore">查看更多话题</div>
     </div>
-      </div>
-    </div>
-    
   </div>
 </template>
 
@@ -424,6 +429,7 @@ export default {
         this.strollList = res.list;
         this.imagesValue = imgUrl();
         this.page1.totalResult = res.count;
+        console.log(this.strollList[7].thumb.split(",")[0].split("/")[0]);
       });
     },
     funTime(val) {

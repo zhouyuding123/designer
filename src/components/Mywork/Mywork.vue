@@ -5,16 +5,20 @@
         <div class="flex al-c">
           <div class="flex">
             <div class="avator">
-              <img :src="imagesValue+myValue.headimage" alt="" style="border-radius: 50%;" />
+              <img
+                :src="imagesValue + myValue.headimage"
+                alt=""
+                style="border-radius: 50%"
+              />
             </div>
             <div class="personbox">
               <div class="name flex al-c">
-                <div>{{myValue.nickname}}</div>
+                <div>{{ myValue.nickname }}</div>
                 <div class="font12 margin-left20 sjs">
-                  <img src="@/assets/imgers/设计师等级.png" alt="">
+                  <img src="@/assets/imgers/设计师等级.png" alt="" />
                 </div>
               </div>
-              <div class="idnumber">{{myValue.in_code}}</div>
+              <div class="idnumber">{{ myValue.in_code }}</div>
               <div class="collect">
                 <span>
                   <span class="num cur" @click="gofollow">720</span>
@@ -37,9 +41,7 @@
           </div>
           <div class="PublishWorks" @click="toUploadWorks">发布作品</div>
         </div>
-        <div class="Psignature">
-          个性签名：{{myValue.label}}
-        </div>
+        <div class="Psignature">个性签名：{{ myValue.label }}</div>
       </div>
     </div>
     <div class="midbox">
@@ -61,7 +63,12 @@
           @loadmore="loadmore"
           @scroll="scroll"
         >
-          <div class="masonry" v-for="(item, index) in myworkList" @click="gowork(item.id)" :key="index">
+          <div
+            class="masonry"
+            v-for="(item, index) in myworkList"
+            @click="gowork(item.id)"
+            :key="index"
+          >
             <div class="coverimg">
               <img :src="imagesValue + item.thumb" alt="" />
               <!-- <div></div> -->
@@ -77,7 +84,8 @@
                     <el-dropdown-item :command="{ id: item.id, title: 'share' }"
                       >分享</el-dropdown-item
                     >
-                    <el-dropdown-item :command="{ id: item.id, title: 'del' }"
+                    <el-dropdown-item
+                      :command="{ index: index, id: item.id, title: 'del' }"
                       >删除</el-dropdown-item
                     >
                   </el-dropdown-menu>
@@ -144,7 +152,11 @@
 </template>
 
 <script>
-import { getMyWorksApi, delMyWorksApi,designerMyCenterApi } from "@/urls/wsUrl.js";
+import {
+  getMyWorksApi,
+  delMyWorksApi,
+  designerMyCenterApi,
+} from "@/urls/wsUrl.js";
 import { postD } from "@/api";
 import { imgUrl } from "@/assets/js/modifyStyle";
 import waterfall from "../Designerzone/pul.vue";
@@ -162,12 +174,12 @@ export default {
       windowWidth: document.documentElement.clientWidth,
       count: null,
       imagesValue: "",
-      myValue:[]
+      myValue: [],
     };
   },
   created() {
     this.getmyworkList();
-    this.mywork()
+    this.mywork();
     this.imagesValue = imgUrl();
   },
   components: {
@@ -198,17 +210,16 @@ export default {
       this.getmyworkList();
     },
     mywork() {
-      var my={
-        username:localStorage.getItem('use')
-      }
-      postD(designerMyCenterApi(),my).then(res=> {
-        console.log(res);
-        this.myValue = res.data
-      })
+      var my = {
+        username: localStorage.getItem("use"),
+      };
+      postD(designerMyCenterApi(), my).then((res) => {
+        this.myValue = res.data;
+      });
     },
     getmyworkList() {
       postD(getMyWorksApi(), this.Works).then((res) => {
-        // console.log(res.list)
+        console.log(res.list);
         this.count = res.count;
         this.myworkList = [...this.myworkList, ...res.list];
       });
@@ -233,33 +244,43 @@ export default {
         this.$router.push({ path: "/UploadWorks", query: { id: command.id } });
       }
       if (command.title == "share") {
-        let share_url =
-        "http://192.168.0.116:8080/workDetails" + command.id;
-      const url = share_url;
-      let oInput = document.createElement("input");
-      oInput.value = url;
-      document.body.appendChild(oInput);
-      oInput.select(); // 选择对象;
-      document.execCommand("Copy"); // 执行浏览器复制命令
-      this.$message({
-        message: "复制成功",
-        type: "success",
-      });
-      oInput.remove();
-
+        let share_url = "http://192.168.0.116:8080/workDetails" + command.id;
+        const url = share_url;
+        let oInput = document.createElement("input");
+        oInput.value = url;
+        document.body.appendChild(oInput);
+        oInput.select(); // 选择对象;
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        this.$message({
+          message: "复制成功",
+          type: "success",
+        });
+        oInput.remove();
       }
       if (command.title == "del") {
+        console.log(command.index);
         postD(delMyWorksApi(), { id: command.id }).then((res) => {
-          console.log(res);
+          if (res.code == 200) {
+            this.myworkList.splice(command.index, 1);
+            this.$message({
+              message: res.msg,
+              type: "success",
+            });
+
+          } else {
+            this.$message({
+              message: res.msg,
+            });
+          }
         });
       }
     },
     gowork(val) {
-      this.$router.push("/workDetails"+val)
+      this.$router.push("/workDetails" + val);
     },
-    gofollow(){
-      this.$router.push('/follow')
-    }
+    gofollow() {
+      this.$router.push("/follow");
+    },
   },
 };
 </script>
