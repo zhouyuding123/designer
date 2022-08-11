@@ -81,6 +81,21 @@
             ref="addCardsyzmruleForm"
             style="margin-top: 20px"
           >
+            <el-form-item label="手机号" prop="tel2">
+              <el-input></el-input>
+            </el-form-item>
+            <div>
+              <el-form-item label="验证码" prop="yzm">
+                <div class="dis yzm">
+                  <el-input></el-input>
+                  <div class="fs cur">发送验证码</div>
+                </div>
+              </el-form-item>
+              <div style="text-align: center;">
+                此处可跳过
+              </div>
+            </div>
+
             <div class="footers" style="padding-top: 20px">
               <el-button @click="addcardValue"><span>下一步</span></el-button>
             </div>

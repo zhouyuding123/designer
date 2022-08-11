@@ -205,44 +205,64 @@ const routes = [
         component: () => import("../components/Circle/CircleList/details/hotTopic/hotTopicdetail.vue"),
       },
       {
-        path:'/DesignerList',
-        name:"DesignerList",
-        component:()=>import("../components/DesignerList/DesignerList.vue")
+        path: '/DesignerList',
+        name: "DesignerList",
+        component: () => import("../components/DesignerList/DesignerList.vue")
       },
       {
-        path:'/team',
-        name:"team",
-        component:()=>import("../components/team/team.vue")
+        path: '/team',
+        name: "team",
+        component: () => import("../components/team/team.vue")
       },
       {
-        path:"/worksList",
-        name:"worksList",
-        component:()=>import("../components/worksList/worksList.vue")
+        path: "/worksList",
+        name: "worksList",
+        component: () => import("../components/worksList/worksList.vue")
       },
       {
-        path:"/news",
-        name:"news",
-        component:()=>import("../components/news/news.vue")
+        path: "/news",
+        name: "news",
+        component: () => import("../components/news/news.vue")
       },
       {
-        path:"/follow",
-        name:'follow',
-        component:()=> import("../components/Mywork/follow/follow.vue")
+        path: "/follow",
+        name: 'follow',
+        component: () => import("../components/Mywork/follow/follow.vue")
       },
       {
-        path:"/bond",
-        name:"bond",
-        component:()=>import("../components/openVip/bond/bond.vue")
+        path: "/bond",
+        name: "bond",
+        component: () => import("../components/openVip/bond/bond.vue")
       },
       {
-        path:"/complaint",
-        name:'complaint',
-        component:()=> import("../components/complaint/complaint.vue")
+        path: "/complaint",
+        name: 'complaint',
+        component: () => import("../components/complaint/complaint.vue")
       },
       {
-        path:"/crowd",
-        name:"crowd",
-        component:()=>import("../components/workDetails/crowd-funding/crowd-funding.vue")
+        path: "/crowd",
+        name: "crowd",
+        component: () => import("../components/workDetails/crowd-funding/crowd-funding.vue")
+      },
+      {
+        path: "/oemdetail",
+        name: "oemdetail",
+        component: () => import("../components/BusinessChain/oemdetil/oemdetail.vue")
+      },
+      {
+        path: "/Personaltailordetil",
+        name: "Personaltailordetil",
+        component: () => import("../components/BusinessChain/Personaltailordetil/Personaltailordetil.vue")
+      },
+      {
+        path:"/rawmaterialdetil",
+        name:"rawmaterialdetil",
+        component:()=> import("../components/BusinessChain/rawmaterialdetil/rawmaterialdetil.vue")
+      },
+      {
+        path:"/Clapperdetil",
+        name:"Clapperdetil",
+        component:()=> import("../components/BusinessChain/Clapperdetil/Clapperdetil.vue")
       }
     ]
   },

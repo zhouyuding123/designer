@@ -654,6 +654,7 @@ export default {
       padding-right: 40px;
       margin-top: 20px;
       position: absolute;
+      display: flex;
       top: 0;
       right: 0;
       .imglove {

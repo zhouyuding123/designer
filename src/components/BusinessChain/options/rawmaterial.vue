@@ -22,7 +22,7 @@
     </div>
     <div class="company">
       <div class="companyback">
-        <div v-for="(item, index) in valueListE" :key="index">
+        <div v-for="(item, index) in valueListE" :key="index" @click="gorawmaterialdetil">
           <div class="brder_line" v-if="index != 0">
             <div class="brder_line_line"></div>
           </div>
@@ -124,6 +124,9 @@ export default {
       this.company_mainId = "";
       this.Listvalue.company_main = val;
     },
+    gorawmaterialdetil() {
+      this.$router.push("/rawmaterialdetil")
+    }
   },
 };
 </script>

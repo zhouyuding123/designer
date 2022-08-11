@@ -1,6 +1,6 @@
 <template>
   <div style="padding-top: 30px">
-    <div class="bodylist" v-for="(item, index) in workList" :key="index">
+    <div class="bodylist" v-for="(item, index) in workList" :key="index" @click="godetil">
       <div
         class="work_num"
         :class="{

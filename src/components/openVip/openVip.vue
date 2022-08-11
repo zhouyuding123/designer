@@ -30,7 +30,12 @@
       </div>
       <div class="text_1">{{ item.text1 }}</div>
       <div class="text_2">{{ item.text2 }}</div>
-      <div class="go_pay" @click="activateNow"><div>立即开通</div></div>
+      <div class="go_pay" @click="activateNow" v-if="isVip != 1">
+        <div>立即开通</div>
+      </div>
+      <div class="go_pay" @click="activateNow" v-if="isVip == 1">
+        <div>立即续费</div>
+      </div>
     </div>
     <div class="vipbody" v-for="(item, index) in bzjlist" :key="index">
       <div class="already" v-if="isbond == 1">已开通</div>
@@ -46,7 +51,9 @@
       </div>
       <div class="text_1">{{ item.text1 }}</div>
       <div class="text_2">{{ item.text2 }}</div>
-      <div class="go_pay" @click="gobond" v-if="isbond != 1"><div>立即开通</div></div>
+      <div class="go_pay" @click="gobond" v-if="isbond != 1">
+        <div>立即开通</div>
+      </div>
       <div class="go_pay" v-if="isbond == 1"><div>已支付</div></div>
     </div>
   </div>
@@ -59,7 +66,7 @@ export default {
   data() {
     return {
       isVip: "",
-      isbond:"",
+      isbond: "",
       list1: [
         {
           name: "查看付费作品放大镜",
@@ -97,15 +104,15 @@ export default {
       postD(designerMyCenterApi(), name).then((res) => {
         console.log(res);
         this.isVip = res.data.is_vip;
-        this.isbond = res.data.is_bond
+        this.isbond = res.data.is_bond;
       });
     },
     activateNow() {
       this.$router.push("/vipMember");
     },
     gobond() {
-      this.$router.push("/bond")
-    }
+      this.$router.push("/bond");
+    },
   },
 };
 </script>

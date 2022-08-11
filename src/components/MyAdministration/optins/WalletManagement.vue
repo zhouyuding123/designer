@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <div v-if="cordshow == 0" class="linebody">
       <div class="line1">
         <div class="money_1">
@@ -22,11 +22,11 @@
         </div>
         <div class="borderstyle"></div>
         <div class="bank_card">
-          <div class="bank_card_left">
+          <div class="bank_card_left" @click="goAddcord">
             <div><img src="@/assets/imgers/点.png" alt="" /></div>
             <div class="yhk">银行卡</div>
             <div class="yhk_num">3</div>
-            <div class="yhk_more" @click="goAddcord">
+            <div class="yhk_more">
               <img src="@/assets/imgers/more.png" alt="" />
             </div>
           </div>
@@ -70,14 +70,11 @@
         <el-tabs v-model="activeName">
           <el-tab-pane label="银行卡" name="1"></el-tab-pane>
           <el-tab-pane label="钱包" name="2"></el-tab-pane>
-          
         </el-tabs>
-        <div class="out">
-              返回
-          </div>
+        <div class="out cur" @click="outfitst">返回</div>
       </div>
       <div v-if="activeName == 1" class="paddingline2">
-          <go-addcord />
+        <go-addcord />
       </div>
     </div>
     <div v-if="cordshow == 2">
@@ -89,10 +86,10 @@
 <script>
 import { listBankApi } from "@/urls/wsUrl.js";
 import { postD } from "../../../api";
-import goAddcord from './goAddcord/goAddcord.vue';
-import income from './goAddcord/income.vue';
+import goAddcord from "./goAddcord/goAddcord.vue";
+import income from "./goAddcord/income.vue";
 export default {
-  components: { goAddcord,income },
+  components: { goAddcord, income },
   data() {
     return {
       cordshow: 0,
@@ -113,8 +110,11 @@ export default {
     },
     gomoneyMore() {
       console.log(213);
-      this.cordshow =2;
-    }
+      this.cordshow = 2;
+    },
+    outfitst() {
+      this.cordshow = 0;
+    },
   },
 };
 </script>

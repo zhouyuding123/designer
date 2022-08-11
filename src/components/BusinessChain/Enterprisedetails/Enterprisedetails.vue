@@ -4,8 +4,14 @@
       <div class="enttop_left">
         <div class="enttop_left_name">{{ designerEntL.nickname }}</div>
         <div class="enttop_left_line2">
-          <el-rate v-model="value1"></el-rate>
-          <div class="pfs">4.0分</div>
+          <el-rate
+            v-model="value1"
+            disabled
+            show-score
+            text-color="#ff9900"
+            score-template="{value}"
+          >
+          </el-rate>
           <div class="fss">粉丝数{{ designerEntL.follow }}</div>
         </div>
         <div class="enttop_left_line3">
@@ -251,7 +257,7 @@ export default {
         username: "",
       },
       designerEntL: [],
-      value1: null,
+      value1: 2,
       imageValue: "",
       description: "",
       brandvalue: [],

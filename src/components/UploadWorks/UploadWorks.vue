@@ -101,7 +101,7 @@
         </div> -->
 
         <div class="wrap">
-          <el-form-item label="作品首页图" prop="thumb">
+          <el-form-item label="添加封面" prop="thumb">
             <el-upload
               class="avatar-uploader"
               action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
@@ -202,7 +202,7 @@
               ></i>
             </el-upload>
             若此作品还未备案，可点击
-            <a href="http://www.333cn.com/beian/"
+            <a href="http://www.333cn.com/beian/" target="_blank"
               >http://www.333cn.com/beian/</a
             >
             前往备案

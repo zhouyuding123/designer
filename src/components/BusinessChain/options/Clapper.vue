@@ -22,7 +22,7 @@
     </div>
     <div class="company">
       <div class="companyback">
-        <div v-for="(item, index) in valueListE" :key="index">
+        <div v-for="(item, index) in valueListE" :key="index" @click="goClapperdetil">
           <div class="brder_line" v-if="index != 0">
             <div class="brder_line_line"></div>
           </div>
@@ -61,7 +61,7 @@
                 <div><span>西装打板</span></div>
               </div>
             </div>
-            <div class="morelist" @click="goentDetail(item.username)">
+            <div class="morelist">
               <img src="@/assets/imgers/more3.png" alt="" />
             </div>
           </div>
@@ -126,6 +126,9 @@ export default {
       this.company_mainId = "";
       this.Listvalue.company_main = val;
     },
+    goClapperdetil() {
+      this.$router.push("/Clapperdetil")
+    }
   },
 };
 </script>

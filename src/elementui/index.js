@@ -54,11 +54,13 @@ import {
     Rate,
     Autocomplete,
     cascader,
-    Popover
+    Popover,
+    Tooltip
 } from 'element-ui'
 export default {
     install(Vue) {
         Vue.use(cascader)
+        Vue.use(Tooltip)
         Vue.use(Popover)
         Vue.use(Autocomplete)
         Vue.use(Rate)

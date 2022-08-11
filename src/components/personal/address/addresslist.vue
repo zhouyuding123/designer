@@ -14,23 +14,47 @@
         <el-form-item label="手机号码" prop="tel">
           <el-input v-model="addruleForm.tel"></el-input>
         </el-form-item>
-        <el-form-item label="所在地区">
-          <el-cascader
-            :options="options"
-            v-model="selectedOptions"
-            @change="handleChange"
-            size="large"
-            v-if="province == ''"
-          >
-          </el-cascader>
-          <div class="xg" v-if="province != ''">
-            <el-input style="width: 540px" v-model="province"></el-input>
-            <div class="addxg" @click="aaddxg">修改</div>
+
+        <div
+          style="padding-left: 40px; padding-right: 40px; padding-bottom: 40px"
+        >
+          <div class="map-search_wrapper" id="bmapSearch">
+            <div class="header">
+              <div style="width: 100px">地址：</div>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                :content="textTip"
+                placement="top"
+                :value="isshowTip"
+                manual
+              >
+                <el-input
+                  type="text"
+                  placeholder="请输入内容"
+                  @focus="editText"
+                  v-model="keyWord"
+                  @keyup.native.13="search"
+                  clearable
+                  class="search-input"
+                >
+                </el-input>
+              </el-tooltip>
+              <el-button type="primary" size="medium" @click="search"
+                >查询</el-button
+              >
+              <div style="margin-left: 10px; width: 100px">经纬：</div>
+              <el-input
+                type="text"
+                v-model="longAndLat"
+                ref="long"
+                class="search-input"
+              >
+              </el-input>
+            </div>
+            <div id="container" style="overflow: hidden"></div>
           </div>
-        </el-form-item>
-        <el-form-item label="详细地址">
-          <el-input v-model="addruleForm.detail"></el-input>
-        </el-form-item>
+        </div>
         <el-form-item label="标签">
           <div class="bq">
             <div class="bqhome" @click="whole" ref="wholes">
@@ -98,6 +122,7 @@
 </template>
 
 <script>
+import { asyncJS } from "@/assets/js/modifyStyle.js";
 import {
   addAddressApi,
   listAddressApi,
@@ -110,7 +135,7 @@ export default {
   data() {
     return {
       addruleForm: {
-        id: "",
+        id:"",
         name: "",
         tel: "",
         province: "",
@@ -118,6 +143,8 @@ export default {
         area: "",
         label: "",
         detail: "",
+        lng: "",
+        lat: "",
       },
       addrules: {
         name: [
@@ -162,10 +189,28 @@ export default {
         id: "",
         is_top: "0",
       },
+      keyWord: "",
+      longAndLat: "",
+      map: null,
+      mapMark: null,
+      localSearch: "",
+      textTip: "",
+      isshowTip: false,
     };
   },
+
   created() {
     this.listAddress();
+  },
+  mounted() {
+    window.onLoadMap = () => {
+      var thiser = this
+      thiser.ready();
+    };
+    // key 值需要去高德地图去申请才可以
+    asyncJS(
+      "https://webapi.amap.com/maps?v=1.4.15&key=4809a108fd29d9ff15029338f2e1f49a&callback=onLoadMap"
+    );
   },
   methods: {
     //省市区三级联动事件
@@ -208,9 +253,10 @@ export default {
       this.addruleForm.label = "学校";
     },
     zxc() {
-      this.addruleForm.province = this.address.split("/")[0];
-      this.addruleForm.city = this.address.split("/")[1];
-      this.addruleForm.area = this.address.split("/")[2];
+      console.log(this.addruleForm);
+      // this.addruleForm.province = this.address.split("/")[0];
+      // this.addruleForm.city = this.address.split("/")[1];
+      // this.addruleForm.area = this.address.split("/")[2];
       this.$refs.addruleForm.validate((v) => {
         if (!v) return;
         postD(addAddressApi(), this.addruleForm).then((res) => {
@@ -220,15 +266,7 @@ export default {
               type: "success",
               message: "保存成功",
             });
-            this.addruleForm.name = "";
-            this.addruleForm.tel = "";
-            this.addruleForm.province = "";
-            this.addruleForm.city = "";
-            this.addruleForm.area = "";
-            this.addruleForm.label = "";
-            this.addruleForm.detail = "";
-            this.selectedOptions = "";
-            this.address = "";
+            this.addruleForm = "";
             this.listAddress();
           } else {
             this.$message({
@@ -255,6 +293,20 @@ export default {
       this.province = id.province + "/" + id.city + "/" + id.area;
       this.addruleForm.label = id.label;
       this.addruleForm.detail = id.detail;
+      this.addruleForm.lat = id.lat;
+      this.addruleForm.lng = id.lng;
+      this.addruleForm.province = id.province;
+      this.addruleForm.area = id.area;
+      this.addruleForm.detail = id.detail;
+      this.addruleForm.city = id.city;
+
+      this.keyWord =
+        this.addruleForm.province +
+        this.addruleForm.city +
+        this.addruleForm.area +
+        this.addruleForm.detail;
+      this.longAndLat =
+        this.addruleForm.lng + "," + this.addruleForm.lat;
       if (this.addruleForm.label == "家") {
         this.$refs.wholes.style.backgroundColor = "#FFDC00";
         this.$refs.Offtheshelf.style.backgroundColor = "#ffffff";
@@ -268,16 +320,18 @@ export default {
         this.$refs.Offtheshelf.style.backgroundColor = "#FFDC00";
         this.$refs.PutOn.style.backgroundColor = "#ffffff";
       }
+            this.search()
     },
     aaddxg() {
       this.province = "";
     },
     modify() {
-      if ((this.province = "")) {
-        this.addruleForm.province = this.address.split("/")[0];
-        this.addruleForm.city = this.address.split("/")[1];
-        this.addruleForm.area = this.address.split("/")[2];
-      }
+      // if ((this.province = "")) {
+      //   this.addruleForm.province = this.address.split("/")[0];
+      //   this.addruleForm.city = this.address.split("/")[1];
+      //   this.addruleForm.area = this.address.split("/")[2];
+      // }
+      console.log(this.addruleForm);
       postD(updateAddressApi(), this.addruleForm).then((res) => {
         if (res.code == "200") {
           this.$message({
@@ -367,10 +421,157 @@ export default {
         }
       });
     },
+    closeBmap() {
+      this.$emit("closeBmap");
+    },
+    comfirmBmap() {
+      this.$emit("comfirmBmap", this.longAndLat);
+    },
+    ready() {
+      this.map = new window.AMap.Map("container", {
+        resizeEnable: true,
+        zoom: 15, //级别
+        center: [116.397428, 39.90923], //中心点坐标
+        viewMode: "3D", //使用3D视图
+      });
+      
+      let _this = this;
+      // 为地图注册click事件获取鼠标点击出的经纬度坐标
+      this.map.on("click", function (e) {
+        let lng = e.lnglat.getLng();
+        let lat = e.lnglat.getLat();
+        _this.longAndLat = lng + "," + lat;
+        // 打新的标记
+        _this.addMarker(lng, lat);
+      });
+      
+    },
+    search() {
+      let _this = this;
+      window.AMap.plugin("AMap.PlaceSearch", function () {
+        var autoOptions = {
+          city: "全国",
+          map: _this.map, // 展现结果的地图实例
+          pageSize: 1, // 单页显示结果条数
+          pageIndex: 1, // 页码
+          autoFitView: true, // 是否自动调整地图视野使绘制的 Marker点都处于视口的可见范围
+        };
+        var placeSearch = new window.AMap.PlaceSearch(autoOptions);
+        placeSearch.search(_this.keyWord, function (status, result) {
+          // 搜索成功时，result即是对应的匹配数据
+          if (status == "complete") {
+            if (result.poiList.pois.length > 0) {
+              let lng = result.poiList.pois[0].location.lng;
+              let lat = result.poiList.pois[0].location.lat;
+              _this.longAndLat = lng + "," + lat;
+              _this.addMarker(lng, lat);
+            } else {
+              _this.$message({
+                message: "没有查询到对应的地址",
+                type: "warning",
+              });
+            }
+          } else if (status == "no_data") {
+            _this.$message({
+              message: "没有查询到对应的地址",
+              type: "warning",
+            });
+          }
+        });
+      });
+    },
+    // 清除 marker
+    clearMarker() {
+      if (this.mapMark) {
+        this.mapMark.setMap(null);
+        this.mapMark = null;
+      }
+    },
+    // 实例化点标记
+    addMarker(lng, lat) {
+      let _this = this;
+      this.mapMark = new window.AMap.Marker({
+        position: [lng, lat],
+        map: _this.map,
+      });
+      this.mapMark.setMap(this.map);
+      let lnglatXY = [lng, lat];
+      AMap.plugin("AMap.Geocoder", function () {
+        var that = _this;
+
+        var geocoder = new AMap.Geocoder({
+          radius: 1000,
+
+          extensions: "all",
+        });
+
+        geocoder.getAddress(lnglatXY, (status, result) => {
+          console.log(result);
+          var asd = result.regeocode.formattedAddress;
+          that.province = asd;
+          that.keyWord = asd;
+          that.addruleForm.province =
+            result.regeocode.addressComponent.province;
+          that.addruleForm.city = result.regeocode.addressComponent.city;
+          that.addruleForm.area = result.regeocode.addressComponent.district;
+          that.addruleForm.detail = result.regeocode.addressComponent.township+result.regeocode.aois[0].name;
+          that.addruleForm.lng = lnglatXY[0];
+          that.addruleForm.lat = lnglatXY[1];
+        });
+
+        // 清除所有标记
+
+        that.map.clearMap();
+
+        var marker = new AMap.Marker();
+
+        that.map.add(marker);
+
+        marker.setPosition(lnglatXY);
+      });
+    },
+    editText() {
+      this.isshowTip = false;
+    },
   },
 };
 </script>
 
 <style lang="less" scoped>
 @import url("./addresslist.less");
+.map-search_wrapper {
+  z-index: 500;
+  border-radius: 5px;
+  width: 100%;
+  min-height: 50%;
+  min-width: 300px;
+
+  background: #050742;
+  color: #000000;
+  .header {
+    width: 100%;
+    height: 60px;
+    top: 0;
+    left: 0;
+    line-height: 4.5;
+    font-size: 14px;
+    color: #fff;
+    display: flex;
+    margin-left: 20px;
+  }
+  /deep/.el-button--primary {
+    margin-top: 13px;
+  }
+  #container {
+    width: 100%;
+    height: 88vh;
+    background-color: #ffffff;
+  }
+}
+/deep/.map-search_wrapper[data-v-c25aea90] .el-button--primary {
+  margin-left: -30px;
+}
+/deep/.el-input__inner {
+  width: 455px !important;
+}
 </style>

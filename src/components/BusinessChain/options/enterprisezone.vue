@@ -22,7 +22,7 @@
     </div>
     <div class="company">
       <div class="companyback">
-        <div v-for="(item, index) in valueListE" :key="index">
+        <div v-for="(item, index) in valueListE" :key="index"  @click="goentDetail(item.username)">
           <div class="brder_line" v-if="index != 0">
             <div class="brder_line_line"></div>
           </div>
@@ -51,7 +51,7 @@
                 }}{{ item.detail }}
               </div>
             </div>
-            <div class="morelist" @click="goentDetail(item.username)">
+            <div class="morelist">
               <img src="@/assets/imgers/more3.png" alt="" />
             </div>
           </div>

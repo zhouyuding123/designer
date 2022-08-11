@@ -19,9 +19,7 @@
             class="demo-ruleForm"
           >
             <el-form-item>
-              <div class="zsdas">
-                头像
-              </div>
+              <div class="zsdas">头像</div>
               <el-upload
                 action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
                 :show-file-list="false"
@@ -163,6 +161,53 @@
               </div>
               <div class="ljbd">立即绑定</div>
             </el-form-item>
+            <div>
+              <div
+                class="mapint"
+                style="
+                  padding-left: 40px;
+                  padding-right: 40px;
+                  padding-bottom: 40px;
+                "
+              >
+                <div class="map-search_wrapper" id="bmapSearch">
+                  <div class="header">
+                    <div style="width: 150px">地址：</div>
+                    <el-tooltip
+                      class="item"
+                      effect="dark"
+                      :content="textTip"
+                      placement="top"
+                      :value="isshowTip"
+                      manual
+                    >
+                      <el-input
+                        type="text"
+                        placeholder="请输入内容"
+                        @focus="editText"
+                        v-model="keyWord"
+                        @keyup.native.13="search"
+                        clearable
+                        class="search-input"
+                      >
+                      </el-input>
+                    </el-tooltip>
+                    <el-button type="primary" size="medium" @click="search"
+                      >查询</el-button
+                    >
+                    <div style="margin-left: 10px; width: 150px">经纬：</div>
+                    <el-input
+                      type="text"
+                      v-model="longAndLat"
+                      ref="long"
+                      class="search-input"
+                    >
+                    </el-input>
+                  </div>
+                  <div id="container" style="overflow: hidden"></div>
+                </div>
+              </div>
+            </div>
           </el-form>
         </div>
       </div>
@@ -322,7 +367,6 @@
         </div>
         <div @click="zxc"><span>确认并提交</span></div>
       </div>
-      
     </div>
     <div v-if="activeName == 1 && authenticationshow == 3">
       <authentication />
@@ -337,11 +381,9 @@
     </div>
   </div>
 </template>
-
-
 <script>
 import { timestampToTime } from "@/assets/js/time.js";
-import { imgUrl } from "@/assets/js/modifyStyle";
+import { imgUrl, asyncJS } from "@/assets/js/modifyStyle";
 import { postD } from "../../api";
 import {
   editInfoApi,
@@ -369,6 +411,12 @@ export default {
         is_receive: "",
         label: "",
         style: "",
+        province: "",
+        city: "",
+        area: "",
+        detail: "",
+        lng: "",
+        lat: "",
       },
       btntitle: ["个人设计师", "企业设计师"],
       btnindex: "1",
@@ -443,9 +491,26 @@ export default {
       mynames: {
         username: localStorage.getItem("use"),
       },
-      mystyle: "",
       NobleVip: "",
+      // 地图
+      keyWord: "",
+      longAndLat: "",
+      map: null,
+      mapMark: null,
+      localSearch: "",
+      textTip: "",
+      isshowTip: false,
+      jwd:JSON.parse(localStorage.getItem("data"))
     };
+  },
+  mounted() {
+    window.onLoadMap = () => {
+      this.ready();
+    };
+    // key 值需要去高德地图去申请才可以
+    asyncJS(
+      "https://webapi.amap.com/maps?v=1.4.15&key=4809a108fd29d9ff15029338f2e1f49a&callback=onLoadMap"
+    );
   },
   created() {
     this.imagesValue = imgUrl();
@@ -471,10 +536,22 @@ export default {
         this.valueData.is_cust = this.myDenper.is_cust;
         this.valueData.label = this.myDenper.label;
         this.valueData.is_receive = this.myDenper.is_receive;
+        this.valueData.lat = this.myDenper.lat;
+        this.valueData.lng = this.myDenper.lng;
+        this.valueData.province = this.myDenper.province;
+        this.valueData.area = this.myDenper.area;
+        this.valueData.detail = this.myDenper.detail;
+        this.valueData.city = this.myDenper.city;
         this.authenticationruleForm.tel = this.myDenper.tel;
         this.authenticationruleForm.style = this.myDenper.style;
         this.authenticationruleForm.license = this.myDenper.license;
         this.NobleVip = this.myDenper.is_vip;
+        this.keyWord =
+          this.valueData.province +
+          this.valueData.city +
+          this.valueData.area +
+          this.valueData.detail;
+        this.longAndLat = this.valueData.lng + "," + this.valueData.lat;
       });
     },
     handleAvatarSuccesser(res, file) {
@@ -594,33 +671,120 @@ export default {
     outauth() {
       this.authenticationshow = 1;
     },
+    closeBmap() {
+      this.$emit("closeBmap");
+    },
+    comfirmBmap() {
+      this.$emit("comfirmBmap", this.longAndLat);
+    },
+    ready() {
+      var zxcthis = this
+      zxcthis.map = new window.AMap.Map("container", {
+        resizeEnable: true,
+        zoom: 50, //级别
+        center: [zxcthis.jwd.lng, zxcthis.jwd.lat], //中心点坐标
+        viewMode: "3D", //使用3D视图
+      });
+      zxcthis.search();
+      let _this = zxcthis;
+      // 为地图注册click事件获取鼠标点击出的经纬度坐标
+      zxcthis.map.on("click", function (e) {
+        let lng = e.lnglat.getLng();
+        let lat = e.lnglat.getLat();
+        _this.longAndLat = lng + "," + lat;
+        // 打新的标记
+        _this.addMarker(lng, lat);
+      });
+    },
+    search() {
+      let _this = this;
+      window.AMap.plugin("AMap.PlaceSearch", function () {
+        var autoOptions = {
+          city: "全国",
+          map: _this.map, // 展现结果的地图实例
+          pageSize: 1, // 单页显示结果条数
+          pageIndex: 1, // 页码
+          autoFitView: true, // 是否自动调整地图视野使绘制的 Marker点都处于视口的可见范围
+        };
+        var placeSearch = new window.AMap.PlaceSearch(autoOptions);
+        placeSearch.search(_this.keyWord, function (status, result) {
+          // 搜索成功时，result即是对应的匹配数据
+          if (status == "complete") {
+            if (result.poiList.pois.length > 0) {
+              let lng = result.poiList.pois[0].location.lng;
+              let lat = result.poiList.pois[0].location.lat;
+              _this.longAndLat = lng + "," + lat;
+              _this.addMarker(lng, lat);
+            } else {
+              _this.$message({
+                message: "没有查询到对应的地址",
+                type: "warning",
+              });
+            }
+          } else if (status == "no_data") {
+            _this.$message({
+              message: "没有查询到对应的地址",
+              type: "warning",
+            });
+          }
+        });
+      });
+    },
+    // 清除 marker
+    clearMarker() {
+      if (this.mapMark) {
+        this.mapMark.setMap(null);
+        this.mapMark = null;
+      }
+    },
+    // 实例化点标记
+    addMarker(lng, lat) {
+      let _this = this;
+      this.mapMark = new window.AMap.Marker({
+        position: [lng, lat],
+        map: _this.map,
+      });
+      this.mapMark.setMap(this.map);
+      let lnglatXY = [lng, lat];
+      AMap.plugin("AMap.Geocoder", function () {
+        var that = _this;
+
+        var geocoder = new AMap.Geocoder({
+          radius: 1000,
+          extensions: "all",
+        });
+
+        geocoder.getAddress(lnglatXY, (status, result) => {
+          console.log(result);
+          var asd = result.regeocode.formattedAddress;
+          console.log(asd);
+          that.keyWord = asd;
+          that.valueData.province = result.regeocode.addressComponent.province;
+          that.valueData.city = result.regeocode.addressComponent.city;
+          that.valueData.area = result.regeocode.addressComponent.district;
+          that.valueData.detail =
+            result.regeocode.addressComponent.township +
+            result.regeocode.aois[0].name;
+          that.valueData.lng = lnglatXY[0];
+          that.valueData.lat = lnglatXY[1];
+        });
+        // 清除所有标记
+
+        that.map.clearMap();
+
+        var marker = new AMap.Marker();
+
+        that.map.add(marker);
+
+        marker.setPosition(lnglatXY);
+      });
+    },
+    editText() {
+      this.isshowTip = false;
+    },
   },
 };
 </script>
-
 <style lang="less" scoped>
-.btns {
-  width: 1280px;
-  margin: 0px auto;
-  margin-bottom: 20px;
-  .btnstyle {
-    width: 120px;
-    height: 30px;
-    background: #fbfbfb;
-    border-radius: 3px 3px 3px 3px;
-    border: 1px solid #dddddd;
-    font-size: 14px;
-    font-family: PingFang SC-Regular, PingFang SC;
-    font-weight: 400;
-    color: #999999;
-    line-height: 30px;
-    cursor: pointer;
-  }
-  .active {
-    background: #ffdc00;
-    color: #333333;
-    border: 1px solid #ffff;
-  }
-}
 @import url("./personal.less");
 </style>

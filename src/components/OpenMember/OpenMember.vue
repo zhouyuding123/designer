@@ -27,6 +27,7 @@
           @click="whole()"
           ref="wholes"
           v-if="vip.style_vip == 1"
+          style="heiht:260px"
         >
           <div class="title" ref="wholes">月卡会员</div>
           <div class="nowprice" ref="wholess">

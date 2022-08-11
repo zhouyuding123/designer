@@ -23,7 +23,7 @@
           <div class="describe">每天仅需30元</div>
         </div>
         <div
-          class="cardboxs"
+          class="cardbox"
           @click="whole()"
           ref="wholes"
           v-if="vip.style_vip == 1"
