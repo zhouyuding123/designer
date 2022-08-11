@@ -45,7 +45,7 @@
               class="matchoverzg"
               v-if="
                 Date.parse(item.voto_end_time) > Nowtimes &&
-                Nowtimes > Date.parse(item.sign_end_time)
+                Nowtimes > Date.parse(item.voto_start_time)
               "
             >
               <img

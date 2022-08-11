@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 20px 170px">
+  <div style="padding: 30px 170px">
     <div class="padding_body">
       <div class="city_list">
         <div class="city_choose block">
@@ -573,7 +573,7 @@ export default {
     eveTheme: function (e) {
       document.getElementById(e).scrollIntoView({
         behavior: "smooth", // 平滑过渡
-        block: "start", // 上边框与视窗顶部平齐。默认值
+        block: "center", // 上边框与视窗顶部平齐。默认值
       });
     },
   },

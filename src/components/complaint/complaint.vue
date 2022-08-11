@@ -15,51 +15,61 @@
         </div>
       </div>
     </div>
-    <div class="comvalue">
-      <div class="com_text">请描述问题</div>
-      <div class="com_area">
-        <el-input
-          type="textarea"
-          :rows="2"
-          placeholder="请输入内容"
-          v-model="textarea"
-        >
-        </el-input>
+    <el-form
+      :model="tsruleForm"
+      :rules="tsrules"
+      ref="tsruleForm"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
+      <div class="comvalue">
+        <div class="com_text">请描述问题</div>
+        <div class="com_area">
+          <el-form-item prop="title">
+            <el-input
+              type="textarea"
+              :rows="2"
+              placeholder="请输入内容"
+              v-model="textarea"
+            >
+            </el-input>
+          </el-form-item>
+        </div>
+        <div>
+          <div class="com_text">添加图片</div>
+          <el-upload
+            class="avatar-uploader"
+            style="
+              display: flex;
+              padding: 10px 40px;
+              font-size: 16px;
+              font-weight: bold;
+            "
+            action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
+            :data="{ fileType: this.fileType }"
+            multiple
+            list-type="picture-card"
+            :limit="100"
+            :on-success="handleAvatarSuccesser2"
+            :file-list="imageList2"
+            :on-preview="handlePictureCardPreview"
+            :before-upload="beforeAvatarUpload1"
+            :on-remove="fileRemove2"
+          >
+            <i
+              class="el-icon-picture-outline"
+              style="background-color: #f5f5f5"
+            ></i>
+          </el-upload>
+        </div>
       </div>
-      <div>
-        <div class="com_text">添加图片</div>
-        <el-upload
-          class="avatar-uploader"
-          style="
-            display: flex;
-            padding: 10px 40px;
-            font-size: 16px;
-            font-weight: bold;
-          "
-          action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
-          :data="{ fileType: this.fileType }"
-          multiple
-          list-type="picture-card"
-          :limit="100"
-          :on-success="handleAvatarSuccesser2"
-          :file-list="imageList2"
-          :on-preview="handlePictureCardPreview"
-          :before-upload="beforeAvatarUpload1"
-          :on-remove="fileRemove2"
-        >
-          <i
-            class="el-icon-picture-outline"
-            style="background-color: #f5f5f5"
-          ></i>
-        </el-upload>
+      <div class="telvalue">
+        <div>联系方式</div>
+        <div class="telvalue_int">
+          <el-input v-model="input" placeholder="请输入内容"></el-input>
+        </div>
       </div>
-    </div>
-    <div class="telvalue">
-      <div>联系方式</div>
-      <div class="telvalue_int">
-        <el-input v-model="input" placeholder="请输入内容"></el-input>
-      </div>
-    </div>
+    </el-form>
     <div class="addcom">
       <div @click="addCom">确定</div>
     </div>
@@ -85,6 +95,10 @@ export default {
       fileType: "iamges",
       input: "",
       title: "",
+      tsruleForm: { title: "", input: "" },
+      tsrules: {
+        title: [{ required: true, message: "请输入", trigger: "blur" }],
+      },
     };
   },
   methods: {
@@ -143,21 +157,24 @@ export default {
         content: this.textarea,
         form: this.input,
       };
-      console.log(ts);
       postD(ComplaintApi(), ts).then((res) => {
-        if (res.code == 200) {
-          this.$message({
-            offset: 80,
-            type: "error",
-            message: "上传成功",
-          });
-        } else {
-          this.$message({
-            offset: 80,
-            type: "error",
-            message: res.msg,
-          });
-        }
+        this.$refs.tsruleForm.validate((v) => {
+          if (!v) return;
+          if (res.code == 200) {
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "上传成功",
+            });
+            this.$router.push("/home");
+          } else {
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.msg,
+            });
+          }
+        });
       });
     },
   },
