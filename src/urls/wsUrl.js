@@ -336,6 +336,10 @@ export const bondApi = () => {
 export const ComplaintApi = () => {
     return "user/Complaint/add"
 }
+export const releaseApi = () => {
+    return "company/Activity/release"
+}
+
 
 
 

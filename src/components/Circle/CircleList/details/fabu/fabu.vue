@@ -245,23 +245,27 @@
         <el-button type="primary" @click="confirmVote">确 定</el-button>
       </span>
     </el-dialog>
+    <huodong :hudongShow="radio" />
   </div>
 </template>
 
 <script>
+import huodong from "./hudong.vue"
 import EleUploadVideo from "@/components/UploadWorks/EleUploadVideo.vue";
 import { postD } from "@/api";
 import { imgUrl } from "@/assets/js/modifyStyle";
 import { ForumthemelistApi, ForumReleaseApi } from "@/urls/wsUrl";
 import { timestampToTime } from "@/assets/js/time";
 export default {
-  inject:["reload"],
-  props: ["is_circle", "circle_id","styless"],
+  inject: ["reload"],
+  props: ["is_circle", "circle_id", "styless"],
   components: {
     EleUploadVideo,
+    huodong
   },
   data() {
     return {
+      dialogVisibles: false,
       radio: 1,
       imagesValue: "",
       title: "",
@@ -308,8 +312,7 @@ export default {
     this.getForumthemelist();
   },
   methods: {
-    handleClick(tab, event) {
-    },
+    handleClick(tab, event) {},
     switchbtn(index) {
       this.btnindex = index;
     },
@@ -319,7 +322,7 @@ export default {
         if (res.code == 200) {
           console.log(res.list);
           this.PopularTranslations = res.list;
-          this.$emit('remenlist',res.list)
+          this.$emit("remenlist", res.list);
         }
       });
     },
@@ -482,7 +485,7 @@ export default {
           thumb: tmp.join(",") || "",
           description: this.content,
           is_voto: 1,
-          style:this.styless,
+          style: this.styless,
           method: this.value, //投票方式
           voto_start_time: timestampToTime(date.getTime()), //投票开始
           voto_end_time: enddata,
@@ -495,7 +498,7 @@ export default {
           is_circle: this.is_circle == 1 ? 1 : null,
           circle_id: this.circle_id || null,
           title: this.title,
-          style:this.styless,
+          style: this.styless,
           thumb: tmp.join(",") || "",
           description: this.content,
           is_voto: 0,
@@ -506,7 +509,7 @@ export default {
       postD(ForumReleaseApi(), params).then((res) => {
         if (res.code == 200) {
           this.$message(res.msg);
-          this.reload()
+          this.reload();
         } else {
           this.$message(res.msg);
         }
@@ -518,144 +521,5 @@ export default {
 
 
 <style lang="less" scoped>
-.leftBox {
-  width: 100%;
-  // margin-right: 20px;
-  .postbox {
-    width: 100%;
-    // height: 300px;
-    background: #ffffff;
-    border-radius: 6px 6px 6px 6px;
-    padding: 20px 40px;
-    /deep/.el-radio__input.is-checked .el-radio__inner {
-      background: #00b567 !important;
-    }
-    /deep/.el-radio__label {
-      color: #999999 !important;
-    }
-    /deep/.el-radio__input.is-checked + .el-radio__label {
-      color: #333333 !important;
-    }
-    /deep/.el-radio.is-bordered.is-checked {
-      border-color: #00b567 !important;
-    }
-    .postbtn {
-      width: 200px;
-      height: 40px;
-      background: #1677ff;
-      border-radius: 4px 4px 4px 4px;
-      font-size: 16px;
-      line-height: 40px;
-      text-align: center;
-      font-family: PingFang SC-Regular, PingFang SC;
-      font-weight: 400;
-      color: #ffffff;
-    }
-    .picvidbox {
-      margin-top: 16px;
-      margin-bottom: 8px;
-      display: flex;
-      .picvid {
-        padding: 0 20px;
-        width: 108px;
-        line-height: 10px;
-        border-left: 2px solid #dddddd;
-        border-right: 2px solid #dddddd;
-        img {
-          width: 26px;
-          height: 26px;
-        }
-      }
-    }
-    .choosewhat {
-      width: 1120px;
-      height: 80px;
-      padding-left: 30px;
-      margin: 0 auto;
-      background: #f5f5f5;
-      border-radius: 6px 6px 6px 6px;
-      opacity: 1;
-      img {
-        height: 26px;
-        width: 26px;
-      }
-    }
-
-    /deep/.el-upload-dragger {
-      width: 148px !important;
-      height: 148px !important;
-      background-color: #fbfdff;
-    }
-  }
-}
-// 投票
-/deep/.el-dialog {
-  height: auto !important;
-}
-.wordorpic {
-  margin-left: 20px;
-  width: 200px;
-  height: 40px;
-  background: #ffffff;
-  border-radius: 20px 20px 20px 20px;
-  opacity: 1;
-  border: 1px solid #0c032e;
-  line-height: 40px;
-  text-align: center;
-  margin-bottom: 22px;
-  .word {
-    width: 99px;
-    height: 38px;
-    color: #999999;
-  }
-  .wordactive {
-    background: linear-gradient(180deg, #0c032e 0%, #5c5673 100%);
-    border-radius: 18px 18px 18px 18px;
-    color: #fff;
-  }
-}
-.wordadd {
-  // padding-left: 20px;
-  margin-top: 10px;
-  /deep/.el-input__inner {
-    background-color: #f5f5f5;
-    // height: 40px;
-  }
-  img {
-    margin-left: 10px;
-    height: 20px;
-    width: 20px;
-  }
-}
-.addchoose {
-  padding-left: 20px;
-  font-size: 14px;
-  font-family: PingFang SC-Regular, PingFang SC;
-  font-weight: 400;
-  color: #0c032e;
-  margin-top: 20px;
-  margin-bottom: 40px;
-}
-.chosebox1 {
-  height: 60px;
-  padding: 20px;
-  border-top: 1px solid #dddddd;
-  border-bottom: 1px solid #dddddd;
-  .tags {
-    width: 60px;
-    height: 30px;
-    margin-left: 10px;
-    background: #eeeeee;
-    border-radius: 15px 15px 15px 15px;
-    font-size: 14px;
-    font-family: PingFang SC-Regular, PingFang SC;
-    font-weight: 400;
-    color: #333333;
-    line-height: 30px;
-    text-align: center;
-  }
-  .tagactive {
-    background: #ffdc00;
-  }
-}
+@import url("./fabu.less");
 </style>
