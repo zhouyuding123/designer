@@ -500,7 +500,7 @@ export default {
       localSearch: "",
       textTip: "",
       isshowTip: false,
-      jwd:JSON.parse(localStorage.getItem("data"))
+      jwd: JSON.parse(localStorage.getItem("data")),
     };
   },
   mounted() {
@@ -516,6 +516,12 @@ export default {
     this.imagesValue = imgUrl();
     this.mypersonalvalue();
     this.mypersonal();
+    if (this.jwd.lat == null && this.jwd.lng == null) {
+      this.jwd = {
+        lng: 121.547355,
+        lat: 29.809097,
+      };
+    }
   },
   methods: {
     mypersonalvalue() {
@@ -536,8 +542,8 @@ export default {
         this.valueData.is_cust = this.myDenper.is_cust;
         this.valueData.label = this.myDenper.label;
         this.valueData.is_receive = this.myDenper.is_receive;
-        this.valueData.lat = this.myDenper.lat;
-        this.valueData.lng = this.myDenper.lng;
+        this.valueData.lat = this.myDenper.lat||"";
+        this.valueData.lng = this.myDenper.lng||"";
         this.valueData.province = this.myDenper.province;
         this.valueData.area = this.myDenper.area;
         this.valueData.detail = this.myDenper.detail;
@@ -548,9 +554,9 @@ export default {
         this.NobleVip = this.myDenper.is_vip;
         this.keyWord =
           this.valueData.province +
-          this.valueData.city +
-          this.valueData.area +
-          this.valueData.detail;
+            this.valueData.city +
+            this.valueData.area +
+            this.valueData.detail || "";
         this.longAndLat = this.valueData.lng + "," + this.valueData.lat;
       });
     },
@@ -595,6 +601,14 @@ export default {
       return isJPG && isLt2M;
     },
     preservation() {
+      var mydata = JSON.parse(localStorage.getItem("data"))
+      mydata.lat=this.valueData.lat
+      mydata.lng=this.valueData.lng
+      mydata.province=this.valueData.province
+      mydata.city=this.valueData.city
+      mydata.area=this.valueData.area
+      mydata.detail=this.valueData.detail
+      localStorage.setItem("data", JSON.stringify(mydata));
       this.$refs.personalruleForm.validate((v) => {
         if (!v) return;
         this.personalruleForm = this.valueData;
@@ -678,13 +692,15 @@ export default {
       this.$emit("comfirmBmap", this.longAndLat);
     },
     ready() {
-      var zxcthis = this
+      // console.log(this.textTip);
+      var zxcthis = this;
       zxcthis.map = new window.AMap.Map("container", {
         resizeEnable: true,
         zoom: 50, //级别
         center: [zxcthis.jwd.lng, zxcthis.jwd.lat], //中心点坐标
         viewMode: "3D", //使用3D视图
       });
+			
       zxcthis.search();
       let _this = zxcthis;
       // 为地图注册click事件获取鼠标点击出的经纬度坐标
@@ -755,9 +771,7 @@ export default {
         });
 
         geocoder.getAddress(lnglatXY, (status, result) => {
-          console.log(result);
           var asd = result.regeocode.formattedAddress;
-          console.log(asd);
           that.keyWord = asd;
           that.valueData.province = result.regeocode.addressComponent.province;
           that.valueData.city = result.regeocode.addressComponent.city;

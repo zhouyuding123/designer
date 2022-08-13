@@ -11,13 +11,13 @@
             text-color="#333"
             active-text-color="#1A0761"
           >
-            <!-- <el-menu-item index="0" class="kzt" @click="goConsole"
+            <el-menu-item index="0" class="kzt" @click="goConsole"
               >控制台</el-menu-item
-            > -->
+            >
             <el-submenu index="1">
               <template slot="title"
                 >首页
-                <div class="borderyel" v-if="showindex[0]==1" ></div>
+                <div class="borderyel" v-if="showindex[0] == 1"></div>
               </template>
               <div class="syitem">
                 <el-menu-item index="1-1" @click="goDesignerZone"
@@ -29,8 +29,9 @@
               </div>
             </el-submenu>
             <el-submenu index="2">
-              <template slot="title">赛事专区
-                <div class="borderyel" v-if="showindex[0]==2" ></div>
+              <template slot="title"
+                >赛事专区
+                <div class="borderyel" v-if="showindex[0] == 2"></div>
               </template>
               <div class="syitem">
                 <el-menu-item index="2-1" @click="goMatch()"
@@ -42,8 +43,9 @@
               </div>
             </el-submenu>
             <el-submenu index="3">
-              <template slot="title">需求大厅
-                <div class="borderyel" v-if="showindex[0]==3" ></div>
+              <template slot="title"
+                >需求大厅
+                <div class="borderyel" v-if="showindex[0] == 3"></div>
               </template>
               <div class="syitem">
                 <el-menu-item index="3-1">赛事列表</el-menu-item>
@@ -52,15 +54,16 @@
             </el-submenu>
             <el-menu-item index="4" class="kzt" @click="goCircle">
               潮圈
-              <div class="borderyels" v-if="showindex[0]==4" ></div>
+              <div class="borderyels" v-if="showindex[0] == 4"></div>
             </el-menu-item>
             <el-menu-item index="5" class="kzt" @click="goBusinessChain">
-              <div class="borderyels" v-if="showindex[0]==5" ></div>
+              <div class="borderyels" v-if="showindex[0] == 5"></div>
               商链
             </el-menu-item>
             <el-submenu index="6">
-              <template slot="title">榜单
-                <div class="borderyel" v-if="showindex[0]==6" ></div>
+              <template slot="title"
+                >榜单
+                <div class="borderyel" v-if="showindex[0] == 6"></div>
               </template>
               <div class="syitem">
                 <el-menu-item index="6-1" @click="goDesignerList"
@@ -74,7 +77,7 @@
             </el-submenu>
             <el-menu-item index="7" class="kzt" @click="goMyAdministration">
               我的管理
-              <div class="borderyel" v-if="showindex[0]==7" ></div>
+              <div class="borderyel" v-if="showindex[0] == 7"></div>
             </el-menu-item>
             <div class="zxc">
               <div class="ss" @click="seatcher">
@@ -196,7 +199,6 @@
 import { designerMyCenterApi } from "@/urls/wsUrl.js";
 import { imgUrl } from "@/assets/js/modifyStyle";
 import { postD } from "@/api";
-
 export default {
   data() {
     return {
@@ -237,7 +239,7 @@ export default {
         },
       ],
       newsshow: false,
-      showindex:''
+      showindex: "",
     };
   },
   created() {
@@ -259,7 +261,7 @@ export default {
       }
     },
     handleSelect(key, keyPath) {
-      this.showindex = keyPath
+      this.showindex = keyPath;
       console.log(this.showindex);
     },
     goLogin() {

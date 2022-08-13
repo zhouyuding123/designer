@@ -107,14 +107,19 @@
               action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
               list-type="picture-card"
               :limit="1"
-              :file-list="imageList1"
+             
               :on-preview="handlePictureCardPreview"
               :data="{ fileType: this.fileType }"
-              :on-success="handleAvatarSuccesser"
-              :before-upload="beforeAvatarUpload"
+              :before-upload="beforeAvatarUploado"
               :on-remove="fileRemove1"
+              ref="upload"
+              accept="image/*"
             >
-              <!-- <img v-if="form.thumb" style="width:150px;height:150px" :src="imagesValue + form.thumb" > -->
+              <img
+                v-if="imageList1.length>1"
+                style="width: 150px; height: 150px"
+                :src="imagesValue+imageList1"
+              />
 
               <i
                 class="el-icon-picture-outline"
@@ -230,15 +235,44 @@
     <el-dialog :visible.sync="dialogVisible">
       <img width="100%" :src="dialogImageUrl" alt="" />
     </el-dialog>
-    <el-dialog :visible.sync="centerDialogVisible" width="30%" center>
-      <div class="bgpic">
-        <img src="@/assets/imgers/15805@2x.png" class="opennumber" alt="" />
-        <div class="text cur" @click="gomember">立即开通</div>
-        <div class="cel" @click="centerDialogVisible = false">
-          <img src="@/assets/imgers/icon/12191@2x.png" alt="" />
+    <div class="bgpicnone">
+      <el-dialog :visible.sync="centerDialogVisible" width="30%" center>
+        <div class="bgpic">
+          <img src="@/assets/imgers/15805@2x.png" class="opennumber" alt="" />
+          <div class="text cur" @click="gomember">立即开通</div>
+          <div class="cel" @click="centerDialogVisible = false">
+            <img src="@/assets/imgers/icon/12191@2x.png" alt="" />
+          </div>
         </div>
-      </div>
-    </el-dialog>
+      </el-dialog>
+    </div>
+    <div class="cropperjt">
+      <el-dialog title="封面裁剪" :visible.sync="dialogVisibles" ref="dialog">
+        <div class="cropper-w">
+          <div class="cropper" :style="{ width: '100%', height: '280px' }">
+            <vueCropper
+              ref="cropper"
+              :img="option.img"
+              :outputSize="option.size"
+              :outputType="option.outputType"
+              :info="option.info"
+              :full="option.full"
+              :canMove="option.canMove"
+              :canMoveBox="option.canMoveBox"
+              :original="option.original"
+              :autoCrop="option.autoCrop"
+              :autoCropWidth="option.autoCropWidth"
+              :autoCropHeight="option.autoCropHeight"
+              :fixedBox="option.fixedBox"
+            ></vueCropper>
+          </div>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisibles = false">取 消</el-button>
+          <el-button type="primary" @click="handleConfirm">确认</el-button>
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -374,19 +408,41 @@ export default {
       imageUrl: "",
       imagesValue: "",
       dialogImageUrl: "",
-      dialogVisible: false,
+      dialogVisibles: false,
+      dialogVisible:false,
       videosrc: "",
       videosrc1: "",
       is_vip: undefined,
       imageList1: [],
       imageList2: [],
       imageList3: [],
+      option: {
+        img: "", // 裁剪图片的地址
+        info: true, // 裁剪框的大小信息
+        outputSize: 0.8, // 裁剪生成图片的质量
+        outputType: "jpeg", // 裁剪生成图片的格式
+        canScale: true, // 图片是否允许滚轮缩放
+        autoCrop: true, // 是否默认生成截图框
+        autoCropWidth: 375, // 默认生成截图框宽度
+        autoCropHeight: 300, // 默认生成截图框高度
+        fixedBox: true, // 固定截图框大小 不允许改变
+        fixed: true, // 是否开启截图框宽高固定比例
+        fixedNumber: [7, 5], // 截图框的宽高比例
+        full: true, // 是否输出原图比例的截图
+        canMove: true, //上传图片是否可以移动
+        canMoveBox: true, // 截图框能否拖动
+        maxImgSize: 3000, //限制图片最大宽度和高度
+        original: true, // 上传图片按照原始比例渲染
+        centerBox: true, // 截图框是否被限制在图片里面
+        infoTrue: false, // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
+      },
     };
   },
   components: {
     EleUploadVideo,
   },
   created() {
+    console.log(this.imageList1);
     this.imagesValue = imgUrl();
     this.getListApibox();
     let is_vip = JSON.parse(localStorage.getItem("data")).is_vip;
@@ -395,9 +451,6 @@ export default {
       this.id = this.$route.query.id;
       this.getmyinfo();
     }
-  },
-  mounted() {
-    console.log(this.videosrc);
   },
   methods: {
     quxiao() {
@@ -411,17 +464,18 @@ export default {
         (this.form.title = info.title || ""),
           (this.form.description = info.description || ""),
           (this.form.label = info.label || ""),
-          (this.form.product_type_id = info.product_type_id || ""),
+          (this.form.product_type_id = info.prodtuc_type || ""),
           // this.form.thumb=info.thumb||''
-          (this.imageList1 =
-            [
-              {
-                response: {
-                  url: info.thumb,
-                },
-                url: this.imagesValue + info.thumb,
-              },
-            ] || ""),
+          // (this.imageList1 =
+          //   [
+          //     {
+          //       response: {
+          //         url: info.thumb,
+          //       },
+          //       url: this.imagesValue + info.thumb,
+          //     },
+          //   ] || ""),
+          this.imageList1=info.thumb,
           (this.form.crowd_price = info.crowd_price || ""),
           (this.form.personal_price = info.personal_price || ""),
           (this.form.copyright_price = info.copyright_price || ""),
@@ -482,7 +536,6 @@ export default {
                   },
                   url: this.imagesValue + item,
                 });
-                console.log(this.imageList);
               }
               if (item.indexOf("moves") > -1) {
                 this.videosrc = this.imagesValue + item;
@@ -508,9 +561,7 @@ export default {
 
     //点击确定按钮
     submitForm(form) {
-      console.log(this.form);
       this.$refs[form].validate((valid) => {
-        console.log(this.videosrc1);
         var tmp = [];
         if (this.videosrc1 != "") {
           tmp.push(this.videosrc1);
@@ -532,12 +583,21 @@ export default {
         this.imageList2.forEach((item, i) => {
           imgslist.push(item.response.url);
         });
+           if(typeof(this.form.product_type_id)==Number){
+                this.form.product_type_id=this.form.product_type_id
+              }else{
+                this.options.forEach(v=>{
+                  if(v.title==this.form.product_type_id){
+                    this.form.product_type_id=v.id
+                  }
+                })
+              }
         if (valid) {
           if (form.category == 3) {
             var params = {
               id: this.id || "",
               title: this.form.title,
-              thumb: this.imageList1[0].response.url,
+              thumb: this.imageList1,
               description: this.form.description,
               label: this.form.label,
               product_type_id: this.form.product_type_id,
@@ -551,11 +611,12 @@ export default {
               cert: zsvalue.join(","),
             };
           } else {
+         
             var params = {
               id: this.id || "",
               title: this.form.title,
               imgs: imgslist.join(","),
-              thumb: this.imageList1[0].response.url,
+              thumb: this.imageList1,
               description: this.form.description,
               label: this.form.label,
               product_type_id: this.form.product_type_id,
@@ -613,7 +674,6 @@ export default {
       this.$router.push("/OpenMember");
     },
     handleAvatarSuccesser(res, file) {
-      console.log(res);
       this.imageList1 = [];
       this.imageList1 = [
         {
@@ -651,11 +711,9 @@ export default {
       return isJPG && isLt2M;
     },
     handleAvatarSuccesser1(res, file, fileList) {
-      console.log(fileList);
       this.imageList = fileList;
     },
     handleAvatarSuccesser2(res, file, fileList) {
-      console.log(fileList);
       this.imageList2 = fileList;
     },
     handleAvatarSuccesser3(res, file, fileList) {
@@ -663,7 +721,6 @@ export default {
     },
     fileRemove(file, fileList) {
       this.imageList = fileList;
-      console.log(this.imageList);
       // const list = []
       // this.imageList.forEach(item => {
       //       list.push({
@@ -675,7 +732,6 @@ export default {
     },
     fileRemove1(file, fileList) {
       this.imageList1 = fileList;
-      console.log(this.imageList1);
       // const list = []
       // this.imageList.forEach(item => {
       //       list.push({
@@ -688,7 +744,6 @@ export default {
     fileRemove2(file, fileList) {
       this.imageList2 = fileList;
 
-      console.log(this.imageList1);
       // const list = []
       // this.imageList.forEach(item => {
       //       list.push({
@@ -752,6 +807,126 @@ export default {
           this.$message({ offset: 80, message: res.msg });
         }
       });
+    },
+    beforeAvatarUploado(file) {
+      this.filename = file.name;
+      this.openCropper(file);
+      return false;
+    },
+    openCropper(file) {
+      var _this = this;
+      const isJPG =
+        file.type === "image/jpeg" ||
+        file.type === "image/jpg" ||
+        file.type === "image/png" ||
+        file.type === "image/PNG" ||
+        file.type === "image/JPG";
+      if (!isJPG) {
+        this.$message.error("上传图片只能为jpg或png格式");
+        return;
+      }
+      var reader = new FileReader();
+      reader.onload = (e) => {
+        let data;
+        if (typeof e.target.result === "object") {
+          // 把Array Buffer转化为blob 如果是base64不需要
+          data = window.URL.createObjectURL(new Blob([e.target.result]));
+        } else {
+          data = e.target.result;
+        }
+
+        _this.option.img = data;
+        _this.dialogVisibles = true;
+      };
+      // 转化为base64
+      reader.readAsDataURL(file);
+      // 转化为blob
+      // reader.readAsArrayBuffer(file);
+    },
+    handleConfirm() {
+      this.$refs.cropper.getCropBlob((data) => {
+        // if (data.size > 2097152) {
+        //   this.showMsg("图片大于2M，请进行裁剪或重新选择");
+        // }
+        let blob = window.URL.createObjectURL(data);
+        this.downImg = blob;
+        var base64;
+        var img = new Image();
+        img.src = blob;
+        var _that = this;
+        img.onload = function () {
+          var that = this;
+          //生成比例
+          var w = that.width,
+            h = that.height,
+            scale = w / h;
+          h = w / scale;
+          //生成canvas
+          var canvas = document.createElement("canvas");
+          var ctx = canvas.getContext("2d");
+          canvas.width = w;
+          canvas.height = h;
+          ctx.drawImage(that, 0, 0, w, h);
+          // 生成base64
+          _that.cropperPic = canvas.toDataURL("image/jpeg", 0.8);
+          let files = _that.transformToFiles(_that.cropperPic, _that.filename);
+          _that.temporaryCloseCropper = true;
+
+          // XMLHttpRequest 请求 --最后决定使用 XMLHttpRequest 来进行上传图片
+          var xhr = new XMLHttpRequest();
+          xhr.timeout = 3000;
+          xhr.ontimeout = function (event) {
+            console.log("请求超时！");
+          };
+          let param = new FormData();
+          console.log(param);
+          param.append("file", files);
+          param.append("fileType", "images");
+
+          xhr.open(
+            "POST",
+            "https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
+          );
+          xhr.send(param);
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+              console.log(JSON.parse(xhr.responseText));
+              let res = JSON.parse(xhr.responseText);
+              if (res.code == 200) {
+                _that.imageList1 =  res.url;
+                console.log(_that.imageList1);
+                _that.dialogVisibles = false;
+              } else {
+                console.log(res.msg);
+              }
+            } else {
+              console.log(xhr.statusText);
+            }
+          };
+
+          // 生成图片
+          // _that.$refs.upload.$children[0].handleChange({
+          //   target: { files: [files] },
+          // });
+
+          // //  使用此方法 需要在 upload 里 action 设置接口地址
+          // _that.$refs.upload.$children[0].post(files);
+        };
+      });
+    },
+
+    // base64转成files
+
+    transformToFiles(dataurl, filename) {
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], filename, { type: mime });
     },
   },
 };
@@ -817,11 +992,40 @@ export default {
     }
   }
 }
-
+.bgpicnone {
+  /deep/.el-dialog {
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: 0 0 0 0;
+  }
+}
 /deep/.el-dialog {
-  background: none;
-  border: none;
-  border-radius: 0;
-  box-shadow: 0 0 0 0;
+  height: auto;
+}
+/deep/.cropperjt {
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409eff;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
 }
 </style>
