@@ -11,9 +11,9 @@
             text-color="#333"
             active-text-color="#1A0761"
           >
-            <el-menu-item index="0" class="kzt" @click="goConsole"
+            <!-- <el-menu-item index="0" class="kzt" @click="goConsole"
               >控制台</el-menu-item
-            >
+            > -->
             <el-submenu index="1">
               <template slot="title"
                 >首页

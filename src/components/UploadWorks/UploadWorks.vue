@@ -107,7 +107,6 @@
               action="https://weisou.chengduziyi.com/admin/Uploads/uploadFile"
               list-type="picture-card"
               :limit="1"
-             
               :on-preview="handlePictureCardPreview"
               :data="{ fileType: this.fileType }"
               :before-upload="beforeAvatarUploado"
@@ -116,9 +115,9 @@
               accept="image/*"
             >
               <img
-                v-if="imageList1.length>1"
+                v-if="imageList1.length > 1"
                 style="width: 150px; height: 150px"
-                :src="imagesValue+imageList1"
+                :src="imagesValue + imageList1"
               />
 
               <i
@@ -409,7 +408,7 @@ export default {
       imagesValue: "",
       dialogImageUrl: "",
       dialogVisibles: false,
-      dialogVisible:false,
+      dialogVisible: false,
       videosrc: "",
       videosrc1: "",
       is_vip: undefined,
@@ -475,7 +474,7 @@ export default {
           //       url: this.imagesValue + info.thumb,
           //     },
           //   ] || ""),
-          this.imageList1=info.thumb,
+          (this.imageList1 = info.thumb),
           (this.form.crowd_price = info.crowd_price || ""),
           (this.form.personal_price = info.personal_price || ""),
           (this.form.copyright_price = info.copyright_price || ""),
@@ -583,15 +582,15 @@ export default {
         this.imageList2.forEach((item, i) => {
           imgslist.push(item.response.url);
         });
-           if(typeof(this.form.product_type_id)==Number){
-                this.form.product_type_id=this.form.product_type_id
-              }else{
-                this.options.forEach(v=>{
-                  if(v.title==this.form.product_type_id){
-                    this.form.product_type_id=v.id
-                  }
-                })
-              }
+        if (typeof this.form.product_type_id == Number) {
+          this.form.product_type_id = this.form.product_type_id;
+        } else {
+          this.options.forEach((v) => {
+            if (v.title == this.form.product_type_id) {
+              this.form.product_type_id = v.id;
+            }
+          });
+        }
         if (valid) {
           if (form.category == 3) {
             var params = {
@@ -611,7 +610,6 @@ export default {
               cert: zsvalue.join(","),
             };
           } else {
-         
             var params = {
               id: this.id || "",
               title: this.form.title,
@@ -893,7 +891,7 @@ export default {
               console.log(JSON.parse(xhr.responseText));
               let res = JSON.parse(xhr.responseText);
               if (res.code == 200) {
-                _that.imageList1 =  res.url;
+                _that.imageList1 = res.url;
                 console.log(_that.imageList1);
                 _that.dialogVisibles = false;
               } else {

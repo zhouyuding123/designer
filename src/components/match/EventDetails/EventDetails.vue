@@ -39,7 +39,7 @@
     <div
       class="eventbackground"
       v-if="Nowtimes < Date.parse(detialValueList.voto_start_time)||
-          xq === true"
+          xq === true||Nowtimes > Date.parse(detialValueList.exh_end_time)"
     >
       <div class="eventline1">
         <div class="eventline1_div1" @click="eveTheme('aa' + 1)">

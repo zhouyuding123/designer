@@ -109,7 +109,7 @@
             ><span class="worksline1Value" v-if="WorksShowData.cert == ''"
               >此作品还未进行版权认证</span
             >
-            <span class="worksline1Value"
+            <span class="worksline1Value" v-else
               >此作品已在深圳数字作品备案中心备案，可
               <el-image
                 :src="imagesValue + djimg"
@@ -391,9 +391,15 @@ export default {
         this.imagesthb = [res.data.thumb];
         var ss = JSON.parse(res.data.content);
         var arr = ss.images.split(",");
-        var arrs = this.WorksShowData.label.split(",");
         this.imgs = arr;
-        this.labels = arrs;
+        if (this.WorksShowData.label.indexOf("，") == -1) {
+          var arrs = this.WorksShowData.label.split(",");
+          this.labels = arrs;
+        } else {
+          var arrs = this.WorksShowData.label.split("，");
+          this.labels = arrs;
+        }
+
         this.WorksShowDataContent = ss;
         var tmp = [];
         res.data.comment_list.forEach((item, i) => {
@@ -515,14 +521,14 @@ export default {
       this.zhongchouShow = true;
     },
     gocrowds() {
-      let command={
-        id:this.$route.params.id
-      }
+      let command = {
+        id: this.$route.params.id,
+      };
       this.$router.push({ path: "/UploadWorks", query: { id: command.id } });
     },
 
     gozhongchou() {
-      this.$router.push("/crowd");
+      this.$router.push("/crowd" + this.$route.params.id);
       this.zhongchouShow = false;
     },
   },

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <div class="line1">
       <div
         class="zxc"
@@ -8,10 +8,10 @@
         :class="selectedIndex == index ? 'active' : ''"
         @click="getTopic(index, item.topicClassId)"
       >
-        {{item}}
+        {{ item }}
       </div>
     </div>
-     <div v-if="selectedIndex == 0">
+    <div v-if="selectedIndex == 0">
       <order />
     </div>
     <div v-if="selectedIndex == 1">
@@ -20,28 +20,34 @@
     <div v-if="selectedIndex == 2">
       <crowd-funding />
     </div>
-    <div  v-if="selectedIndex == 3">
+    <div v-if="selectedIndex == 3">
       <posts />
     </div>
-   <div  v-if="selectedIndex == 4">
+    <div v-if="selectedIndex == 4">
       <activity />
     </div>
     <div v-if="selectedIndex == 5">
       <wallet-management />
     </div>
-    
   </div>
 </template>
 
 <script>
-import WalletManagement from "./optins/WalletManagement.vue"
-import BrandManagement from "./optins/BrandManagement.vue"
-import Order from './optins/order.vue';
-import CrowdFunding from './optins/crowd-funding.vue';
-import Activity from './optins/activity.vue';
-import Posts from './optins/Posts.vue';
+import WalletManagement from "./optins/WalletManagement.vue";
+import BrandManagement from "./optins/BrandManagement.vue";
+import Order from "./optins/order.vue";
+import CrowdFunding from "./optins/crowd-funding.vue";
+import Activity from "./optins/activity.vue";
+import Posts from "./optins/Posts.vue";
 export default {
-  components: { WalletManagement,BrandManagement, Order, CrowdFunding, Activity, Posts },
+  components: {
+    WalletManagement,
+    BrandManagement,
+    Order,
+    CrowdFunding,
+    Activity,
+    Posts,
+  },
   data() {
     return {
       topicClass: [
@@ -52,12 +58,12 @@ export default {
         "活动管理",
         "钱包管理",
       ],
-      selectedIndex: "1",
+      selectedIndex: "2",
     };
   },
   methods: {
     getTopic(index, id) {
-      this.selectedIndex = index
+      this.selectedIndex = index;
     },
   },
 };
@@ -79,8 +85,8 @@ export default {
     cursor: pointer;
     padding-top: 18px;
     font-size: 16px;
-font-weight: 400;
-color: #333333;
+    font-weight: 400;
+    color: #333333;
   }
   .zxc.active {
     width: 160px;

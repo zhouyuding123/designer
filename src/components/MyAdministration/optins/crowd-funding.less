@@ -1,0 +1,274 @@
+.line {
+    width: 1580px;
+    margin: 20px auto;
+}
+
+.midbox {
+    background-color: #fff;
+    padding: 20px;
+    width: 100%;
+    height: 80px;
+    background-color: white;
+
+    /deep/.el-tabs__nav-wrap::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 2px;
+        z-index: 1;
+        background-color: white;
+    }
+
+    /deep/.el-tabs__active-bar {
+        position: absolute;
+        bottom: 0;
+        left: 30px;
+        width: 29px !important;
+        height: 2px;
+        background-color: #ffdc00;
+        z-index: 1;
+        transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        list-style: none;
+        width: 6px;
+        height: 4px;
+        border-radius: 2px 2px 2px 2px;
+    }
+
+    /deep/.el-tabs__item {
+        padding: 0 20px;
+        height: 40px;
+        box-sizing: border-box;
+        line-height: 40px;
+        display: inline-block;
+        list-style: none;
+        font-size: 14px;
+        font-weight: 500;
+        color: #303133;
+        position: relative;
+        font-size: 14px;
+        font-weight: 400;
+        color: #999999;
+    }
+
+    /deep/.is-active {
+        color: #0c032e;
+        font-weight: bold;
+    }
+}
+
+.shurukuang {
+    /deep/.el-input__inner {
+        width: 400px;
+        height: 40px;
+        background: #FFFFFF;
+        border-radius: 4px 4px 4px 4px;
+    }
+
+    .sseatch {
+        width: 80px;
+        height: 40px;
+        background: #DFDFDF;
+        border-radius: 4px 4px 4px 4px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #FFFFFF;
+        line-height: 40px;
+    }
+}
+
+.zxc {
+    width: 100px;
+    height: 40px;
+    background: #FFFFFF;
+    border-radius: 3px 3px 3px 3px;
+    border: 1px solid #DDDDDD;
+    font-size: 14px;
+    font-weight: 400;
+    color: #999999;
+    line-height: 40px;
+    margin-right: 10px;
+}
+
+.zxc.active {
+    width: 100px;
+    height: 40px;
+    background: #FFDC00;
+    border-radius: 3px 3px 3px 3px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+    line-height: 40px;
+}
+
+.shuax {
+    width: 80px;
+    height: 40px;
+    background: #00B567;
+    border-radius: 4px 4px 4px 4px;
+    line-height: 40px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #FFFFFF;
+}
+
+.divcrowdst {
+    width: 100%;
+    height: 80px;
+    border-bottom: 1px solid #DDDDDD;
+    background-color: white;
+
+    div {
+        margin-left: 200px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333333;
+        line-height: 80px;
+    }
+}
+.divcrowdsts {
+    width: 100%;
+    height: 80px;
+    border-bottom: 1px solid #DDDDDD;
+    background-color: white;
+
+    div {
+        margin-left: 200px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333333;
+        line-height: 80px;
+    }
+    div:nth-child(2) {
+        margin-left: 300px;
+    }
+}
+
+.crowdlist {
+    height: 180px;
+    background-color: white;
+    width: 100%;
+    padding: 20px 40px;
+    border-bottom: 1px solid #DDDDDD;
+    display: flex;
+
+    .crowdlistshop {
+        width: 400px;
+        height: 140px;
+        background: #F5F5F5;
+        border-radius: 3px 3px 3px 3px;
+        padding: 20px;
+        display: flex;
+
+        .crowdlistshop_img {
+            width: 100px;
+            height: 100px;
+            background: #E8E8E8;
+            border-radius: 6px 6px 6px 6px;
+
+            img {
+                width: 100px;
+                height: 100px;
+                background: #E8E8E8;
+                border-radius: 6px 6px 6px 6px;
+            }
+        }
+
+        .crowdlistshop_title {
+            text-align: left;
+            margin-left: 20px;
+            width: 235px;
+            height: 39px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            margin-top: 30px;
+            line-height: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333333;
+        }
+    }
+
+    .crowdlistshopjg {
+        width: 200px;
+        text-align: left;
+        padding-left: 30px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #333333;
+        display: flex;
+        align-items: center;
+    }
+    .crowdlistshopjgs {
+        width: 200px;
+        text-align: left;
+        padding-left: 150px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #333333;
+        display: flex;
+        align-items: center;
+    }
+
+    .crowdlistshoptiems {
+        color: red;
+        width: 170px;
+        display: flex;
+        align-items: center;
+        padding-left: 85px;
+    }
+
+    .jdt {
+        margin-left: 140px;
+        margin-top: 60px;
+
+        .jdt_jdt {
+            display: flex;
+            align-items: center;
+        }
+
+        .jdtvalue {
+            font-size: 14px;
+            font-weight: 400;
+            color: #333333;
+            margin-top: 10px;
+            text-align: center;
+        }
+    }
+}
+
+.ztxs {
+    width: 100px;
+    margin-left: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.xq {
+    display: flex;
+    align-items: center;
+}
+
+.crowdlistshoplsj {
+    margin-left: 230px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+}
+.crowdlistshopl_num {
+    margin-left: 243px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+}

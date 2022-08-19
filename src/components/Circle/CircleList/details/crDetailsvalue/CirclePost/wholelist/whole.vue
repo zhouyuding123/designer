@@ -2,7 +2,7 @@
   <div>
     <div class="bodyTextline">
       <div class="bodyTextlineValue">
-        <el-input placeholder="请输入内容" v-model="seatch.keyword"></el-input>
+        <el-input placeholder="请输入内容" v-model="page1.keyword"></el-input>
         <div class="IsSeatch" @click="seatchInput">
           <i class="el-icon-search"></i>
           <span>搜索</span>
@@ -190,11 +190,9 @@ export default {
   data() {
     return {
       tableData: [],
-      circle: {
-        circle_id: "",
-      },
       page1: {
         circle_id: "",
+        keyword: "",
         offset: 1,
         limit: 10,
         totalResult: 0,
@@ -263,15 +261,17 @@ export default {
   created() {
     this.imagesValue = imgUrl();
     this.releaseValue();
-    this.page1.circle_id = this.circle.circle_id;
   },
   methods: {
     Refresh() {
+      this.page1.keyword = "";
+      this.page1.offset = 1;
+      this.page1.limit = 10;
       this.releaseValue();
     },
     releaseValue() {
-      this.circle.circle_id = this.$route.params.id;
-      postD(CircleGetCircleForumApi(), this.circle).then((res) => {
+      this.page1.circle_id = this.$route.params.id;
+      postD(CircleGetCircleForumApi(), this.page1).then((res) => {
         this.tableData = res.list;
         this.page1.totalResult = res.count;
       });
@@ -667,8 +667,8 @@ export default {
     },
     // 搜索
     seatchInput() {
-      this.seatch.circle_id = this.circle.circle_id;
-      postD(CircleGetCircleForumApi(), this.seatch).then((res) => {
+      this.page1.circle_id = this.circle.circle_id;
+      postD(CircleGetCircleForumApi(), this.page1).then((res) => {
         this.tableData = res.list;
         this.page1.totalResult = res.count;
       });

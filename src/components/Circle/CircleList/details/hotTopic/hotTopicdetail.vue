@@ -299,6 +299,7 @@ export default {
     },
     strollValue() {
       postD(ForumThemeApi(), this.page1).then((res) => {
+        console.log(res);
         this.strollList = res.list;
         this.listShow = res.show
         this.page1.totalResult = res.count;

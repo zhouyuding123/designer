@@ -11,7 +11,6 @@
       >
         {{ item }}
       </div>
-      
     </div>
     <div class="contentBox" v-if="btnindex === 0">
       <div style="width: 1280px; margin-right: 20px">
@@ -22,118 +21,116 @@
           :styless="2"
         ></fabu>
         <div style="width: 1280px; margin: 0 auto">
+          <div
+            class="tabline"
+            v-for="item in strollList"
+            :key="item.id"
+            @click="strollDetial(item.id)"
+          >
+            <div class="tablineValue">
+              <div class="tabline1" v-if="item.is_top == 1">
+                <span>置顶</span>
+              </div>
+              <div class="tabline2" v-if="item.is_ess == 1">
+                <span>精华</span>
+              </div>
+              <div class="tabline3">
+                <span>{{ item.title }}</span>
+              </div>
+            </div>
+            <div class="tablineValue2">{{ item.description }}</div>
             <div
-              class="tabline"
-              v-for="item in strollList"
-              :key="item.id"
-              @click="strollDetial(item.id)"
+              class="tablineValue3"
+              v-if="item.theme !== '' && item.theme !== null"
             >
-              <div class="tablineValue">
-                <div class="tabline1" v-if="item.is_top == 1">
-                  <span>置顶</span>
-                </div>
-                <div class="tabline2" v-if="item.is_ess == 1">
-                  <span>精华</span>
-                </div>
-                <div class="tabline3">
-                  <span>{{ item.title }}</span>
-                </div>
-              </div>
-              <div class="tablineValue2">{{ item.description }}</div>
+              <span>#{{ item.theme }}</span>
+            </div>
+            <div v-if="item.thumb" class="tablineValue4">
               <div
-                class="tablineValue3"
-                v-if="item.theme !== '' && item.theme !== null"
+                v-for="items in item.thumb.split(',').slice(0, 3)"
+                :key="items"
+                class="imgadde"
               >
-                <span>#{{ item.theme }}</span>
-              </div>
-              <div v-if="item.thumb" class="tablineValue4">
-                <div
-                  v-for="items in item.thumb.split(',').slice(0, 3)"
-                  :key="items"
-                  class="imgadde"
-                >
-                <div v-if="items.split('/')[0] == 'moves'">
-
-                </div>
-                  <img
+                <div v-if="items.split('/')[0] == 'moves'"></div>
+                <img
                   v-if="items.split('/')[0] == 'images'"
-                    :src="imagesValue + items"
-                    alt=""
-                    style="width: 106px; height: 106px"
-                  />
-                </div>
+                  :src="imagesValue + items"
+                  alt=""
+                  style="width: 106px; height: 106px"
+                />
               </div>
-              <div class="tablineValue5">
-                <div>
-                  <img
-                    :src="imagesValue + item.headimage"
-                    alt=""
-                    style="
-                      width: 32px;
-                      height: 32px;
-                      border-radius: 50%;
-                      margin-top: 20px;
-                    "
-                  />
-                </div>
-                <div class="strollName">
-                  <span>{{ item.username }}</span>
-                </div>
-                <div class="strollTime">
-                  <span>{{ funTime(item.create_time) }}</span>
-                </div>
-                <div class="strollOption">
-                  <div class="strollOptionUp">
-                    <div class="strollOptionUpImg">
-                      <img src="@/assets/imgers/cr爱心.png" alt="" />
-                    </div>
-                    <div class="strollOptionUpSpan">
-                      <span>123</span>
-                    </div>
+            </div>
+            <div class="tablineValue5">
+              <div>
+                <img
+                  :src="imagesValue + item.headimage"
+                  alt=""
+                  style="
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    margin-top: 20px;
+                  "
+                />
+              </div>
+              <div class="strollName">
+                <span>{{ item.username }}</span>
+              </div>
+              <div class="strollTime">
+                <span>{{ funTime(item.create_time) }}</span>
+              </div>
+              <div class="strollOption">
+                <div class="strollOptionUp">
+                  <div class="strollOptionUpImg">
+                    <img src="@/assets/imgers/cr爱心.png" alt="" />
                   </div>
-                  <div class="strollOptionUp">
-                    <div>
-                      <img src="@/assets/imgers/cr评论.png" alt="" />
-                    </div>
-                    <div class="strollOptionUpSpan">
-                      <span>123</span>
-                    </div>
+                  <div class="strollOptionUpSpan">
+                    <span>123</span>
                   </div>
-                  <div class="strollOptionUp">
-                    <div>
-                      <img src="@/assets/imgers/cr收藏.png" alt="" />
-                    </div>
-                    <div class="strollOptionUpSpan">
-                      <span>123</span>
-                    </div>
+                </div>
+                <div class="strollOptionUp">
+                  <div>
+                    <img src="@/assets/imgers/cr评论.png" alt="" />
                   </div>
-                  <div class="strollOptionUp">
-                    <div>
-                      <img src="@/assets/imgers/cr转发.png" alt="" />
-                    </div>
-                    <div class="strollOptionUpSpan">
-                      <span>123</span>
-                    </div>
+                  <div class="strollOptionUpSpan">
+                    <span>123</span>
+                  </div>
+                </div>
+                <div class="strollOptionUp">
+                  <div>
+                    <img src="@/assets/imgers/cr收藏.png" alt="" />
+                  </div>
+                  <div class="strollOptionUpSpan">
+                    <span>123</span>
+                  </div>
+                </div>
+                <div class="strollOptionUp">
+                  <div>
+                    <img src="@/assets/imgers/cr转发.png" alt="" />
+                  </div>
+                  <div class="strollOptionUpSpan">
+                    <span>123</span>
                   </div>
                 </div>
               </div>
             </div>
-            <vxe-pager
-              :current-page="page1.offset"
-              :page-size="page1.limit"
-              :total="page1.totalResult"
-              :layouts="[
-                'PrevPage',
-                'JumpNumber',
-                'NextPage',
-                'FullJump',
-                'Sizes',
-                'Total',
-              ]"
-              @page-change="handlePageChangeActivitys"
-              style="margin-top: 20px"
-            ></vxe-pager>
           </div>
+          <vxe-pager
+            :current-page="page1.offset"
+            :page-size="page1.limit"
+            :total="page1.totalResult"
+            :layouts="[
+              'PrevPage',
+              'JumpNumber',
+              'NextPage',
+              'FullJump',
+              'Sizes',
+              'Total',
+            ]"
+            @page-change="handlePageChangeActivitys"
+            style="margin-top: 20px"
+          ></vxe-pager>
+        </div>
       </div>
       <div class="rightBox" v-if="remenlist.length">
         <div
@@ -163,7 +160,7 @@
       </div>
     </div>
     <div class="contentBox" v-if="btnindex === 1">
-        <div style="width: 1280px; margin-right: 20px">
+      <div style="width: 1280px; margin-right: 20px">
         <fabu
           :is_circle="is_circle"
           :circle_id="circle_id"
@@ -247,12 +244,10 @@
                         :key="items"
                         class="imgadde"
                       >
-                      <div v-if="items.split('/')[0] == 'moves'">
+                        <div v-if="items.split('/')[0] == 'moves'"></div>
 
-                      </div>
-                      
                         <img
-                        v-if="items.split('/')[0] == 'images'"
+                          v-if="items.split('/')[0] == 'images'"
                           :src="imagesValue + items"
                           alt=""
                           style="width: 106px; height: 106px"
@@ -328,7 +323,7 @@
           </div>
         </div>
       </div>
-        <div class="rightBox" v-if="remenlist.length">
+      <div class="rightBox" v-if="remenlist.length">
         <div
           class="huatibox"
           v-for="(item, index) in remenlist"
@@ -354,16 +349,16 @@
         <!-- v-if="remenlist.length>=7" -->
         <div class="lookmore" @click="lookmore">查看更多话题</div>
       </div>
-      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import {ForumListForumApi,ForumDelForumApi } from "@/urls/wsUrl.js"
+import { ForumListForumApi, ForumDelForumApi } from "@/urls/wsUrl.js";
 import fabu from "@/components/Circle/CircleList/details/fabu/fabu.vue";
 import { timestampToTime } from "@/assets/js/time.js";
-import { postD } from '@/api';
-import { imgUrl } from '@/assets/js/modifyStyle';
+import { postD } from "@/api";
+import { imgUrl } from "@/assets/js/modifyStyle";
 export default {
   components: {
     fabu,
@@ -377,9 +372,9 @@ export default {
       btnindex: 0,
       circle_id: null,
       is_circle: 0,
-      imagesValue:"",
+      imagesValue: "",
       remenlist: [],
-      strollList:[],
+      strollList: [],
       page1: {
         style: "2",
         offset: 1,
@@ -392,7 +387,7 @@ export default {
         keyword: "",
         offset: 1,
         limit: 10,
-        totalResult:0
+        totalResult: 0,
       },
       page2totalResult: 0,
       // 删除
@@ -411,9 +406,9 @@ export default {
     };
   },
   created() {
-      this.imagesValue=imgUrl()
-      this.strollValue();
-      this.Mystroll();
+    this.imagesValue = imgUrl();
+    this.strollValue();
+    this.Mystroll();
   },
   methods: {
     handleClick(tab, event) {
@@ -477,7 +472,8 @@ export default {
       });
     },
     Refresh() {
-        this.Mystroll()
+      this.page2.keyword = "";
+      (this.page2.offset = 1), (this.page2.limit = 10), this.Mystroll();
     },
     checkboxChangeEvent(val) {
       this.arrs = val.records;
@@ -561,7 +557,7 @@ export default {
         });
       }
     },
-     strollDetial(val) {
+    strollDetial(val) {
       this.$router.push("/Forum/showForum" + val);
     },
   },

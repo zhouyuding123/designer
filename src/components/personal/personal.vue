@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="midbox">
-      <el-tabs v-model="activeName">
+      <el-tabs v-model="activeName" @tab-click="clearMapstores">
         <el-tab-pane label="用户管理" name="1"></el-tab-pane>
         <el-tab-pane label="账号安全" name="2"></el-tab-pane>
         <el-tab-pane label="收货地址" name="3"></el-tab-pane>
@@ -516,14 +516,66 @@ export default {
     this.imagesValue = imgUrl();
     this.mypersonalvalue();
     this.mypersonal();
-    if (this.jwd.lat == null && this.jwd.lng == null) {
+    if (this.jwd.lat == null && this.jwd.lng == null||this.jwd.lat == 0 && this.jwd.lng == 0) {
       this.jwd = {
         lng: 121.547355,
         lat: 29.809097,
       };
     }
+    this.clearMapstore();
   },
   methods: {
+    clearMapstores(){
+      if (this.activeName === "1") {
+        this.clearMapstore();
+        window.onLoadMap = () => {
+          if (this.jwd.lat == null && this.jwd.lng == null) {
+            this.jwd = {
+              lng: 121.547355,
+              lat: 29.809097,
+            };
+          }
+          this.ready();
+        };
+        // key 值需要去高德地图去申请才可以
+        asyncJS(
+          "https://webapi.amap.com/maps?v=1.4.15&key=4809a108fd29d9ff15029338f2e1f49a&callback=onLoadMap"
+        );
+      }
+    },
+    clearMapstore() {
+      localStorage.removeItem("_AMap_vectorlayer");
+      localStorage.removeItem("_AMap_wgl");
+      localStorage.removeItem("_AMap_sync");
+      localStorage.removeItem("_AMap_raster");
+      localStorage.removeItem("_AMap_overlay");
+      localStorage.removeItem("_AMap_mouse");
+      localStorage.removeItem("_AMap_AMap.ToolBar");
+      localStorage.removeItem("_AMap_AMap.Scale");
+      localStorage.removeItem("_AMap_AMap.RangingTool");
+      localStorage.removeItem("_AMap_AMap.PolyEditor");
+      localStorage.removeItem("_AMap_AMap.PlaceSearch");
+      localStorage.removeItem("_AMap_AMap.OverView");
+      localStorage.removeItem("_AMap_AMap.MouseTool");
+      localStorage.removeItem("_AMap_AMap.MarkerClusterer");
+      localStorage.removeItem("_AMap_AMap.MapType");
+      localStorage.removeItem("_AMap_AMap.Geolocation");
+      localStorage.removeItem("_AMap_AMap.CitySearch");
+      localStorage.removeItem("_AMap_AMap.CircleEditor");
+      localStorage.removeItem("_AMap_AMap.Autocomplete");
+      localStorage.removeItem("_AMap_AMap.IndoorMap3D");
+      localStorage.removeItem("_AMap_Map3D");
+      localStorage.removeItem("_AMap_labelcanvas");
+      localStorage.removeItem("_AMap_labelDir");
+      localStorage.removeItem("_AMap_data.tileKeys");
+      localStorage.removeItem("_AMap_AMap.CustomLayer");
+      localStorage.removeItem("_AMap_AMap.Geocoder");
+      localStorage.removeItem("_AMap_AMap.CustomLayer");
+      localStorage.removeItem("_AMap_AMap.IndoorMap");
+      localStorage.removeItem("_AMap_anole");
+      localStorage.removeItem("_AMap_cmng");
+      localStorage.removeItem("_AMap_cvector");
+    },
     mypersonalvalue() {
       postD(myCenterApi(), this.mynames).then((res) => {
         this.mystyle = res.data.style;
@@ -542,8 +594,8 @@ export default {
         this.valueData.is_cust = this.myDenper.is_cust;
         this.valueData.label = this.myDenper.label;
         this.valueData.is_receive = this.myDenper.is_receive;
-        this.valueData.lat = this.myDenper.lat||"";
-        this.valueData.lng = this.myDenper.lng||"";
+        this.valueData.lat = this.myDenper.lat || "";
+        this.valueData.lng = this.myDenper.lng || "";
         this.valueData.province = this.myDenper.province;
         this.valueData.area = this.myDenper.area;
         this.valueData.detail = this.myDenper.detail;
@@ -601,13 +653,13 @@ export default {
       return isJPG && isLt2M;
     },
     preservation() {
-      var mydata = JSON.parse(localStorage.getItem("data"))
-      mydata.lat=this.valueData.lat
-      mydata.lng=this.valueData.lng
-      mydata.province=this.valueData.province
-      mydata.city=this.valueData.city
-      mydata.area=this.valueData.area
-      mydata.detail=this.valueData.detail
+      var mydata = JSON.parse(localStorage.getItem("data"));
+      mydata.lat = this.valueData.lat;
+      mydata.lng = this.valueData.lng;
+      mydata.province = this.valueData.province;
+      mydata.city = this.valueData.city;
+      mydata.area = this.valueData.area;
+      mydata.detail = this.valueData.detail;
       localStorage.setItem("data", JSON.stringify(mydata));
       this.$refs.personalruleForm.validate((v) => {
         if (!v) return;
@@ -700,7 +752,7 @@ export default {
         center: [zxcthis.jwd.lng, zxcthis.jwd.lat], //中心点坐标
         viewMode: "3D", //使用3D视图
       });
-			
+
       zxcthis.search();
       let _this = zxcthis;
       // 为地图注册click事件获取鼠标点击出的经纬度坐标

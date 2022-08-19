@@ -240,7 +240,7 @@ const routes = [
         component: () => import("../components/complaint/complaint.vue")
       },
       {
-        path: "/crowd",
+        path: "/crowd:id",
         name: "crowd",
         component: () => import("../components/workDetails/crowd-funding/crowd-funding.vue")
       },

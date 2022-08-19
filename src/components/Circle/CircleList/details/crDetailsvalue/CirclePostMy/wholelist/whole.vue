@@ -2,7 +2,7 @@
   <div>
     <div class="bodyTextline">
       <div class="bodyTextlineValue">
-        <el-input placeholder="请输入内容"  v-model="seatch.keyword"></el-input>
+        <el-input placeholder="请输入内容" v-model="page1.keyword"></el-input>
         <div class="IsSeatch" @click="seatchInput">
           <i class="el-icon-search"></i>
           <span>搜索</span>
@@ -97,11 +97,9 @@
                   :key="items"
                   class="imgadde"
                 >
-                <div v-if="items.split('/')[0] == 'moves'">
-
-                </div>
+                  <div v-if="items.split('/')[0] == 'moves'"></div>
                   <img
-                  v-if="items.split('/')[0] == 'images'"
+                    v-if="items.split('/')[0] == 'images'"
                     :src="imagesValue + items"
                     alt=""
                     style="width: 106px; height: 106px"
@@ -192,27 +190,15 @@ export default {
   data() {
     return {
       tableData: [],
-      circle: {
-        circle_id: "",
-        own:1
-      },
       page1: {
-        circle_id: "",
-        offset: 1,
-        limit: 10,
-        totalResult: 0,
-        own:1
-      },
-      imagesValue: "",
-      // 搜索
-      seatch: {
         circle_id: "",
         keyword: "",
         offset: 1,
         limit: 10,
         totalResult: 0,
-        own:1
+        own: 1,
       },
+      imagesValue: "",
       // 删除
       DeletePostValue: {
         id: "",
@@ -268,17 +254,17 @@ export default {
   created() {
     this.imagesValue = imgUrl();
     this.releaseValue();
-
-    console.log(this.circle.circle_id);
-    this.page1.circle_id = this.circle.circle_id;
   },
   methods: {
-      Refresh() {
+    Refresh() {
+      this.page1.keyword = "";
+      this.page1.offset = 1;
+      this.page1.limit = 10;
       this.releaseValue();
     },
     releaseValue() {
-      this.circle.circle_id = this.$route.params.id;
-      postD(CircleGetCircleForumApi(), this.circle).then((res) => {
+      this.page1.circle_id = this.$route.params.id;
+      postD(CircleGetCircleForumApi(), this.page1).then((res) => {
         console.log(res);
         this.tableData = res.list;
         this.page1.totalResult = res.count;
@@ -403,38 +389,38 @@ export default {
         if (data.is_top !== 1) {
           this.Top.forum_id = data.id.toString();
           postD(ForumSetTopApi(), this.Top).then((res) => {
-             if (res.code == "200") {
-            this.$message({
-              offset: 80,
-              type: "success",
-              message: "置顶成功",
-            });
-            this.releaseValue();
-          } else {
-            this.$message({
-              offset: 80,
-              type: "error",
-              message: res.msg,
-            });
-          }
+            if (res.code == "200") {
+              this.$message({
+                offset: 80,
+                type: "success",
+                message: "置顶成功",
+              });
+              this.releaseValue();
+            } else {
+              this.$message({
+                offset: 80,
+                type: "error",
+                message: res.msg,
+              });
+            }
           });
         } else {
           this.Topone.forum_id = data.id.toString();
           postD(ForumSetTopApi(), this.Topone).then((res) => {
-             if (res.code == "200") {
-            this.$message({
-              offset: 80,
-              type: "success",
-              message: "取消成功",
-            });
-            this.releaseValue();
-          } else {
-            this.$message({
-              offset: 80,
-              type: "error",
-              message: res.msg,
-            });
-          }
+            if (res.code == "200") {
+              this.$message({
+                offset: 80,
+                type: "success",
+                message: "取消成功",
+              });
+              this.releaseValue();
+            } else {
+              this.$message({
+                offset: 80,
+                type: "error",
+                message: res.msg,
+              });
+            }
           });
         }
       }
@@ -461,38 +447,38 @@ export default {
         if (data.is_ess !== 1) {
           this.Ess.forum_id = data.id.toString();
           postD(ForumSetEssApi(), this.Ess).then((res) => {
-             if (res.code == "200") {
-            this.$message({
-              offset: 80,
-              type: "success",
-              message: "精华成功",
-            });
-            this.releaseValue();
-          } else {
-            this.$message({
-              offset: 80,
-              type: "error",
-              message: res.msg,
-            });
-          }
+            if (res.code == "200") {
+              this.$message({
+                offset: 80,
+                type: "success",
+                message: "精华成功",
+              });
+              this.releaseValue();
+            } else {
+              this.$message({
+                offset: 80,
+                type: "error",
+                message: res.msg,
+              });
+            }
           });
         } else {
           this.EssOne.forum_id = data.id.toString();
           postD(ForumSetEssApi(), this.EssOne).then((res) => {
-             if (res.code == "200") {
-            this.$message({
-              offset: 80,
-              type: "success",
-              message: "取消精华成功",
-            });
-            this.releaseValue();
-          } else {
-            this.$message({
-              offset: 80,
-              type: "error",
-              message: res.msg,
-            });
-          }
+            if (res.code == "200") {
+              this.$message({
+                offset: 80,
+                type: "success",
+                message: "取消精华成功",
+              });
+              this.releaseValue();
+            } else {
+              this.$message({
+                offset: 80,
+                type: "error",
+                message: res.msg,
+              });
+            }
           });
         }
       }
@@ -521,7 +507,7 @@ export default {
         });
         this.EssidsL.forum_id = this.Essids.toString();
         postD(ForumSetEssApi(), this.EssidsL).then((res) => {
-           if (res.code == "200") {
+          if (res.code == "200") {
             this.$message({
               offset: 80,
               type: "success",
@@ -675,15 +661,15 @@ export default {
     },
     // 搜索
     seatchInput() {
-      this.seatch.circle_id = this.circle.circle_id;
-      postD(CircleGetCircleForumApi(), this.seatch).then((res) => {
+      this.page1.circle_id = this.circle.circle_id;
+      postD(CircleGetCircleForumApi(), this.page1).then((res) => {
         this.tableData = res.list;
         this.page1.totalResult = res.count;
       });
     },
     detailsValue(val) {
       this.$router.push("/Forum/showForum" + val);
-    }
+    },
   },
 };
 </script>

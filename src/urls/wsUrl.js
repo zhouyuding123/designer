@@ -339,9 +339,27 @@ export const ComplaintApi = () => {
 export const releaseApi = () => {
     return "company/Activity/release"
 }
+// 发起众筹
+export const PreparAddApi = () => {
+    return "designer/Prepar/add"
+}
+// 众筹列表
+export const PreparGetListApi = () => {
+    return "designer/Prepar/getList"
+}
 
-
-
+// 众筹订单列表
+export const PgetOrderListApi = () => {
+    return "designer/Prepar/getOrderList"
+}
+// 众筹订单列表
+export const LogisticsApi = () => {
+    return "admin/Logistics/getLists"
+}
+// 发货
+export const PreparApi = () => {
+    return "designer/Prepar/deliver"
+}
 
 
 

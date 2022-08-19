@@ -43,12 +43,18 @@
       <div class="ext">
         <div
           class="extList"
-          v-for="(item, index) in publicityValueList"
+          v-for="(item, index) in publicityValueList[0]"
           :key="index"
         >
-          <div class="RankStyle" v-if="index == 0"><img src="@/assets/imgers/第一名.png" alt="" /></div>
-          <div class="RankStyle" v-if="index == 1"><img src="@/assets/imgers/第二名.png" alt="" /></div>
-          <div class="RankStyle" v-if="index == 2"><img src="@/assets/imgers/第三名.png" alt="" /></div>
+          <div class="RankStyle" v-if="item.name == '第一名'">
+            <img src="@/assets/imgers/第一名.png" alt="" />
+          </div>
+          <div class="RankStyle" v-if="item.name == '第二名'">
+            <img src="@/assets/imgers/第二名.png" alt="" />
+          </div>
+          <div class="RankStyle" v-if="item.name == '第三名'">
+            <img src="@/assets/imgers/第三名.png" alt="" />
+          </div>
           <div class="pubimg" @click="goWorkShow(item)">
             <img :src="imagesValue + item.thumb" alt="" />
           </div>
@@ -106,7 +112,7 @@ export default {
     this.detialId.id = this.$route.params.id;
     this.seatcher.id = this.$route.params.id;
     this.imagesValue = imgUrl();
-    this.worksValue();
+    // this.worksValue();
     this.detialValue();
   },
   methods: {
@@ -114,7 +120,24 @@ export default {
       postD(worksListApi(), this.detialId).then((res) => {
         this.workvalues = res;
         this.workvalue = res.list;
-        this.publicityValueList = res.list;
+        var arr1 = this.prices
+        var arr2 = res.list;
+        var newArr = [];
+        for (var i = 0; i < arr1.length; i++) {
+          var num = arr1[i].amount;
+          var cutarr = arr2.slice(0, num);
+          cutarr.forEach((item, index) => {
+            item.name = arr1[i].name;
+          });
+          newArr.push(cutarr);
+          arr2.splice(0, num);
+          newArr.concat(arr2);
+        }
+        newArr = newArr.reduce(function (a, b) {
+          return a.concat(b);
+        });
+        this.publicityValueList.push(newArr);
+        console.log(this.publicityValueList);
       });
     },
     seatchvalue() {
@@ -126,8 +149,8 @@ export default {
     detialValue() {
       this.detialId.id = this.$route.params.id;
       postD(MatchShowApi(), this.detialId).then((res) => {
-        console.log(res);
-        this.prices = res.data.prize;
+        this.prices = res.data.prize
+        this.worksValue();
       });
     },
     goWorkShow(val) {

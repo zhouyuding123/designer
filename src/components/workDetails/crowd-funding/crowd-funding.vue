@@ -29,22 +29,31 @@
       <div class="croline2">
         <div class="croline2_body">
           <el-form-item label="众筹价格">
-            <el-input></el-input>
+            <el-input v-model="corruleForm.price_unit"></el-input>
           </el-form-item>
           <el-form-item label="零售指导价">
-            <el-input></el-input>
+            <el-input v-model="corruleForm.price"></el-input>
           </el-form-item>
           <el-form-item label="众筹时效">
-            <el-input></el-input>
+            <el-date-picker
+              type="date"
+              placeholder="时间"
+              v-model="corruleForm.prepar_time"
+              style="width: 100%"
+              @change="gstTime"
+            ></el-date-picker>
           </el-form-item>
-          <el-form-item label="众筹数量">
-            <el-input></el-input>
+          <el-form-item label="众筹最大数量">
+            <el-input v-model="corruleForm.max_count"></el-input>
+          </el-form-item>
+          <el-form-item label="众筹最小数量">
+            <el-input v-model="corruleForm.min_count"></el-input>
           </el-form-item>
           <el-form-item label="交货日期">
             <el-date-picker
               type="date"
               placeholder="交货时间"
-              v-model="corruleForm.cortimes"
+              v-model="corruleForm.deliver_time"
               style="width: 100%"
               @change="getTime"
             ></el-date-picker>
@@ -93,13 +102,23 @@
           <div class="btns flex">
             <div
               class="btnstyle"
-              v-for="(item, index) in btntitle"
-              :key="index"
-              :class="{ active: btnindex == index }"
-              @click="switchbtn(index)"
+              v-for="(item, i) in btntitle"
+              :key="i"
+              :class="{ active: index == i }"
+              @click="switchbtn(i)"
               style="margin-right: 20px"
             >
-              {{ item }}
+              <p class="delspec" @click="delspeccolor(i)">x</p>
+              {{ item.city }}
+            </div>
+            <div>
+              <el-input
+                placeholder="请输入"
+                v-model="colorinput"
+                @blur="losecolor"
+                clearable
+              >
+              </el-input>
             </div>
           </div>
         </el-form-item>
@@ -107,34 +126,70 @@
           <div class="btns flex">
             <div
               class="btnstyle"
-              v-for="(item, index) in btntitlecc"
-              :key="index"
-              :class="{ active: btnindexs == index }"
-              @click="switchbtns(index)"
+              v-for="(item, i) in btntitlecc"
+              :key="i"
+              :class="{ active: indexs == i }"
+              @click="switchbtns(i)"
               style="margin-right: 20px"
             >
-              {{ item }}
+              <p class="delspec" @click="delspecsize(i)">x</p>
+              {{ item.city }}
+            </div>
+            <div>
+              <el-input
+                placeholder="请输入"
+                v-model="sizeinpuit"
+                @blur="losesize"
+                clearable
+              >
+              </el-input>
             </div>
           </div>
         </el-form-item>
       </div>
+      <div class="addValues">
+        <div @click="addInputHandle">
+          <span>新增规格</span>
+        </div>
+      </div>
+      <div style="padding: 40px">
+        <div class="list3">
+          
+          <div><span>颜色</span></div>
+          <div><span>尺寸</span></div>
+        </div>
+        <div class="list3list" v-for="(item, index) in spec" :key="index">
+         
+            <div class="delspecs">
+              <p  @click="delspec(index)">x</p>
+            </div>
+        
+          <div>
+            <span>{{ item.color }}</span>
+          </div>
+          <div>
+            <span>{{ item.size }}</span>
+          </div>
+        </div>
+      </div>
       <div class="croline5">
         <div class="croline3_tit">材质</div>
         <el-form-item>
-          <el-input type="textarea" :rows="1" v-model="textarea"> </el-input>
+          <el-input type="textarea" :rows="1" v-model="corruleForm.material">
+          </el-input>
         </el-form-item>
       </div>
       <div class="croline5">
         <div class="croline3_tit">详细描述</div>
         <el-form-item>
-          <el-input type="textarea" :rows="1" v-model="textarea"> </el-input>
+          <el-input type="textarea" :rows="1" v-model="corruleForm.content">
+          </el-input>
         </el-form-item>
       </div>
     </el-form>
     <div class="croline6">
-      <div class="cur">提交众筹</div>
+      <div class="cur" @click="addzc">提交众筹</div>
     </div>
-    <header>众筹功能暂未开放</header>
   </div>
 </template>
 
@@ -143,6 +198,8 @@
 import { imgUrl } from "@/assets/js/modifyStyle";
 import { timestampToTime } from "@/assets/js/time.js";
 import EleUploadVideo from "@/components/UploadWorks/EleUploadVideo.vue";
+import { postD } from "@/api";
+import { workShowApi,PreparAddApi } from "@/urls/wsUrl.js";
 export default {
   components: {
     EleUploadVideo,
@@ -160,7 +217,21 @@ export default {
           aixing: "999999",
         },
       ],
-      corruleForm: { cortimes: "" },
+      corruleForm: {
+        work_id: "",
+        title: "",
+        thumb: "",
+        price_unit: "",
+        max_count: "",
+        min_count: "",
+        price: "",
+        prepar_time: "",
+        deliver_time: "",
+        thumb_model: "",
+        spec: [],
+        material: "",
+        content: "",
+      },
       corrules: {},
       fileType: "images",
       fileType1: "moves",
@@ -170,25 +241,51 @@ export default {
       videosrc: "",
       videosrc1: "",
       btntitle: [
-        "红色",
-        "蓝色",
-        "蓝色",
-        "蓝色",
-        "蓝色",
-        "蓝色",
-        "蓝色",
-        "蓝色",
+        { city: "红色", bOn: false },
+        { city: "城色", bOn: false },
+        { city: "黄色", bOn: false },
+        { city: "绿色", bOn: false },
+        { city: "青色", bOn: false },
+        { city: "蓝色", bOn: false },
+        { city: "紫色", bOn: false },
       ],
-      btntitlecc: ["x", "x", "x", "x", "x", "x", "x", "x", "x"],
+      colorinput: "",
+      sizeinpuit: "",
+      btntitlecc: [
+        { city: "s", bOn: false },
+        { city: "m", bOn: false },
+        { city: "x", bOn: false },
+        { city: "l", bOn: false },
+        { city: "xl", bOn: false },
+        { city: "xll", bOn: false },
+        { city: "xlll", bOn: false },
+        { city: "xllll", bOn: false },
+      ],
       btnindex: null,
       btnindexs: null,
       textarea: "",
+      addsp: [],
+      addcl: [],
+      spec: [],
+      index: null,
+      indexs: null,
     };
   },
   created() {
     this.imagesValue = imgUrl();
+    this.mydet();
   },
   methods: {
+    mydet() {
+      var id = {
+        id: this.$route.params.id,
+      };
+      postD(workShowApi(), id).then((res) => {
+        this.corruleForm.work_id = res.data.id;
+        this.corruleForm.title = res.data.title;
+        this.corruleForm.thumb = res.data.thumb;
+      });
+    },
     nummore(val) {
       if (String(val).length >= 4) {
         return val.substring(0, String(val).length - 4) + "万";
@@ -196,12 +293,15 @@ export default {
         return val;
       }
     },
+    gstTime(date) {
+      let card_start_time = date;
+      this.corruleForm.prepar_time = timestampToTime(card_start_time / 1000);
+    },
     getTime(date) {
       let card_start_time = date;
-      this.corruleForm.cortimes = timestampToTime(card_start_time / 1000);
+      this.corruleForm.deliver_time = timestampToTime(card_start_time / 1000);
     },
     handleAvatarSuccesser2(res, file, fileList) {
-      console.log(fileList);
       this.imageList2 = fileList;
     },
     handlePictureCardPreview(file) {
@@ -249,11 +349,58 @@ export default {
       this.videosrc = "";
       this.videosrc1 = "";
     },
-    switchbtn(index) {
-      this.btnindex = index;
+    switchbtn(i) {
+      this.index = i;
+      this.addsp.push(this.btntitle[i].city);
     },
-    switchbtns(index) {
-      this.btnindexs = index;
+    switchbtns(i) {
+      this.indexs = i;
+      this.addcl.push(this.btntitlecc[i].city);
+    },
+    losecolor() {
+      if (this.colorinput !== "") {
+        this.btntitle.push({ city: this.colorinput, bOn: false });
+      }
+      this.colorinput = "";
+    },
+    losesize() {
+      if (this.sizeinpuit !== "") {
+        if (this.btntitlecc.indexOf(this.sizeinpuit) != -1) {
+          this.sizeinpuit = null;
+        }
+        this.btntitlecc.push({ city: this.sizeinpuit, bOn: false });
+      }
+      this.sizeinpuit = "";
+    },
+    delspeccolor(index) {
+      this.btntitle.splice(index, 1);
+    },
+    delspecsize(index) {
+      this.btntitlecc.splice(index, 1);
+    },
+    addInputHandle() {
+      let sp =this.addsp.slice(-1) ;
+      let cl = this.addcl.slice(-1) ;
+      console.log(sp);
+      this.spec.push({
+            color: sp[0],
+            size: cl[0],
+          });
+    },
+    delspec(index) {
+      this.spec.splice(index, 1);
+      this.speccolior.splice(index, 1);
+    },
+    addzc() {
+      let imglist = [];
+      this.imageList2.forEach((item, i) => {
+        imglist.push(item.response.url);
+      });
+      this.corruleForm.thumb_model = imglist.join(',');
+      this.corruleForm.spec = JSON.stringify(this.spec);
+      postD(PreparAddApi(),this.corruleForm).then(res=> {
+        console.log(res);
+      })
     },
   },
 };

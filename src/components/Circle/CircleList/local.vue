@@ -372,10 +372,6 @@ export default {
         limit: 10,
         totalResult: 0,
       },
-      MystyleId: {
-        style: "1",
-        own: "1",
-      },
       page2: {
         style: "1",
         own: "1",
@@ -452,7 +448,7 @@ export default {
       });
     },
     Mystroll() {
-      postD(ForumListForumApi(), this.MystyleId).then((res) => {
+      postD(ForumListForumApi(), this.page2).then((res) => {
         this.tableData = res.list;
         this.page2.totalResult = res.count;
       });
@@ -461,10 +457,13 @@ export default {
     seatchInput() {
       postD(ForumListForumApi(), this.page2).then((res) => {
         this.tableData = res.list;
-        this.page1.totalResult = res.count;
+        this.page2.totalResult = res.count;
       });
     },
     Refresh() {
+        this.page2.keyword=""
+        this.page2.offset= 1,
+        this.page2.limit= 10,
       this.Mystroll();
     },
     checkboxChangeEvent(val) {
