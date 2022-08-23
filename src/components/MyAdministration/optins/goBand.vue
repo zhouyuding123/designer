@@ -69,7 +69,9 @@ export default {
   methods: {
     showvalue() {
       postD(showbrandApi(), this.valueId).then((res) => {
-        console.log(res);
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.showDetil = res.data;
       });
     },

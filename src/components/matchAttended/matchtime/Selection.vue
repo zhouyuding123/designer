@@ -1,6 +1,11 @@
 <template>
   <div>
-    <div class="bodylist" v-for="item in matchLists" :key="item.id" @click="gomatch(item.id)">
+    <div
+      class="bodylist"
+      v-for="item in matchLists"
+      :key="item.id"
+      @click="gomatch(item.id)"
+    >
       <div class="bodylistone">
         <img :src="imagesValue + item.thumb" alt="" />
       </div>
@@ -19,22 +24,22 @@
         </div>
       </div>
     </div>
-    <div style="padding-top:20px" v-if="match.totalResult>10">
-        <vxe-pager
-          :current-page="match.offset"
-          :page-size="match.limit"
-          :total="match.totalResult"
-          :layouts="[
-            'PrevPage',
-            'JumpNumber',
-            'NextPage',
-            'FullJump',
-            'Sizes',
-            'Total',
-          ]"
-          @page-change="handlePageChange"
-        ></vxe-pager>
-      </div>
+    <div style="padding-top: 20px" v-if="match.totalResult > 10">
+      <vxe-pager
+        :current-page="match.offset"
+        :page-size="match.limit"
+        :total="match.totalResult"
+        :layouts="[
+          'PrevPage',
+          'JumpNumber',
+          'NextPage',
+          'FullJump',
+          'Sizes',
+          'Total',
+        ]"
+        @page-change="handlePageChange"
+      ></vxe-pager>
+    </div>
   </div>
 </template>
 
@@ -62,7 +67,9 @@ export default {
   methods: {
     matchList() {
       postD(MatchGetListApi(), this.match).then((res) => {
-        console.log(res);
+        if (res.code == "-201") {
+          this.$router.push("/about");
+        }
         this.matchLists = res.list;
         this.match.totalResult = res.count;
       });
@@ -87,7 +94,7 @@ export default {
       });
     },
     gomatch(val) {
-      this.$router.push("/EventDetails"+val)
+      this.$router.push("/EventDetails" + val);
     },
   },
 };

@@ -281,8 +281,6 @@ export default {
 	  position: relative;
 	  overflow-y: scroll;
     margin: 0 auto;
- 
-  
 	}
 	.com-waterfall-cols {
 	  float: left;
@@ -295,4 +293,5 @@ export default {
 	  height: 0;
 	  overflow: hidden;
 	}
+  
 </style>

@@ -63,7 +63,9 @@ export default {
   methods: {
     information() {
       postD(getAuthApi()).then((res) => {
-          console.log(res);
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.informationValue = res.data;
       });
     },

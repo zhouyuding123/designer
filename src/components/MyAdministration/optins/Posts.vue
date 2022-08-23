@@ -176,6 +176,9 @@ export default {
   methods: {
     Mystroll() {
       postD(ForumListForumApi(), this.page2).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.tableData = res.list;
         this.page2.totalResult = res.count;
       });

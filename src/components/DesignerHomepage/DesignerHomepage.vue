@@ -284,6 +284,9 @@ export default {
     },
     getmyworkList() {
       postD(getListWorksApi(), this.Works).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.count = res.count;
         this.myworkList = [...this.myworkList, ...res.list];
       });
@@ -318,6 +321,7 @@ export default {
       }
     },
     gowork(val) {
+      console.log(val);
       // this.$router.push("/workDetails"+val)
       if (val.category === 3) {
         if (val.username == localStorage.getItem("use") || val.is_pay == 1) {
@@ -326,6 +330,8 @@ export default {
           this.payshow = true;
           this.payshowvalue = val;
         }
+      }else {
+        this.$router.push("/workDetails" + val.id);
       }
     },
     addpay() {

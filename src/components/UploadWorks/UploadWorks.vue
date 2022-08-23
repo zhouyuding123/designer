@@ -170,14 +170,13 @@
           <el-form-item label="权限设置" prop="category" class="">
             <el-radio-group v-model="form.category">
               <el-radio label="2">公开，所有人可见</el-radio>
-              <el-radio label="1">私密，仅自己可见</el-radio>
+              <el-radio label="1" style="display:none">私密，仅自己可见</el-radio>
               <el-radio label="3">收费，他人需付费可见</el-radio>
             </el-radio-group>
           </el-form-item>
 
           <el-form-item label="收费金额" class="">
             <el-input
-              type="number"
               v-model="form.money"
               :disabled="form.category != 3"
               style="width: 200px"
@@ -415,6 +414,7 @@ export default {
       imageList1: [],
       imageList2: [],
       imageList3: [],
+      isvip:false,
       option: {
         img: "", // 裁剪图片的地址
         info: true, // 裁剪框的大小信息
@@ -464,16 +464,6 @@ export default {
           (this.form.description = info.description || ""),
           (this.form.label = info.label || ""),
           (this.form.product_type_id = info.prodtuc_type || ""),
-          // this.form.thumb=info.thumb||''
-          // (this.imageList1 =
-          //   [
-          //     {
-          //       response: {
-          //         url: info.thumb,
-          //       },
-          //       url: this.imagesValue + info.thumb,
-          //     },
-          //   ] || ""),
           (this.imageList1 = info.thumb),
           (this.form.crowd_price = info.crowd_price || ""),
           (this.form.personal_price = info.personal_price || ""),
@@ -624,15 +614,18 @@ export default {
               personal_price: this.form.personal_price,
               copyright_price: this.form.copyright_price,
               cert: zsvalue.join(","),
+              money: this.form.money,
             };
           }
           if (this.form.category != 2) {
             // 验证是否为vip
-            if (this.is_vip == 0) {
+            if (this.is_vip == 0){
               this.centerDialogVisible = true;
               return false;
             }
           }
+
+
           if (this.$route.query.id) {
             postD(editMyWorksApi(), params).then((res) => {
               // this.$router.push('/SpecialArea')
@@ -640,6 +633,7 @@ export default {
                 // console.log(res.data);
                 this.$message({ offset: 80, message: res.msg });
                 this.$router.push("/Mywork");
+                
               } else {
                 this.$message({ offset: 80, message: res.msg });
               }
@@ -651,6 +645,7 @@ export default {
                 setTimeout(() => {
                   this.$message({ offset: 80, message: res.msg });
                   this.$router.push("/SpecialArea");
+                  
                 }, 2000);
               } else {
                 this.$message({ offset: 80, message: res.msg });
@@ -662,7 +657,6 @@ export default {
           //   this.centerDialogVisible=true
           // }
           console.log("error submit!!");
-
           return false;
         }
       });
@@ -696,7 +690,7 @@ export default {
         this.$message({
           offset: 80,
           type: "error",
-          message: "上传头像图片只能是 图片 格式!",
+          message: "上传图片只能是 图片 格式!",
         });
       }
       if (!isLt2M) {
@@ -799,6 +793,9 @@ export default {
     //获取分类列表
     getListApibox() {
       postD(getListApi()).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         if (res.code == 200) {
           this.options = res.list;
         } else {

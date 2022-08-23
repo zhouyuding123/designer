@@ -272,6 +272,9 @@ export default {
     releaseValue() {
       this.page1.circle_id = this.$route.params.id;
       postD(CircleGetCircleForumApi(), this.page1).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.tableData = res.list;
         this.page1.totalResult = res.count;
       });

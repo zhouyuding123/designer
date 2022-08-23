@@ -60,7 +60,7 @@
       </div>
       <div class="eventline3">
         <div class="eventline3Border">
-          <div class="eventline3Body">
+          <div class="eventline3Body cc">
             <span>
               {{ detialValueList.title }}
             </span>
@@ -269,6 +269,9 @@ export default {
     EventDetailsValue() {
       this.matchShowid.id = this.$route.params.id;
       postD(MatchShowApi(), this.matchShowid).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.detialValueList = res.data;
       });
     },

@@ -92,6 +92,9 @@ export default {
   methods: {
     bond() {
       postD(bondApi()).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.orders.order_no = res.data.order_no;
         this.pay.order_no = res.data.order_no;
         postD(payApi(), this.pay).then((res) => {

@@ -3,7 +3,7 @@
     color: #333;
     line-height: 60px;
     position: fixed;
-    z-index: 99999999999999999999999999999999999999999999999999999999999;
+    z-index: 2147483647;
     width: 100%;
 }
 
@@ -30,7 +30,6 @@
 .el-menu-item.is-active:active {
     color: #FFDC00 !important;
     border-bottom-color: #FFDC00;
-    // background-color: #1A0761;
 }
 
 /deep/.el-menu-item:hover {
@@ -138,7 +137,8 @@
 
     .hy {
         width: 80px;
-        height: 24px;
+        height: 55px;
+        cursor: pointer;
 
         span {
             background: linear-gradient(90deg, #FAE3B9 0%, #F7D391 100%);
@@ -330,4 +330,48 @@
     position: absolute;
     top: 50px;
     left: 22px;
+}
+
+@media screen and (min-width:1100px) and(max-width:1199px) {
+    .el-menu {
+        margin-left: 0px;
+    }
+    .zxc {
+        margin-left: 100px;
+    }
+}
+@media screen and (min-width:1000px) and(max-width:1099px) {
+    .el-menu {
+        margin-left: 0px;
+    }
+    .zxc {
+        margin-left: 0px;
+    }
+}
+@media screen and (min-width:1200px) and(max-width:1283px) {
+    .el-menu {
+        margin-left: 0px;
+    }
+}
+
+@media screen and (min-width:1284px) and(max-width:1439px) {
+    .el-menu {
+        margin-left: 100px;
+    }
+}
+
+@media screen and (min-width:1440px) and(max-width:1500px) {
+    .el-menu {
+        margin-left: 230px;
+    }
+}
+@media screen and (min-width:1501px) and(max-width:1600px) {
+    .el-menu {
+        margin-left: 300px;
+    }
+}
+@media screen and (min-width:1601px) and(max-width:1919px) {
+    .el-menu {
+        margin-left: 400px;
+    }
 }

@@ -50,9 +50,9 @@
                 <div>
                   {{ myDenper.username }}
                 </div>
-                <div style="margin-top: 3px; margin-left: 10px">
+                <!-- <div style="margin-top: 3px; margin-left: 10px">
                   <img src="@/assets/imgers/放大镜.png" alt="" />
-                </div>
+                </div> -->
                 <div
                   style="margin-top: 3px; margin-left: 10px"
                   v-if="NobleVip == 1"
@@ -395,6 +395,7 @@ import Addresslist from "./address/addresslist.vue";
 import authentication from "./address/authentication.vue";
 export default {
   components: { Addresslist, authentication },
+  inject:["imgslost"],
   data() {
     return {
       imagesValue: "",
@@ -673,6 +674,8 @@ export default {
             });
             this.mypersonal();
             this.authenticationshow = 1;
+            localStorage.setItem("data", JSON.stringify(res.data))
+            this.imgslost()
           } else {
             this.$message({
               offset: 80,
@@ -701,7 +704,7 @@ export default {
     zxc() {
       this.$refs.authenticationruleForms.validate((v) => {
         if (!v) return;
-        if (this.btnindex == 0) {
+        if (this.btnindex == 1) {
           this.authenticationruleForm.style = 1;
           postD(setAuthApi(), this.authenticationruleForm).then((res) => {
             if (res.code == "200") {
@@ -712,7 +715,7 @@ export default {
               this.$message.error("上传时出现错误");
             }
           });
-        } else if (this.btnindex == 1) {
+        } else if (this.btnindex == 2) {
           this.authenticationruleForm.style = 2;
           postD(setAuthApi(), this.authenticationruleForm).then((res) => {
             if (res.code == "200") {

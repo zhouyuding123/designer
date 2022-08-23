@@ -48,7 +48,7 @@
               <img
                 :src="imagesValue + item.thumb"
                 alt=""
-                @click="goWorkShow(item)"
+                
               />
             </div>
             <div class="dis" style="position: relative">
@@ -58,7 +58,7 @@
                 </div>
                 <div class="dis" style="padding: 10px 20px">
                   <div class="myhead">
-                    <img :src="imagesValue + item.headimage" alt="" />
+                    <img :src="imagesValue + item.headimage" @click="goWorkShow(item)" alt="" />
                   </div>
                   <div class="mynik">{{ item.nickname }}</div>
                 </div>
@@ -133,7 +133,7 @@
         <div class="imagser_img">
           <div class="titleimg">
             <span>{{ items.accept_id }}</span>
-            <a href="">
+            <a>
               <img
                 :src="imagesValue + items.thumb"
                 alt=""
@@ -277,11 +277,13 @@ export default {
       };
       postD(myWorksApi(), works).then((res) => {
         this.myworks = res.list;
-        console.log(this.myworks);
       });
     },
     worksValue() {
       postD(votoWorksApi(), this.detialId).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.workvalues = res;
         this.workvalue = res.list.reverse();
         this.detialId.totalResult = res.accept_count;
@@ -334,7 +336,7 @@ export default {
           "http://192.168.0.114:8091/#/pages/index/gamedetail/gamedetail",
       };
       //  跳转地址
-      location.replace(
+      window.open(
         "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=" +
           encodeURIComponent(share.share_url) +
           "&title=" +
@@ -355,7 +357,7 @@ export default {
           "http://192.168.0.114:8091/#/pages/index/gamedetail/gamedetail",
       };
       //跳转地址
-      location.replace(
+      window.open(
         "https://service.weibo.com/share/share.php?url=" +
           encodeURIComponent(share.share_url) +
           "&title=" +
@@ -405,15 +407,17 @@ export default {
       });
     },
     goWorkShow(val) {
-      var works_id = val.works_id;
-      var match_id = val.match_id;
-      this.$router.push({
-        name: "matchworksShow",
-        params: {
-          works_id: works_id,
-          id: match_id,
-        },
-      });
+      console.log(val);
+      // var works_id = val.works_id;
+      // var match_id = val.match_id;
+      // this.$router.push({
+      //   name: "matchworksShow",
+      //   params: {
+      //     works_id: works_id,
+      //     id: match_id,
+      //   },
+      // });
+      this.$router.push('/workDetails'+val.works_id)
     },
   },
 };

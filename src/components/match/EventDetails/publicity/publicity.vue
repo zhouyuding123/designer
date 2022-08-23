@@ -107,7 +107,6 @@ export default {
       pricelist: [],
     };
   },
-
   created() {
     this.detialId.id = this.$route.params.id;
     this.seatcher.id = this.$route.params.id;
@@ -118,6 +117,7 @@ export default {
   methods: {
     worksValue() {
       postD(worksListApi(), this.detialId).then((res) => {
+
         this.workvalues = res;
         this.workvalue = res.list;
         var arr1 = this.prices
@@ -137,7 +137,6 @@ export default {
           return a.concat(b);
         });
         this.publicityValueList.push(newArr);
-        console.log(this.publicityValueList);
       });
     },
     seatchvalue() {
@@ -149,6 +148,9 @@ export default {
     detialValue() {
       this.detialId.id = this.$route.params.id;
       postD(MatchShowApi(), this.detialId).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.prices = res.data.prize
         this.worksValue();
       });
@@ -173,28 +175,6 @@ export default {
         }, delay);
       };
     },
-  },
-  watch: {
-    // prices(newval) {
-    //   var mapva = [];
-    //   newval.forEach((item, i) => {
-    //     mapva.push(...this.publicityValueList.splice(0, item.amount));
-    //   });
-    //   this.pricelist = mapva;
-    //   console.log(this.pricelist);
-    // },
-    //     prices(newval) {
-    //       if(this.time == 1){
-    //           setInterval(() => {
-    //         var mapva = [];
-    //         this.time = 0;
-    //         newval.forEach((item, i) => {
-    //           mapva.push(...this.publicityValueList.splice(0, item.amount));
-    //         });
-    //         return (this.pricelist = mapva), console.log(mapva),console.log(this.time);;
-    //       }, 3000);
-    //       }
-    //     },
   },
 };
 </script>

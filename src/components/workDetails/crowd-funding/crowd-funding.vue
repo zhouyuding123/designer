@@ -1,17 +1,17 @@
 <template>
   <div>
     <div class="croline1">
-      <div class="bodylist" v-for="(item, index) in workList" :key="index">
+      <div class="bodylist">
         <div class="works_img">
-          <img :src="imagesValue + item.img" alt="" />
+          <img :src="imagesValue + workList.thumb" alt="" />
         </div>
         <div class="works_title">
-          <div class="works_title_text">{{ item.title }}</div>
+          <div class="works_title_text">{{ workList.title }}</div>
           <div class="works_my">
             <div class="works_myhead">
-              <img :src="imagesValue + item.headerimages" alt="" />
+              <img :src="imagesValue + header" alt="" />
             </div>
-            <div class="works_myname">{{ item.name }}</div>
+            <div class="works_myname">{{ workList.username }}</div>
             <div class="works_mydj">
               <img src="@/assets/imgers/list.png" alt="" />
             </div>
@@ -154,16 +154,14 @@
       </div>
       <div style="padding: 40px">
         <div class="list3">
-          
           <div><span>颜色</span></div>
           <div><span>尺寸</span></div>
         </div>
         <div class="list3list" v-for="(item, index) in spec" :key="index">
-         
-            <div class="delspecs">
-              <p  @click="delspec(index)">x</p>
-            </div>
-        
+          <div class="delspecs">
+            <p @click="delspec(index)">x</p>
+          </div>
+
           <div>
             <span>{{ item.color }}</span>
           </div>
@@ -199,24 +197,15 @@ import { imgUrl } from "@/assets/js/modifyStyle";
 import { timestampToTime } from "@/assets/js/time.js";
 import EleUploadVideo from "@/components/UploadWorks/EleUploadVideo.vue";
 import { postD } from "@/api";
-import { workShowApi,PreparAddApi } from "@/urls/wsUrl.js";
+import { workShowApi, PreparAddApi } from "@/urls/wsUrl.js";
 export default {
   components: {
     EleUploadVideo,
   },
   data() {
     return {
-      workList: [
-        {
-          headerimages:
-            "images/20220806/16597489830107a2677f091b40a49b4364f5403e46.png",
-          title: "暗夜的黑天鹅-高贵与优雅只为取悦自己",
-          name: "设计师昵称",
-          img: "images/20220806/1659754744c406d1e49f9bfc5b31a5cf927a9c7769.png",
-          time: "2022-05-17",
-          aixing: "999999",
-        },
-      ],
+      header:JSON.parse(localStorage.getItem('data')).headimage,
+      workList: [],
       corruleForm: {
         work_id: "",
         title: "",
@@ -281,9 +270,13 @@ export default {
         id: this.$route.params.id,
       };
       postD(workShowApi(), id).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.corruleForm.work_id = res.data.id;
         this.corruleForm.title = res.data.title;
         this.corruleForm.thumb = res.data.thumb;
+        this.workList = res.data;
       });
     },
     nummore(val) {
@@ -379,13 +372,13 @@ export default {
       this.btntitlecc.splice(index, 1);
     },
     addInputHandle() {
-      let sp =this.addsp.slice(-1) ;
-      let cl = this.addcl.slice(-1) ;
+      let sp = this.addsp.slice(-1);
+      let cl = this.addcl.slice(-1);
       console.log(sp);
       this.spec.push({
-            color: sp[0],
-            size: cl[0],
-          });
+        color: sp[0],
+        spec: cl[0],
+      });
     },
     delspec(index) {
       this.spec.splice(index, 1);
@@ -396,11 +389,17 @@ export default {
       this.imageList2.forEach((item, i) => {
         imglist.push(item.response.url);
       });
-      this.corruleForm.thumb_model = imglist.join(',');
+      this.corruleForm.thumb_model = imglist.join(",");
       this.corruleForm.spec = JSON.stringify(this.spec);
-      postD(PreparAddApi(),this.corruleForm).then(res=> {
+      postD(PreparAddApi(), this.corruleForm).then((res) => {
         console.log(res);
-      })
+        if (res.code == 200) {
+          this.$message.success("发布众筹成功");
+          this.$router.push("/workDetails" + this.corruleForm.work_id);
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
     },
   },
 };

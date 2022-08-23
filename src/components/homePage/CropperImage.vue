@@ -1,134 +1,111 @@
+//waves.vue
 <template>
-    <div>
-        <div class="show-info">
-				<h2>example1 基本例子 无限制</h2>
-				<div class="test test1">
-					<vueCropper
-						ref="cropper"
-						:img="option.img"
-						:outputSize="option.size"
-						:outputType="option.outputType"
-						:info="true"
-						:full="option.full"
-						:canMove="option.canMove"
-						:canMoveBox="option.canMoveBox"
-						:fixedBox="option.fixedBox"
-						:original="option.original"
-						:autoCrop="option.autoCrop"
-						:autoCropWidth="option.autoCropWidth"
-						:autoCropHeight="option.autoCropHeight"
-						:centerBox="option.centerBox"
-						:high="option.high"
-						:infoTrue="option.infoTrue"
-						@realTime="realTime"
-						@imgLoad="imgLoad"
-						@cropMoving="cropMoving"
-						:enlarge="option.enlarge"
-					></vueCropper>
-				</div>
-				<div class="test-button">
-					<button @click="changeImg" class="btn">changeImg</button>
-					<label class="btn" for="uploads">upload</label>
-					<input type="file" id="uploads" style="position:absolute; clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg" @change="uploadImg($event, 1)">
-					<button @click="startCrop" v-if="!crap" class="btn">start</button>
-					<button @click="stopCrop" v-else class="btn">stop</button>
-					<button @click="clearCrop" class="btn">clear</button>
-					<button @click="refreshCrop" class="btn">refresh</button>
-					<button @click="changeScale(1)" class="btn">+</button>
-					<button @click="changeScale(-1)" class="btn">-</button>
-					<button @click="rotateLeft" class="btn">rotateLeft</button>
-					<button @click="rotateRight" class="btn">rotateRight</button>
-					<button @click="finish('base64')" class="btn">preview(base64)</button>
-					<button @click="finish('blob')" class="btn">preview(blob)</button>
-					<a @click="down('base64')" class="btn">download(base64)</a>
-					<a @click="down('blob')" class="btn">download(blob)</a>
-					<a :href="downImg" download="demo.png" ref="downloadDom"></a>
-				</div>
-
-					<p>截图框大小</p>
-					<div class="show-preview" :style="{'width': previews.w + 'px', 'height': previews.h + 'px',  'overflow': 'hidden',
-							'margin': '5px'}">
-						<div :style="previews.div">
-							<img :src="previews.url" :style="previews.img">
-						</div>
-					</div>
-					
-					<p>中等大小</p>
-					<div :style="previewStyle1"> 
-						<div :style="previews.div">
-							<img :src="previews.url" :style="previews.img">
-						</div>
-					</div>
-
-					<p>迷你大小</p>
-					<div :style="previewStyle2"> 
-						<div :style="previews.div">
-							<img :src="previews.url" :style="previews.img">
-						</div>
-					</div>
-
-
-					<div style="display:block; width: 100%;">
-						<label class="c-item">
-							<span>上传图片是否显示原始宽高 (针对大图 可以铺满)</span>
-							<input type="checkbox" v-model="option.original">
-							<span>original: {{ option.original}}</span>
-						</label>
-						<label class="c-item">
-							<span>是否根据dpr生成适合屏幕的高清图片</span>
-							<input type="checkbox" v-model="option.high">
-							<span>high: {{ option.high}}</span>
-						</label>
-						<label class="c-item">
-							<span>是否输出原图比例的截图</span>
-							<input type="checkbox" v-model="option.full">
-							<span>full: {{ option.full}}</span>
-						</label>
-						<label class="c-item">
-							<span>截图信息展示是否是真实的输出宽高</span>
-							<input type="checkbox" v-model="option.infoTrue">
-							<span>infoTrue: {{ option.infoTrue}}</span>							
-						</label>
-						<label class="c-item">
-							<span>能否拖动图片</span>
-							<input type="checkbox" v-model="option.canMove">
-							<span>canMove: {{ option.canMove}}</span>
-						</label>
-						<label class="c-item">
-							<span>能否拖动截图框</span>
-							<input type="checkbox" v-model="option.canMoveBox">
-							<span>canMoveBox: {{ option.canMoveBox}}</span>
-						</label>
-						<label class="c-item">
-							<span>截图框固定大小</span>
-							<input type="checkbox" v-model="option.fixedBox">
-							<span>fixedBox: {{ option.fixedBox}}</span>
-						</label>
-						<label class="c-item">
-							<span>是否自动生成截图框</span>
-							<input type="checkbox" v-model="option.autoCrop">
-							<span>autoCrop: {{ option.autoCrop}}</span>
-						</label>
-						<label class="c-item">
-							<span>截图框是否限制在图片里(只有在自动生成截图框时才能生效)</span>
-							<input type="checkbox" v-model="option.centerBox">
-							<span>centerBox: {{ option.centerBox}}</span>
-						</label>
-						<label class="c-item">
-							<span>是否按照截图框比例输出 默认为1 </span>
-							<input type="number" v-model="option.enlarge">
-						</label>
-						<p>输出图片格式</p>
-						<label class="c-item">
-							<label>jpg  <input type="radio" name="type" value="jpeg" v-model="option.outputType"></label>
-							<label>png  <input type="radio" name="type" value="png" v-model="option.outputType"></label>
-							<label>webp <input type="radio" name="type" value="webp" v-model="option.outputType"></label>
-						</label>
-					</div>
-				
-				<codes>
-					<div slot="body">{{ code1 }}</div>
-				</codes>
+  <div data-tname="WaveItem">
+    <div class="main-container">
+      <div class="waves">
+        <div class="wave" v-for="(item, key) in waves" :key="key" :style="item">
+          <div
+            v-for="n in wavesConfig.total"
+            :key="n"
+            class="wave-item"
+            :style="{
+              transform: `scale(${0.1 * Math.sqrt(n - 1)})`, // 使得波纹大小指数增长
+              opacity: 0.3 * (1 / n), // 因为相互层叠的波纹透明度会相互叠加，需要越小的波纹透明度越低，以免中心颜色过重
+              animationDelay: `${(n - 1) * 0.12}s`, // 越大的波纹越晚出现，以呈现波纹逐渐扩散的效果
+              animationDuration: `${0.6 +
+                n * 0.3 +
+                parseInt(item.width) * 0.002}s`, // 波纹动画时间渐增，表现波纹向外扩散渐慢的效果,波纹尺寸越大动画时间越长。
+              backgroundColor: wavesConfig.waveColor
+            }"
+          ></div>
+        </div>
       </div>
     </div>
+  </div>
 </template>
+
+<script>
+export default {
+  name: "WaveItem",
+  data() {
+    return {
+      waves: [],
+      wavesConfig: {
+        maxSize: 300, // px，波纹最大尺寸
+        minSize: 100, // px，波纹最小尺寸
+        zIndexCount: 999, // 波纹父元素其z-index数值
+        waveColor: "#3E8CE3", //波纹基础颜色
+        total: 5 //波纹圈层数
+      },
+      clear: {
+        delay: 5000,
+        timeoutId: null
+      }
+    };
+  },
+  mounted() {
+    document.getElementById("app").onclick = e => {
+      this.createWave(e);
+      this.intervalClearWave();
+    };
+  },
+  methods: {
+    createWave(e) {
+      // 让新生成的波纹始终在之前波纹的上层产生叠加效果
+      if (this.wavesConfig.zIndexCount > 99999) {
+        this.wavesConfig.zIndexCount = 999;
+      } else {
+        this.wavesConfig.zIndexCount++;
+      }
+      // 在一定范围内随机生成波纹的大小
+      const waveSize = parseInt(
+        Math.random() * (this.wavesConfig.maxSize - this.wavesConfig.minSize) +
+          this.wavesConfig.minSize
+      );
+      //添加新的波纹数据
+      this.waves.push({
+        left: `${e.clientX - waveSize / 2}px`,
+        top: `${e.clientY - waveSize / 2}px`,
+        zIndex: this.wavesConfig.zIndexCount,
+        width: `${waveSize}px`,
+        height: `${waveSize}px`
+      });
+    },
+    intervalClearWave() {
+      clearTimeout(this.clear.timeoutId);
+      this.clear.timeoutId = setTimeout(() => {
+        this.waves = [];
+      }, this.clear.delay);
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.waves {
+  .wave {
+    position: fixed;
+    pointer-events: none; // 点击事件穿透，使得鼠标点击可以穿透波纹，兼容ie11及以上
+    @keyframes wave {
+      to {
+        //波纹逐渐扩散变大变透明
+        transform: scale(1);
+        opacity: 0;
+      }
+    }
+    .wave-item {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      border-radius: 100%;
+      animation: {
+        name: wave;
+        fill-mode: forwards; // 动画结束后保持最后一帧的状态
+        timing-function: ease-out; // 波纹向外扩散渐缓
+      }
+    }
+  }
+}
+</style>
+
+

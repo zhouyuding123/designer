@@ -143,9 +143,12 @@ export default {
   methods: {
     getmyworkList() {
       postD(getMyWorksApi(), this.Works).then((res) => {
-        // console.log(res.list)
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.count = res.count;
         this.myworkList = [...this.myworkList, ...res.list];
+        
       });
     },
     loadmore() {

@@ -360,7 +360,15 @@ export const LogisticsApi = () => {
 export const PreparApi = () => {
     return "designer/Prepar/deliver"
 }
+// 验证码
+export const getCodeApi = () => {
+    return "designer/users_designer/getCode"
+}
 
+// 统计
+export const getOrderSpecCountApi = () => {
+    return "designer/Prepar/getOrderSpecCount"
+}
 
 
 

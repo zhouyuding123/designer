@@ -59,7 +59,9 @@ export default {
   methods: {
     matchList() {
       postD(MatchGetListApi(), this.match).then((res) => {
-        console.log(res);
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.matchLists = res.list;
         this.match.totalResult = res.count;
       });

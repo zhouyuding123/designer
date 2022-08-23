@@ -58,19 +58,6 @@
               </div>
               <div style="font-size: 14px">投票</div>
             </div>
-            <!-- <el-dropdown trigger="click" @command="handleCommand">
-              <span class="el-dropdown-link">
-                    <div class="picvid flex al-c" style=" border-left: 0px solid #dddddd;">
-                            <div style="margin-right: 10px">
-                              <img src="@/assets/imgers/icon/14822@2x.png" alt="" />
-                            </div>
-                            <div style="font-size: 14px">话题</div>
-                          </div>
-              </span>
-        <el-dropdown-menu slot="dropdown" >
-          <el-dropdown-item  v-for="(item,index) in PopularTranslations" :command="{title:item.title,id:item.id}">{{item.title}}</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown> -->
           </div>
           <div class="outborder">
             <div></div>
@@ -467,8 +454,9 @@ export default {
         }
       }
 
-      var themeid = null;
-      var theme = null;
+      var themeid = "";
+      var theme = "";
+      theme = this.biaoqianvalue
       for (let i of this.PopularTranslations) {
         if (i.title == this.biaoqianvalue) {
           themeid = i.id;

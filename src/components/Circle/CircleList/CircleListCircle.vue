@@ -156,8 +156,10 @@ export default {
     },
     myList() {
       postD(listCircleApi()).then((res) => {
-        console.log(res);
         this.circleList = res.list;
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
       });
     },
     switchbtn(index) {

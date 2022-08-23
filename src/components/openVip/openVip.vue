@@ -102,7 +102,9 @@ export default {
         username: localStorage.use,
       };
       postD(designerMyCenterApi(), name).then((res) => {
-        console.log(res);
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.isVip = res.data.is_vip;
         this.isbond = res.data.is_bond;
       });

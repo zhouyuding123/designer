@@ -201,7 +201,8 @@ export default {
   }
 }
 .entphoto {
-  padding: 20px 170px;
+  width: 1580px;
+  margin: 20px auto;
 
   .entphoto_value {
     width: 100%;
@@ -228,7 +229,8 @@ export default {
   }
 }
 .introduce {
-  padding: 20px 170px;
+  width: 1580px;
+  margin: 20px auto;
 
   .introduce_value {
     width: 100%;

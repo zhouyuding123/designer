@@ -102,7 +102,9 @@ export default {
   methods: {
     listBank() {
       postD(listBankApi()).then((res) => {
-        console.log(res);
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
       });
     },
     goAddcord() {

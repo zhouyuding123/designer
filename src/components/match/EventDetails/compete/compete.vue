@@ -79,6 +79,9 @@ export default {
     myWorkList() {
       this.use.username = localStorage.getItem("use");
       postD(myCenterApi(), this.use).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.mydetil = res.data;
       });
     },

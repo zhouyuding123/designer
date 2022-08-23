@@ -152,6 +152,9 @@ export default {
   methods: {
     workLists() {
       postD(designerWorksApi(), this.Works).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.workList = [...this.workList, ...res.list];
       });
     },

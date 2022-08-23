@@ -437,6 +437,9 @@ export default {
         this.strollList = res.list;
         this.imagesValue = imgUrl();
         this.page1.totalResult = res.count;
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
       });
     },
     funTime(val) {

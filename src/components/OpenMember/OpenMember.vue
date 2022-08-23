@@ -27,7 +27,7 @@
           @click="whole()"
           ref="wholes"
           v-if="vip.style_vip == 1"
-          style="heiht:260px"
+          style="heiht:260px;width: 380px;"
         >
           <div class="title" ref="wholes">月卡会员</div>
           <div class="nowprice" ref="wholess">
@@ -179,6 +179,9 @@ export default {
   methods: {
     getConfigDataApi() {
       postD(getConfigDataApi()).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.Price = res.data;
       });
     },
@@ -199,6 +202,11 @@ export default {
                     message: "恭喜你成为尊贵的会员",
                   });
                   clearInterval(this.times);
+                  console.log(JSON.parse(localStorage.getItem("data")).is_vip);
+                  var vip=JSON.parse(localStorage.getItem("data"))
+                  vip.is_vip = 1
+                  console.log(vip);
+                  localStorage.setItem("data",JSON.stringify(vip))
                   this.$router.replace("/UploadWorks");
                 }
               }, 1000);

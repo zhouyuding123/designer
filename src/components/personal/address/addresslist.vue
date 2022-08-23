@@ -280,6 +280,9 @@ export default {
     },
     listAddress() {
       postD(listAddressApi()).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.listAddressList = res.list;
       });
     },

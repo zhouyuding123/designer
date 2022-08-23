@@ -343,6 +343,9 @@ export default {
   methods: {
     detilsValue() {
       postD(ForumShowForumApi(), this.detilsId).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         var tmp = [];
         res.data.comment_list.forEach((item, i) => {
           if (item.fid == 0) {
@@ -485,6 +488,8 @@ export default {
             message: "已成功评论",
           });
           this.detilsValue();
+          this.commentValue.content = "";
+
         } else {
           this.$message({
             offset: 80,

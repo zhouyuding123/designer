@@ -183,6 +183,9 @@ export default {
   methods: {
     matchlist() {
       postD(MatchGetListApi(), this.matchValue).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.matchptlist = res.list.slice(0, 2);
       });
     },

@@ -3,7 +3,7 @@
     <div class="syimg">
       <el-carousel height="560px">
         <el-carousel-item v-for="item in advertisementImg" :key="item.id">
-          <img :src="imagesValue + item.thumb" alt="" @click="goad(item)" />
+          <img :src="imagesValue + item.thumb" style="height:560px;max-wdith:100%" alt="" @click="goad(item)" />
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <div class="list_free" style="min-height: 500px">
+    <div class="list_free">
       <div class="list_free_list">
         <waterfall
           v-if="Works.category == 2"
@@ -99,7 +99,8 @@
                 class="list_title_img"
                 @click.stop="topersonalinfo(item.username)"
               >
-                <img :src="imagesValue + item.headimage" alt="" />
+              <img v-if="item.headimage == null" :src="imagesValue + wuimg" alt="" />
+                <img v-else :src="imagesValue + item.headimage" alt="" />
               </div>
             </div>
           </div>
@@ -183,7 +184,8 @@
                 </div>
               </div>
               <div class="list_title_img">
-                <img :src="imagesValue + item.headimage" alt="" />
+                <img v-if="item.headimage == null" :src="imagesValue + wuimg" alt="" />
+                <img v-else :src="imagesValue + item.headimage" alt="" />
               </div>
             </div>
           </div>
@@ -264,8 +266,10 @@ import { imgUrls, imgUrl } from "@/assets/js/modifyStyle";
 import waterfall from "./pul.vue";
 
 export default {
+  inject:["reload"],
   data() {
     return {
+      wuimg: "images/20220808/1659924390102aa33ae2b2c86837a584c502d8cfea.png",
       freeShow: true,
       getList: [],
       Works: {
@@ -303,6 +307,7 @@ export default {
     waterfall,
   },
   created() {
+    
     this.Listshow();
     this.getListApi();
     this.imagesValue = imgUrl();
@@ -313,7 +318,6 @@ export default {
   watch: {
     windowWidth(val) {
       let that = this;
-      console.log("实时屏幕宽度：", val, that.windowHeight);
     },
   },
   mounted() {
@@ -329,20 +333,16 @@ export default {
   methods: {
     advertisement() {
       postD(AdApi(), this.tid).then((res) => {
-        console.log(res);
         this.advertisementImg = res.list;
       });
     },
     Listshow() {
       postD(getListWorksApi(), this.Works).then((res) => {
-        console.log(res);
         this.workList = [...this.workList, ...res.list];
-        // console.log(this.workList[9].label.split(','))
         this.count = res.count;
-        // this.$refs.freelist.style.backgroundColor = "#FFDC00";
-        // this.$refs.freelistspan.style.color = "#333333";
-        // this.$refs.paylist.style.backgroundColor = "#F5F5F5";
-        // this.$refs.paylistspan.style.color = "#999999";
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
       });
     },
     free() {
@@ -367,6 +367,9 @@ export default {
     },
     getListApi() {
       postD(getListApi()).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.getList = res.list;
       });
     },
@@ -397,7 +400,6 @@ export default {
     },
     //付费作品跳转
     payit(obj) {
-      console.log(obj);
       if (obj.username == localStorage.getItem("use") || obj.is_pay == 1) {
         this.$router.push("/workDetails" + obj.id);
       } else {
@@ -409,7 +411,6 @@ export default {
       postD(ordersAddWorksApi(), { works_id: this.payshowvalue.id }).then(
         (res) => {
           this.payshows = 2;
-          console.log(res);
           this.payorder_no.order_no = res.data.order_no;
           this.payOver.order_no = res.data.order_no;
           postD(payApi(), this.payorder_no).then((res) => {

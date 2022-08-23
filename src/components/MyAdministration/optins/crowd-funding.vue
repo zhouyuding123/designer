@@ -169,6 +169,9 @@ export default {
   methods: {
     getList() {
       postD(getListApi()).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.product = res.list;
       });
     },
@@ -207,15 +210,18 @@ export default {
       var leave3 = leave2 % (60 * 1000); //计算分钟数后剩余的毫秒数
       var seconds = Math.round(leave3 / 1000);
       var timesString = "";
-      if (dayDiff != 0) {
+      if (dayDiff != 0 && dateDiff>0) {
         timesString = dayDiff + "天";
-      } else {
+      }else if(hours!=0 && hours >0){
+        timesString = hours + "小时";
+      } 
+      else {
         timesString = "结束";
       }
       return timesString;
     },
     goxq(v) {
-      console.log(v);
+      localStorage.setItem("ybt",JSON.stringify(v))
       localStorage.setItem("parid", v.id);
       this.crowddetilShow = true;
     },

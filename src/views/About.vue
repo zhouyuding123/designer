@@ -1,7 +1,8 @@
 <template>
   <div>
     <div style="margin: 5px 0 5px 0">
-      {{  + times + "秒回登入界面" }}
+      登入失效
+      {{ times + "秒返回登入界面" }}
     </div>
   </div>
 </template>

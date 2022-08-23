@@ -23,12 +23,16 @@
           </div>
         </div>
         <div class="buttons">
-          <div class="button_follow" @click="gocrowd">
+          <div class="button_follow" @click="gocrowd" v-if="WorksShowData.username ==myname">
             <span>发起众筹</span>
           </div>
-          <div class="button_follows" @click="gocrowds">
+          <div class="button_follows" @click="gocrowds" v-if="WorksShowData.username ==myname">
             <span>修改作品</span>
           </div>
+          <div class="button_follows" @click="gocrowds" v-if="WorksShowData.username !==myname">
+            <span>关注</span>
+          </div>
+
         </div>
       </div>
       <!-- <div class="shaped" style="height:20px"></div> -->
@@ -371,11 +375,13 @@ export default {
       srcList: [],
       djimg: "images/20220809/1660039929693dca3d7cefdf9a5a78c19d03237a55.jpg",
       dialogVisible: false,
+      myname:""
     };
   },
   created() {
     this.WorkDetailsList();
     this.mywokList();
+   this.myname =  localStorage.getItem('use')
   },
   methods: {
     mywokList() {
@@ -385,6 +391,9 @@ export default {
     },
     WorkDetailsList() {
       postD(getMyWorksshowApi(), this.$route.params).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.WorksShowData = res.data;
         this.imgsList = res.data.imgs.split(",");
         this.imagesValue = imgUrl();
@@ -534,6 +543,18 @@ export default {
   },
 };
 </script>
+
+<style>
+ .el-image-viewer__close {
+  margin-top: 30px !important;
+}
+/*
+.el-image-viewer__wrapper {
+  z-index: 10000 !important;
+  display:none !important;
+  top: 30px !important;
+} */
+</style>
 
 <style lang="less" scoped>
 /deep/.el-radio__label {

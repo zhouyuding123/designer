@@ -125,6 +125,9 @@ export default {
     },
     entmatchlist() {
       postD(MatchGetListApi(), this.match).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.entmatchptlist = res.list;
         this.match.totalResult = res.count;
       });

@@ -185,7 +185,9 @@ export default {
     designerGetBrand() {
       this.name.username = localStorage.getItem("use");
       postD(brandGetListApi(), this.name).then((res) => {
-        console.log(res);
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.tableData = res.list;
       });
       postD(getListApi()).then((res) => {

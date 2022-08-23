@@ -238,6 +238,9 @@ export default {
   methods: {
     PgetOrderList() {
       postD(PgetOrderListApi(), this.crowd).then((res) => {
+        if(res.code == "-201") {
+          this.$router.push("/about")
+        }
         this.crowdList = res.list;
       });
     },
@@ -352,8 +355,6 @@ export default {
           that.deliveryVa.detail =
             result.regeocode.addressComponent.township +
             result.regeocode.aois[0].name;
-          // that.addruleForm.lng = lnglatXY[0];
-          // that.addruleForm.lat = lnglatXY[1];
         });
 
         // 清除所有标记
@@ -380,9 +381,17 @@ export default {
           if(res.Reason=="该订单号已下单成功"){
              this.deliveryVa =""
             this.dialogVisible =true
-            this.$message.success("该订单号已下单成功");
+            this.$message({
+              offset: 80,
+              type: "success",
+              message: "该订单号已下单成功",
+            });
           }else {
-            this.$message.error(res.Reason);
+            this.$message({
+              offset: 80,
+              type: "error",
+              message: res.Reason,
+            });
           }
         })
       });

@@ -6,6 +6,13 @@
           <div class="flex">
             <div class="avator">
               <img
+                v-if="myValue.headimage == null"
+                :src="imagesValue + wuimg"
+                alt=""
+                style="border-radius: 50%"
+              />
+              <img
+                v-else
                 :src="imagesValue + myValue.headimage"
                 alt=""
                 style="border-radius: 50%"
@@ -39,9 +46,8 @@
               </div>
             </div>
           </div>
-          <div class="PublishWorks" @click="toUploadWorks">发布作品</div>
         </div>
-        <div class="Psignature">个性签名：{{ myValue.label }}</div>
+        <div class="Psignature">个性签名：{{ myValue.description }}</div>
       </div>
     </div>
     <div class="midbox">
@@ -141,7 +147,8 @@
                 </div>
               </div>
               <div class="list_title_img">
-                <img :src="imagesValue + item.headimage" alt="" />
+                <img v-if="item.headimage==null" :src="imagesValue + wuimg" alt="" />
+                <img v-else :src="imagesValue + item.headimage" alt="" />
               </div>
             </div>
           </div>
@@ -163,6 +170,7 @@ import waterfall from "../Designerzone/pul.vue";
 export default {
   data() {
     return {
+      wuimg: "images/20220808/1659924390102aa33ae2b2c86837a584c502d8cfea.png",
       activeName: "1",
       Works: {
         category: "2",
@@ -266,7 +274,6 @@ export default {
               message: res.msg,
               type: "success",
             });
-
           } else {
             this.$message({
               message: res.msg,

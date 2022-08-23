@@ -160,6 +160,9 @@ export default {
       postD(ComplaintApi(), ts).then((res) => {
         this.$refs.tsruleForm.validate((v) => {
           if (!v) return;
+          if (res.code == "-201") {
+            this.$router.push("/about");
+          }
           if (res.code == 200) {
             this.$message({
               offset: 80,
@@ -270,5 +273,10 @@ export default {
     line-height: 40px;
     border-radius: 20px;
   }
+}
+/deep/.el-form-item__content {
+  margin-left: 40px !important;
+  margin: 0 auto;
+  width: 1000px;
 }
 </style>

@@ -131,9 +131,9 @@
                       style="width: 35px; height: 35px; border-radius: 50%"
                   /></template>
                   <div class="syitem">
-                    <el-menu-item index="8-1" @click="goAccountSettings"
+                    <!-- <el-menu-item index="8-1" @click="goAccountSettings"
                       >我的作品</el-menu-item
-                    >
+                    > -->
                     <el-menu-item index="8-2" @click="gopersonal"
                       >账号设置</el-menu-item
                     >
@@ -146,7 +146,14 @@
                   </div>
                 </el-submenu>
               </div>
-              <div class="hy" @click="startUpVip"><span>开通会员</span></div>
+              <div
+                class="hy"
+                @click="startUpVip"
+                @mousemove="touchstart"
+                @mouseout="touchmove"
+              >
+                <span>开通会员</span>
+              </div>
             </div>
           </el-menu>
         </div>
@@ -200,6 +207,12 @@ import { designerMyCenterApi } from "@/urls/wsUrl.js";
 import { imgUrl } from "@/assets/js/modifyStyle";
 import { postD } from "@/api";
 export default {
+  inject: ["reload"],
+  provide() {
+    return {
+      imgslost: this.imgslost,
+    };
+  },
   data() {
     return {
       activeIndex: "1",
@@ -244,12 +257,20 @@ export default {
   },
   created() {
     this.imagesValue = imgUrl();
-    var valueser = localStorage.data;
-    var valser = JSON.parse(valueser);
-    this.imagescxk = valser.headimage;
+    this.imgslost();
     this.name.username = localStorage.getItem("use");
   },
   methods: {
+    imgslost() {
+      var valueser = localStorage.data;
+      var valser = JSON.parse(valueser);
+      this.imagescxk = valser.headimage;
+      postD(designerMyCenterApi(), this.name).then((res) => {
+        if (res.code == "-201") {
+          this.$router.push("/about");
+        }
+      });
+    },
     outs() {
       this.seatchShow = false;
     },
@@ -292,8 +313,12 @@ export default {
     },
     uploadWork() {
       postD(designerMyCenterApi(), this.name).then((res) => {
+        if (res.code == "-201") {
+          this.$router.push("/about");
+        }
         if (res.data.auth === 2) {
           this.$router.push("/UploadWorks");
+          this.reload();
         } else {
           this.dialogVisible = true;
         }
@@ -301,6 +326,9 @@ export default {
     },
     goBusinessChain() {
       postD(designerMyCenterApi(), this.name).then((res) => {
+        if (res.code == "-201") {
+          this.$router.push("/about");
+        }
         if (res.data.auth === 2) {
           this.$router.push("/BusinessChain");
         } else {
@@ -310,6 +338,9 @@ export default {
     },
     goMatch() {
       postD(designerMyCenterApi(), this.name).then((res) => {
+        if (res.code == "-201") {
+          this.$router.push("/about");
+        }
         if (res.data.auth === 2) {
           this.$router.push("/match");
         } else {
@@ -319,6 +350,9 @@ export default {
     },
     gomyMatch() {
       postD(designerMyCenterApi(), this.name).then((res) => {
+        if (res.code == "-201") {
+          this.$router.push("/about");
+        }
         if (res.data.auth === 2) {
           this.$router.push("/matchattended");
         } else {
@@ -328,6 +362,9 @@ export default {
     },
     goMywork() {
       postD(designerMyCenterApi(), this.name).then((res) => {
+        if (res.code == "-201") {
+          this.$router.push("/about");
+        }
         if (res.data.auth === 2) {
           this.$router.push("/Mywork");
         } else {
@@ -337,6 +374,9 @@ export default {
     },
     startUpVip() {
       postD(designerMyCenterApi(), this.name).then((res) => {
+        if (res.code == "-201") {
+          this.$router.push("/about");
+        }
         if (res.data.auth === 2) {
           this.$router.push("/openVip");
         } else {
@@ -365,6 +405,14 @@ export default {
     },
     goTS() {
       this.$router.push("/complaint");
+    },
+    touchstart() {
+      const addxx1 = document.querySelector(".hy");
+      addxx1.style.transform = "scale(1.1)";
+    },
+    touchmove() {
+      const addxx1 = document.querySelector(".hy");
+      addxx1.style.transform = "scale(1)";
     },
   },
 };
