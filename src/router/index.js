@@ -104,7 +104,7 @@ const routes = [
         component: () => import("../components/match/EventDetails/compete/compete.vue")
       },
       {
-        path: "/matchworksShow/:works_id:id",
+        path: "/matchworksShow/:id",
         name: "matchworksShow",
         component: () => import("../components/match/EventDetails/screeningDetial/screeningDetial.vue")
       },
@@ -263,6 +263,11 @@ const routes = [
         path:"/Clapperdetil",
         name:"Clapperdetil",
         component:()=> import("../components/BusinessChain/Clapperdetil/Clapperdetil.vue")
+      },
+      {
+        path:"/chat",
+        name:"chat",
+        component:()=> import("../components/chat/chat.vue")
       }
     ]
   },

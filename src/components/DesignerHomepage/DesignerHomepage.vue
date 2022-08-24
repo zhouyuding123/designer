@@ -147,7 +147,7 @@
               <img :src="imagesValue + payshowvalue.thumb" alt="" />
             </div>
             <div class="payworkline1title">
-              <div class="payworkline1title1">{{ payshowvalue.title }}</div>
+              <div class="payworkline1title1 cc">{{ payshowvalue.title }}</div>
               <div class="payworkline1titlename">
                 {{ payshowvalue.nickname }}
               </div>

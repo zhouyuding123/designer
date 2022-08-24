@@ -46,10 +46,10 @@
             class="masonry"
             v-for="(item, index) in workList"
             :key="index"
-            @click="todetails(item.id)"
+            
           >
             <div class="coverimg">
-              <img :src="imagesValue + item.thumb" alt="" />
+              <img :src="imagesValue + item.thumb" @click="todetails(item.id)" alt="" />
             </div>
             <div class="list_title">
               <div class="list_title_title">
@@ -69,7 +69,7 @@
                     />
                     999
                   </div>
-                  <div class="flex al-c coloccc font12 margin-right8">
+                  <div class="flex al-c coloccc font12 margin-right8 cur" @click="gochat">
                     <img
                       src="@/assets/imgers/icon/15225@2x.png"
                       class="margin-right4"
@@ -200,7 +200,7 @@
               <img :src="imagesValue + payshowvalue.thumb" alt="" />
             </div>
             <div class="payworkline1title">
-              <div class="payworkline1title1">{{ payshowvalue.title }}</div>
+              <div class="payworkline1title1 cc">{{ payshowvalue.title }}</div>
               <div class="payworkline1titlename">
                 {{ payshowvalue.nickname }}
               </div>
@@ -448,6 +448,9 @@ export default {
         clearInterval(this.timer);
       }
     },
+    gochat() {
+      this.$router.push("/chat")
+    }
   },
 };
 </script>

@@ -391,9 +391,6 @@ export default {
     },
     WorkDetailsList() {
       postD(getMyWorksshowApi(), this.$route.params).then((res) => {
-        if(res.code == "-201") {
-          this.$router.push("/about")
-        }
         this.WorksShowData = res.data;
         this.imgsList = res.data.imgs.split(",");
         this.imagesValue = imgUrl();

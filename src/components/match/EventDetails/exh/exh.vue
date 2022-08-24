@@ -407,17 +407,14 @@ export default {
       });
     },
     goWorkShow(val) {
-      console.log(val);
-      // var works_id = val.works_id;
-      // var match_id = val.match_id;
-      // this.$router.push({
-      //   name: "matchworksShow",
-      //   params: {
-      //     works_id: works_id,
-      //     id: match_id,
-      //   },
-      // });
-      this.$router.push('/workDetails'+val.works_id)
+      var works_id = val.works_id;
+      this.$router.push({
+        name: "matchworksShow",
+        params: {
+          id: works_id,
+        },
+      });
+      // this.$router.push('/workDetails'+val.works_id)
     },
   },
 };

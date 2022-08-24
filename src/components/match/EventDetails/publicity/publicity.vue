@@ -117,10 +117,9 @@ export default {
   methods: {
     worksValue() {
       postD(worksListApi(), this.detialId).then((res) => {
-
         this.workvalues = res;
         this.workvalue = res.list;
-        var arr1 = this.prices
+        var arr1 = this.prices;
         var arr2 = res.list;
         var newArr = [];
         for (var i = 0; i < arr1.length; i++) {
@@ -148,10 +147,10 @@ export default {
     detialValue() {
       this.detialId.id = this.$route.params.id;
       postD(MatchShowApi(), this.detialId).then((res) => {
-        if(res.code == "-201") {
-          this.$router.push("/about")
+        if (res.code == "-201") {
+          this.$router.push("/about");
         }
-        this.prices = res.data.prize
+        this.prices = res.data.prize;
         this.worksValue();
       });
     },
@@ -161,19 +160,9 @@ export default {
       this.$router.push({
         name: "matchworksShow",
         params: {
-          works_id: works_id,
-          id: match_id,
+          id: works_id,
         },
       });
-    },
-    delayer(action, delay = 600) {
-      let timer = -1;
-      return (nv) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          action(nv);
-        }, delay);
-      };
     },
   },
 };
