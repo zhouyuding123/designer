@@ -369,8 +369,14 @@ export const getCodeApi = () => {
 export const getOrderSpecCountApi = () => {
     return "designer/Prepar/getOrderSpecCount"
 }
-
-
+// 聊天
+export const createAccidApi = () => {
+    return "im/php_request/getUsersIm"
+}
+// 聊天记录
+export const imgetListApi = () => {
+    return "im/php_request/getList"
+}
 
 
 
