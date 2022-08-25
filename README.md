@@ -19,6 +19,6 @@ npm run build
 ```
 npm run lint
 ```
-
+http://wscompany.chengduziyi.com/pt/#/pageHome#reloaded
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
