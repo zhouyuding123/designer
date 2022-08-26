@@ -5,7 +5,7 @@
         <div class="cur">
           <img src="@/assets/imgers/聊天返回.png" alt="" />
         </div>
-        <div class="top_zx">在线客服</div>
+        <div class="top_zx">{{ name.username }}</div>
       </div>
       <div class="kuang_value" ref="zxcssss">
         <div v-for="(item, index) in chatsmg" :key="index">
@@ -14,7 +14,7 @@
             <img :src="imagesValue + myheader" alt="" />
           </div>
           <div v-else class="left">
-            <img src="" alt="" />
+            <img :src="imagesValue + PtwoId.headimage" alt="" />
             <div class="left_text">{{ item.body }}</div>
           </div>
         </div>
@@ -55,7 +55,7 @@ import { createAccidApi } from "@/urls/wsUrl.js";
 import { postD } from "@/api";
 import { imgUrl } from "@/assets/js/modifyStyle";
 export default {
-  inject:["reload"],
+  inject: ["reload"],
   data() {
     return {
       textarea: "",
@@ -66,6 +66,13 @@ export default {
       myheader: JSON.parse(localStorage.getItem("data")).headimage,
       imagesValue: "",
       chatsmg: [],
+      name: {
+        username: "",
+      },
+      PtwoId: {
+        headimage: "",
+        accid: "",
+      },
     };
   },
   updated() {
@@ -76,8 +83,16 @@ export default {
   created() {
     this.accid();
     this.imagesValue = imgUrl();
+    this.desValue();
   },
   methods: {
+    desValue() {
+      this.name.username = this.$route.params.name;
+      postD(createAccidApi(), this.name).then((res) => {
+        this.PtwoId.accid = res.data.accid;
+        this.PtwoId.headimage = res.data.headimage;
+      });
+    },
     accid() {
       let use = {
         username: localStorage.getItem("use"),
@@ -91,7 +106,7 @@ export default {
         });
         this.init(nim);
         this.nima = nim;
-        this.collect();
+        this.collect(nim);
       });
     },
     async init(nim) {
@@ -101,7 +116,7 @@ export default {
     async fs() {
       await this.nima.msg.sendTextMsg({
         scene: "p2p",
-        to: "1100301",
+        to: this.PtwoId.accid.toString(),
         body: this.textarea,
         type: "text",
         onSendBefore: function (msg) {
@@ -109,21 +124,22 @@ export default {
         },
       });
       this.textarea = "";
-      this.reload()
-    },
-    async collect() {
-      this.nima.on("msg", function (msg) {
-        console.log("Receive msg: ", msg);
-      });
+      this.reload();
     },
     record(nim) {
       const msgs = nim.msgLog.getHistoryMsgs({
         scene: "p2p",
-        to: "1100301",
+        to: this.PtwoId.accid.toString(),
         limit: 100,
       });
       msgs.then((res) => {
-        this.chatsmg= res.reverse();
+        this.chatsmg = res.reverse();
+      });
+    },
+    async collect(nim) {
+      var that = this;
+      nim.on("msg", function (msg) {
+        that.chatsmg.push(msg);
       });
     },
   },

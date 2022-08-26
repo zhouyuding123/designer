@@ -265,7 +265,7 @@ const routes = [
         component:()=> import("../components/BusinessChain/Clapperdetil/Clapperdetil.vue")
       },
       {
-        path:"/chat",
+        path:"/chat:name",
         name:"chat",
         component:()=> import("../components/chat/chat.vue")
       }

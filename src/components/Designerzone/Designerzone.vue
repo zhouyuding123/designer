@@ -3,7 +3,12 @@
     <div class="syimg">
       <el-carousel height="560px">
         <el-carousel-item v-for="item in advertisementImg" :key="item.id">
-          <img :src="imagesValue + item.thumb" style="height:560px;max-wdith:100%" alt="" @click="goad(item)" />
+          <img
+            :src="imagesValue + item.thumb"
+            style="height: 560px; max-wdith: 100%"
+            alt=""
+            @click="goad(item)"
+          />
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -42,14 +47,13 @@
           @loadmore="loadmore"
           @scroll="scroll"
         >
-          <div
-            class="masonry"
-            v-for="(item, index) in workList"
-            :key="index"
-            
-          >
+          <div class="masonry" v-for="(item, index) in workList" :key="index">
             <div class="coverimg">
-              <img :src="imagesValue + item.thumb" @click="todetails(item.id)" alt="" />
+              <img
+                :src="imagesValue + item.thumb"
+                @click="todetails(item.id)"
+                alt=""
+              />
             </div>
             <div class="list_title">
               <div class="list_title_title">
@@ -69,7 +73,10 @@
                     />
                     999
                   </div>
-                  <div class="flex al-c coloccc font12 margin-right8 cur" @click="gochat">
+                  <div
+                    class="flex al-c coloccc font12 margin-right8 cur"
+                    @click="gochat(item.username)"
+                  >
                     <img
                       src="@/assets/imgers/icon/15225@2x.png"
                       class="margin-right4"
@@ -99,7 +106,11 @@
                 class="list_title_img"
                 @click.stop="topersonalinfo(item.username)"
               >
-              <img v-if="item.headimage == null" :src="imagesValue + wuimg" alt="" />
+                <img
+                  v-if="item.headimage == null"
+                  :src="imagesValue + wuimg"
+                  alt=""
+                />
                 <img v-else :src="imagesValue + item.headimage" alt="" />
               </div>
             </div>
@@ -184,7 +195,11 @@
                 </div>
               </div>
               <div class="list_title_img">
-                <img v-if="item.headimage == null" :src="imagesValue + wuimg" alt="" />
+                <img
+                  v-if="item.headimage == null"
+                  :src="imagesValue + wuimg"
+                  alt=""
+                />
                 <img v-else :src="imagesValue + item.headimage" alt="" />
               </div>
             </div>
@@ -266,7 +281,7 @@ import { imgUrls, imgUrl } from "@/assets/js/modifyStyle";
 import waterfall from "./pul.vue";
 
 export default {
-  inject:["reload"],
+  inject: ["reload"],
   data() {
     return {
       wuimg: "images/20220808/1659924390102aa33ae2b2c86837a584c502d8cfea.png",
@@ -307,7 +322,6 @@ export default {
     waterfall,
   },
   created() {
-    
     this.Listshow();
     this.getListApi();
     this.imagesValue = imgUrl();
@@ -340,8 +354,8 @@ export default {
       postD(getListWorksApi(), this.Works).then((res) => {
         this.workList = [...this.workList, ...res.list];
         this.count = res.count;
-        if(res.code == "-201") {
-          this.$router.push("/about")
+        if (res.code == "-201") {
+          this.$router.push("/about");
         }
       });
     },
@@ -367,8 +381,8 @@ export default {
     },
     getListApi() {
       postD(getListApi()).then((res) => {
-        if(res.code == "-201") {
-          this.$router.push("/about")
+        if (res.code == "-201") {
+          this.$router.push("/about");
         }
         this.getList = res.list;
       });
@@ -448,9 +462,12 @@ export default {
         clearInterval(this.timer);
       }
     },
-    gochat() {
-      this.$router.push("/chat")
-    }
+    gochat(val) {
+      var name = localStorage.getItem("use");
+      if (name !== val) {
+        this.$router.push("/chat" + val);
+      }
+    },
   },
 };
 </script>
